@@ -1,4 +1,5 @@
 import React from 'react'
+import clsx from 'clsx'
 import styles from './TitleComponent.module.scss'
 
 const TitleComponent = ({ 
@@ -6,6 +7,7 @@ const TitleComponent = ({
   textTransform, 
   textAlign, 
   fontSize,
+  className,
   fontWeight = "800",
   margin = "30px 0",
   color = "#000",
@@ -13,7 +15,7 @@ const TitleComponent = ({
 }) => {
   return (
     <div 
-      className={styles.title}
+      className={clsx(styles.title, className)}
       style={{
         textAlign:textAlign, 
         textTransform: textTransform, 

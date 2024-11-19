@@ -36,11 +36,11 @@ import CustomerReviewsComponent from '../../components/CustomerReviewsComponent/
 
 const HomePage = () => {
   return (
-      <div className='container'>
+      <div className='container' style={{overflow:"hidden"}}>
         <div className={styles.sliderImg}>
           <SliderComponent arrImages={[slider1, slider2]} />
         </div>
-        <div className='grid_row'>
+        <div className={clsx('grid_row', styles.resService)} style={{padding: "0 10px"}}>
           <div className='grid_column_3'>
             <ServiceComponent 
               src={service1} 
@@ -84,7 +84,7 @@ const HomePage = () => {
           textAlign="center"
           fontSize="4rem"
         />
-        <div className='grid_row'>
+        <div className='grid_row' style={{padding: "0 10px"}}>
           <div className='grid_column_3'>
             <CardComponent 
               src={product1}
@@ -153,7 +153,7 @@ const HomePage = () => {
           textAlign="center"
           fontSize="4rem"
         />
-        <div className='grid_row'>
+        <div className='grid_row' style={{padding: "0 10px"}}>
           <div className='grid_column_3'>
             <CardComponent 
               src={product1}
@@ -222,7 +222,7 @@ const HomePage = () => {
           textAlign="center"
           fontSize="4rem"
         />
-        <div className='grid_row'>
+        <div className='grid_row' style={{padding: "0 10px"}}>
           <div className='grid_column_2_4'>
             <BrandComponent 
               src={brand1}

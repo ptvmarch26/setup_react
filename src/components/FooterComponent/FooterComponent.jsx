@@ -66,6 +66,7 @@ const FooterComponent = () => {
                     fontSize="3rem"
                     color="#fff"
                     margin='30px 0 10px'
+                    className={styles.resAbout}
                   />
                   <UnderLineComponent 
                     width="150px"

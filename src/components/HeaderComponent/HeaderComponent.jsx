@@ -14,7 +14,7 @@ import { TbHelpSquare } from "react-icons/tb";
 const HeaderComponent = () => {
   return (
     <div className={styles.header}>
-      <div className="container">
+      <div className="container" style={{overflow: "hidden"}}>
         <div className={styles.logo}>
           <Link to={"/"}>
             <img src={whiteLogo} alt="" />
@@ -78,7 +78,7 @@ const HeaderComponent = () => {
           </Col>
         </Row>
         <Row>
-          <Col className={styles.nav} span={16} offset={4}>
+          <Col className={styles.nav} span={20} offset={2}>
           <ul>
             <li>
               <Link to={"/"}>

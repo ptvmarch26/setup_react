@@ -94,3 +94,51 @@
         line-height: 5rem;
     }
 }
+
+
+@media screen and (min-width: 740px) and (max-width: 1023px) {
+    .info {
+        h3 {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        p {
+            font-size: 1.4rem;
+        }
+    
+        a {
+            font-size: 1.5rem;
+    
+            .icon {
+                margin-right: 8px;
+            }
+        }
+    }
+
+    .contact {
+        a {
+            margin-right: 8px;
+        }
+    }
+
+    .about {
+
+        .resAbout {
+            font-size: 20rem !important;    
+        }
+
+        .more {
+            margin: 20px 0;
+        }
+    
+        a {
+            display: block;
+            font-size: 1.6rem;
+            color: #fff;
+            text-decoration: none;
+            margin-bottom: 12px;
+        }
+    }
+    
+}
