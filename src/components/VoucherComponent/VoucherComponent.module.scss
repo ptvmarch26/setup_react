@@ -13,6 +13,14 @@
     }
 }
 
+.openLink {
+    text-decoration: none;
+    color: #063AF5;
+    font-weight: 600;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
 .modalOverlay {
     position: fixed;
     top: 0;
@@ -88,11 +96,11 @@
         color: #fff;
         font-size: 1.7rem;
         cursor: pointer;
-    
+
         &:hover {
             opacity: 0.8;
         }
-    } 
+    }
 }
 
 .tabs {
