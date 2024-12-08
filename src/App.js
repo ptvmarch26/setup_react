@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { logout, resetUser, updateUser } from "./redux/slices/userSlice";
 import DefaultComponent from "./components/DefaultComponent/DefaultComponent";
 import { getUserDetails, ensureValidToken } from "./services/User.service";
-import Loading from "./components/LoadingComponent/LoadingComponent"; // Giả sử bạn có hàm này để đảm bảo token hợp lệ
+import LoadingComponent from "./components/LoadingComponent/LoadingComponent"; // Giả sử bạn có hàm này để đảm bảo token hợp lệ
 import Cookies from "js-cookie";
 
 function App() {
@@ -84,7 +84,7 @@ function App() {
 
   return (
     <div style={{ overflow: "hidden" }}>
-      <Loading isLoading={isLoading}>
+      <LoadingComponent isLoading={isLoading}>
         <Router>
           <Routes>
             {routes.map((route) => {
@@ -105,7 +105,7 @@ function App() {
             })}
           </Routes>
         </Router>
-      </Loading>
+      </LoadingComponent>
     </div>
   );
 }

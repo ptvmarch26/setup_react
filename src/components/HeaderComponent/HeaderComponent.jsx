@@ -656,7 +656,7 @@ const HeaderComponent = () => {
           <div onClick={() => navigate("/my-cart")} className={styles.cCart}>
             <FaShoppingCart />
           </div>
-          <div onClick={() => navigate("/sign-up")} className={styles.cUser}>
+          <div onClick={() => navigate("/sign-in")} className={styles.cUser}>
             <FaUser />
           </div>
         </div>

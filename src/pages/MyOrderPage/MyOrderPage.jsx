@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Tabs, Input, Card, Button, Typography, Row, Col } from "antd";
 import myAvatar from "../../assets/images/avatar.jpg";
-import "./styles.scss";
+import "./MyOrderPage.scss";
 import styles from './MyOrderPage.module.scss'
 import ProfileUser from  "./UserProfile.jsx";
 import OrderCart from  "./OrderCart.jsx";

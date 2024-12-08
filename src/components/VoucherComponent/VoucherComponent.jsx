@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import styles from "./VoucherComponent.module.scss";
 import clsx from "clsx";
 import { RiCoupon3Line } from "react-icons/ri";
+import { Link } from "react-router-dom";
 
-const VoucherComponent = ({ coupon, onChange, onClick, selectedVouchers, onVoucherSelect, applyVouchers }) => {
+const VoucherComponent = ({ coupon, onChange, onClick, selectedVouchers, onVoucherSelect, applyVouchers, isCheckout = false }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [activeTab, setActiveTab] = useState("shipping");
     // const [selectedVouchers, setSelectedVouchers] = useState({
@@ -60,9 +61,12 @@ const VoucherComponent = ({ coupon, onChange, onClick, selectedVouchers, onVouch
 
     return (
         <div>
-            <button className={styles.openModalBtn} onClick={openModal}>
-                Chọn Voucher
-            </button>
+            {!isCheckout ? (
+                <button className={styles.openModalBtn} onClick={openModal}>
+                    Chọn Voucher
+                </button>) : (
+                <span className={styles.openLink} onClick={openModal}>Chọn Voucher</span>
+            )}
 
             {isModalOpen && (
                 <div className={styles.modalOverlay} onClick={closeModal}>
