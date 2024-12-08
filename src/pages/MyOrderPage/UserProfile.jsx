@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./MyOrderPage.scss";
-import styles from './MyOrderPage.module.scss'
+import styles from './MyOrderPage.module.scss';
 import {
   UserOutlined,
   ShoppingOutlined,
@@ -11,28 +11,33 @@ import {
   MailOutlined,
   PhoneOutlined,
   LockOutlined,
+  PushpinOutlined
 } from "@ant-design/icons";
 import { Avatar, Menu, Card, Col, Typography } from "antd";
 
 const { Title, Text } = Typography;
 
-const ProfileUser = ({ full_name, src_img, name, isInViewport, isInMobile  }) => {
+const ProfileUser = ({ full_name, src_img, name, isInViewport, isInMobile }) => {
   const [selectedKey, setSelectedKey] = useState("2");
   const [openKeys, setOpenKeys] = useState([]);
+  const [avatar, setAvatar] = useState(src_img); // Lưu ảnh đại diện
   const navigate = useNavigate();
-  const location = useLocation(); // Lấy thông tin đường dẫn hiện tại
+  const location = useLocation();
 
-  // Đồng bộ selectedKey và openKeys với đường dẫn hiện tại
   useEffect(() => {
     const path = location.pathname;
     setSelectedKey(path);
 
-    if (
-      ["/account-info", "/edit-email", "/edit-phone", "/edit-password"].includes(
-        path
-      )
-    ) {
-      setOpenKeys(["personal-info"]);
+    const submenuPaths = [
+      "/account/profile",
+      "/account/edit-email",
+      "/account/edit-phone",
+      "/account/edit-password",
+      "/account/edit-address"
+    ];
+
+    if (submenuPaths.includes(path)) {
+      setOpenKeys(["/account"]);
     } else {
       setOpenKeys([]);
     }
@@ -41,17 +46,6 @@ const ProfileUser = ({ full_name, src_img, name, isInViewport, isInMobile  }) =>
   const handleClick = (e) => {
     const key = e.key;
     setSelectedKey(key);
-
-    if (
-      ["/account-info", "/edit-email", "/edit-phone", "/edit-password"].includes(
-        key
-      )
-    ) {
-      setOpenKeys(["personal-info"]);
-    } else {
-      setOpenKeys([]);
-    }
-
     navigate(key);
   };
 
@@ -66,13 +60,42 @@ const ProfileUser = ({ full_name, src_img, name, isInViewport, isInMobile  }) =>
     );
   };
 
+  const handleAvatarClick = () => {
+    document.getElementById("upload-avatar").click();
+  };
+
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setAvatar(reader.result); 
+        alert("Đổi ảnh đại diện thành công!");
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
-    
-    <Col span={6} style={isInViewport || isInMobile ? {display: "none"} : {display: "block"}}>
+    <Col span={6}>
       <Card className={styles.profile}>
         <div className={styles.info}>
           <div>
-            <Avatar className={styles.img} src={src_img} />
+            <Avatar
+              className={styles.img}
+              src={avatar}
+              size={60}
+              icon={<UserOutlined />}
+              onClick={handleAvatarClick} 
+              style={{ cursor: "pointer" }}
+            />
+            <input
+              type="file"
+              id="upload-avatar"
+              style={{ display: "none" }}
+              accept="image/*"
+              onChange={handleAvatarChange} 
+            />
           </div>
           <div className={styles.name}>
             <Title>{full_name}</Title>
@@ -87,57 +110,67 @@ const ProfileUser = ({ full_name, src_img, name, isInViewport, isInMobile  }) =>
           onClick={handleClick}
         >
           <Menu.SubMenu
-            key="personal-info"
+            key="/account"
             icon={
               <UserOutlined
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  color: selectedKey.startsWith("/personal-info")
+                  color: selectedKey.startsWith("/account")
                     ? "orange"
                     : "inherit",
                 }}
               />
             }
             title="Thông tin cá nhân"
-            onTitleClick={() => handleSubMenuToggle("personal-info")}
+            onTitleClick={() => handleSubMenuToggle("/account")}
           >
             <Menu.Item
-              key="/account-info"
+              key="/account/profile"
               icon={<UserOutlined />}
               style={{
                 paddingLeft: "50px",
-                color: selectedKey === "/account-info" ? "orange" : "inherit",
+                color: selectedKey === "/account/profile" ? "orange" : "inherit",
               }}
             >
               Hồ sơ
             </Menu.Item>
             <Menu.Item
-              key="/edit-email"
+              key="/account/edit-email"
               icon={<MailOutlined />}
               style={{
                 paddingLeft: "50px",
-                color: selectedKey === "/edit-email" ? "orange" : "inherit",
+                color: selectedKey === "/account/edit-email" ? "orange" : "inherit",
               }}
             >
               Email
             </Menu.Item>
             <Menu.Item
-              key="/edit-phone"
+              key="/account/edit-phone"
               icon={<PhoneOutlined />}
               style={{
                 paddingLeft: "50px",
-                color: selectedKey === "/edit-phone" ? "orange" : "inherit",
+                color: selectedKey === "/account/edit-phone" ? "orange" : "inherit",
               }}
             >
               Số điện thoại
             </Menu.Item>
             <Menu.Item
-              key="/edit-password"
+              key="/account/edit-address"
+              icon={<PushpinOutlined />}
+              style={{
+                paddingLeft: "50px",
+                color: selectedKey === "/account/edit-address" ? "orange" : "inherit",
+              }}
+            >
+              Địa chỉ
+            </Menu.Item>
+            <Menu.Item
+              key="/account/edit-password"
               icon={<LockOutlined />}
               style={{
                 paddingLeft: "50px",
-                color: selectedKey === "/edit-password" ? "orange" : "inherit",
+                color: selectedKey === "/account/edit-password" ? "orange" : "inherit",
               }}
             >
               Mật khẩu
