@@ -1,19 +1,15 @@
 import React from 'react'
 import styles from './AboutMeComponent.module.scss'
 
-const AboutMeComponent = ({avt, aboutName, aboutPara1, aboutPara2, aboutPara3 }) => {
+const AboutMeComponent = ({avt, aboutTitle, aboutPara, isReverse = false, linear}) => {
   return (
-    <div className={styles.main}>
-        <div className={styles.img}>
+    <div className={styles.main} style={isReverse ? {flexDirection: "row-reverse"} : null}>
+        <div className={styles.img} style={{ background: linear }}>
             <img src={avt} alt="" />
         </div>
         <div className={styles.aboutMore}>
-            <h3>{aboutName}</h3>
-            <ul>
-                <li>{aboutPara1}</li>
-                <li>{aboutPara2}</li>
-                <li>{aboutPara3}</li>
-            </ul>
+            <h3>{aboutTitle}</h3>
+            <p dangerouslySetInnerHTML={{ __html: aboutPara }}></p>
         </div>
     </div>
   )

@@ -123,6 +123,7 @@ const CheckOutPage = () => {
               onVoucherSelect={handleVoucherSelection}
               selectedVouchers={selectedVouchers}
               applyVouchers={applyVouchers}
+              isCheckout={true}
             />
           </div>
           <ul>
