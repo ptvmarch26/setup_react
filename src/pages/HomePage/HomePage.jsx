@@ -183,6 +183,8 @@ import { clsx } from 'clsx'
 import SliderComponent from '../../components/SliderComponent/SliderComponent'
 import slider1 from '../../assets/images/slider1.svg'
 import slider2 from '../../assets/images/slider2.svg'
+import slider3 from '../../assets/images/slider3.svg'
+import slider4 from '../../assets/images/slider4.svg'
 import styles from './HomePage.module.scss'
 import ServiceComponent from '../../components/ServiceComponent/ServiceComponent'
 import service1 from '../../assets/images/service1.svg'
@@ -338,7 +340,7 @@ const HomePage = () => {
   return (
       <div className={clsx('grid wide')}>
         <div className={styles.sliderImg}>
-          <SliderComponent arrImages={[slider1, slider2]} defaultArrows={false}/>
+          <SliderComponent arrImages={[slider1, slider2, slider3, slider4]} defaultArrows={false}/>
         </div>
         <div className={clsx('row', styles.service)}>
           {services.map((service, index) => (
