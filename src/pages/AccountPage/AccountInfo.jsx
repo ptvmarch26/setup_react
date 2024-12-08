@@ -1,4 +1,4 @@
-import React from 'react'; 
+import React, { useEffect } from 'react'; 
 import { Button, Form, Input, DatePicker, Select } from 'antd';
 import { useNavigate } from 'react-router-dom'; 
 import { EditOutlined } from '@ant-design/icons';
@@ -7,6 +7,7 @@ import ProfileUser from "../MyOrderPage/UserProfile.jsx";
 import myAvatar from "../../assets/images/avatar.jpg";
 import classNames from 'classnames/bind';
 import moment from 'moment';
+import { useDispatch, useSelector } from "react-redux";
 
 const cx = classNames.bind(styles);
 
@@ -15,19 +16,39 @@ const AccountInfo = () => {
 
   const [form] = Form.useForm();
 
+  const { isAuthenticated, user_phone, user_email, user_name, user_avt_img, _id, full_name, user_birth, user_sex, user_address } = useSelector(
+    (state) => state.user
+  );
+
+  // Khởi tạo dữ liệu
   const initialData = {
-    Input: 'yurri_2506',
-    HoTen: 'Nguyễn Lê Thanh Huyền',
-    NgaySinh: moment('25/06/2204', 'DD/MM/YYYY'),
-    GioiTinh: 'Nữ',
-    Email: 'thanhhuyen@gmail.com.vn',
-    Sodienthoai: '0223350604',
-    DiaChi: 'Cù Bị, Châu Đức, Bà Rịa - Vũng Tàu',
-    Matkhau: 'thanhhuyen@123'
+    Input: user_name,
+    HoTen: full_name,
+    NgaySinh: moment(user_birth),
+    GioiTinh: user_sex,
+    Email: user_email, // Để trống nếu không có
+    Sodienthoai: user_phone, // Để trống nếu không có
+    DiaChi: user_address,
+    //Matkhau: 'thanhhuyen@123'
   };
 
+  useEffect(() => {
+    form.setFieldsValue({
+      Input: user_name,
+      HoTen: full_name,
+      NgaySinh: moment(user_birth),
+      GioiTinh: user_sex,
+      Email: user_email || "Chưa cập nhật",
+      Sodienthoai: user_phone || "Chưa cập nhật",
+    });
+  }, [user_name, full_name, user_birth, user_sex, user_email, user_phone]);
+  
+  // Xử lý giá trị đầu vào
+  const email = initialData.Email || "Chưa cập nhật";
+  const phone = initialData.Sodienthoai || "Chưa cập nhật";
+
   const handleEdit = () => {
-    navigate('/edit-account');
+    navigate('/account/edit-info');
   };
 
   return (
@@ -35,9 +56,9 @@ const AccountInfo = () => {
     <div style={{ margin: "0 auto", padding: "20px" }} className={cx('container')}>
       <div className="profile-container">
         <ProfileUser
-          full_name="Nguyễn Lê Thanh Huyền"
-          src_img={myAvatar}
-          name="yurri_2506"
+          full_name={full_name}
+          src_img={user_avt_img}
+          name={user_name}
         />
 
         <div className={cx('content')}>
@@ -67,19 +88,19 @@ const AccountInfo = () => {
             <Form.Item
               label="Tên người dùng"
               name="Input">
-              <Input disabled value="yurri_2506" />
+              <Input disabled value={user_name} />
             </Form.Item>
 
             <Form.Item
               label="Họ và tên"
               name="HoTen">
-              <Input disabled value="Nguyễn Lê Thanh Huyền" />
+              <Input disabled value={full_name} />
             </Form.Item>
 
             <Form.Item
               label="Ngày sinh"
               name="NgaySinh">
-              <DatePicker disabled value={moment('25/06/2204', 'DD/MM/YYYY')} format="DD/MM/YYYY" />
+              <DatePicker disabled value={moment(user_birth)} format="DD/MM/YYYY" />
             </Form.Item>
 
             <Form.Item
@@ -93,23 +114,23 @@ const AccountInfo = () => {
             </Form.Item>
 
             <Form.Item
-              label="Địa chỉ"
-              name="DiaChi">
-              <Input.TextArea disabled value="Cù Bị, Châu Đức, Bà Rịa - Vũng Tàu" />
-            </Form.Item>
-
-            <Form.Item
               label="Email"
               name="Email"
             >
               <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
                 <Input 
                   disabled 
-                  value="thanhhuyen@gmail.com.vn" 
+                  value={email} 
                   style={{ flex: 1, marginRight: '8px' }} 
                 />
                 <EditOutlined 
-                  onClick={() => navigate('/edit-email')}
+                  onClick={() => {
+                    if (!initialData.Email) {
+                      navigate('/account/new-email'); // Điều hướng đến trang thêm email nếu chưa có email
+                    } else {
+                      navigate('/account/edit-email'); // Điều hướng đến trang chỉnh sửa email nếu đã có email
+                    }
+                  }}
                   style={{ cursor: 'pointer', color: '#E87428', fontSize: '16px' }} 
                 />
               </div>
@@ -122,27 +143,17 @@ const AccountInfo = () => {
               <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
                 <Input 
                   disabled 
-                  value="0223350604" 
+                  value={phone} 
                   style={{ flex: 1, marginRight: '8px' }} 
                 />
                 <EditOutlined 
-                  onClick={() => navigate('/edit-phone')} 
-                  style={{ cursor: 'pointer', color: '#E87428', fontSize: '16px' }} 
-                />
-              </div>
-            </Form.Item>
-            <Form.Item
-              label="Mật khẩu"
-              name="Matkhau"
-            >
-              <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-                <Input.Password 
-                  disabled 
-                  value="thanhhuyen@123" 
-                  style={{ flex: 1, marginRight: '8px' }} 
-                />
-                <EditOutlined 
-                  onClick={() => navigate('/edit-password')} 
+                  onClick={() => {
+                    if (!initialData.Sodienthoai) {
+                      navigate('/account/new-phone'); // Điều hướng đến trang thêm phone nếu chưa có phone
+                    } else {
+                      navigate('/account/edit-phone'); // Điều hướng đến trang chỉnh sửa phone nếu đã có phone
+                    }
+                  }}
                   style={{ cursor: 'pointer', color: '#E87428', fontSize: '16px' }} 
                 />
               </div>

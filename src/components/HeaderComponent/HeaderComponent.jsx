@@ -367,6 +367,7 @@ const HeaderComponent = () => {
     (state) => state.user
   );
 
+  console.log('username', user_name)
   // Xử lý avatar và tên người dùng
   useEffect(() => {
     if (isAuthenticated) {
@@ -575,7 +576,7 @@ const HeaderComponent = () => {
                 />
               </li>
               <li>
-                <Link to={"/"}>
+                <Link to={"/fqa"}>
                   <TbHelpSquare />
                   <span>FAQ</span>
                 </Link>
@@ -637,7 +638,7 @@ const HeaderComponent = () => {
           <Col className={styles.cart} span={6}>
             <ul>
               <li>
-                <Link>
+                <Link to={`/favorite-products/${_id}`} >
                   <FaRegHeart />
                   <span>Yêu thích</span>
                 </Link>

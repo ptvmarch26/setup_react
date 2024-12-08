@@ -1,6 +1,6 @@
 .profile-container {
     display: flex;
-
+  
   .content {
     flex: 1;
     padding: 20px;
@@ -19,18 +19,5 @@
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 20px;
-  }
-  
-  .confirm-button {
-    background-color: #E87428;
-    border-color: #E87428;
-    margin-left: 10px;
-  }
-  
-  .cancel-button {
-    background-color: rgb(247, 37, 37);
-    border-color: rgb(247, 37, 37);
-    margin-right: 10px;
-    color: white;
   }
 }
