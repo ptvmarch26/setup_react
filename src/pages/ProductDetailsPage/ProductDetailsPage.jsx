@@ -27,7 +27,7 @@ import clsx from "clsx";
 import cart from "../../assets/images/cart.svg";
 import { FaHeart } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
-import { updateCart, updateFavor } from "../../services/Order.service";
+import { updateCart } from "../../services/Order.service";
 
 const ProductDetailsPage = () => {
   const { id } = useParams();
@@ -209,32 +209,8 @@ const ProductDetailsPage = () => {
     arrows: false,
   };
 
-  const handleLike = async () => {
+  const handleLike = () => {
     setLike(!like);
-    if (!user?.isAuthenticated) {
-      navigate("/sign-in", { state: location?.pathname });
-    } else {
-      // Gửi API cập nhật giỏ hàng vào DB (lấy ID của người dùng và dữ liệu giỏ hàng)
-      const cartData = {
-        products: [
-          {
-            product_id: productDetails?._id,
-          },
-        ],
-      };
-
-      try {
-        const userId = user._id; // Lấy ID người dùng từ thông tin người dùng đã đăng nhập
-        const updatedFavor = await updateFavor(userId, cartData, accessToken); // Gửi API để cập nhật giỏ hàng
-        if (updatedFavor) {
-          alert("Sản phẩm đã được thêm vào giỏ hàng yêu thích.");
-        }
-      } catch (error) {
-        // Xử lý lỗi nếu có
-        console.error("Lỗi khi cập nhật giỏ hàng yêu thích:", error);
-        alert("Có lỗi xảy ra khi cập nhật giỏ hàng yêu thích. Vui lòng thử lại.");
-      }
-    }
   };
 
   return (
