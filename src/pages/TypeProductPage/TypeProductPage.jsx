@@ -208,15 +208,111 @@ import { Pagination } from "antd";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getAllProduct } from "../../services/Product.service";
+import { useRef } from "react";
 
 const TypeProductPage = () => {
+  // const navigate = useNavigate();
+  // const location = useLocation();
+
+  // // State để lưu trữ các tham số lọc
+  // const [filters, setFilters] = useState({
+  //   limit: 12,
+  //   page: 1,
+  //   sort: "",
+  //   search: "",
+  //   category_level_1: "",
+  //   category_level_2: "",
+  //   category_level_3: "",
+  //   product_brand: "",
+  //   product_rate: "",
+  //   pet_age: "",
+  //   product_famous: "",
+  //   priceMin: "",
+  //   priceMax: "",
+  // });
+
+  // // Sử dụng useEffect để cập nhật `filters` từ URL params
+  // useEffect(() => {
+  //   const searchParams = new URLSearchParams(location.search);
+
+  //   const updatedFilters = {
+  //     limit: 8,
+  //     page: searchParams.get("page") || 1,
+  //     sort: searchParams.get("sort") || "",
+  //     search: searchParams.get("search") || "",
+  //     category_level_1: searchParams.get("category_level_1") || "",
+  //     category_level_2: searchParams.get("category_level_2") || "",
+  //     category_level_3: searchParams.get("category_level_3") || "",
+  //     product_brand: searchParams.get("product_brand") || "",
+  //     product_rate: searchParams.get("product_rate") || "",
+  //     pet_age: searchParams.get("pet_age") || "",
+  //     product_famous: searchParams.get("product_famous") || "",
+  //     priceMin: Number(searchParams.get("priceMin")) || "",
+  //     priceMax: Number(searchParams.get("priceMax")) || "",
+  //   };
+
+  //   // Chỉ cập nhật filters khi có sự thay đổi thực sự
+  //   setFilters((prevFilters) => {
+  //     if (JSON.stringify(prevFilters) !== JSON.stringify(updatedFilters)) {
+  //       return updatedFilters;
+  //     }
+  //     return prevFilters;
+  //   });
+  // }, [location.search]);
+  // const prevFiltersRef = useRef(filters);
+  // useEffect(() => {
+  //   if (JSON.stringify(prevFiltersRef.current) !== JSON.stringify(filters)) {
+  //     prevFiltersRef.current = filters; // Cập nhật filters cũ
+  //   }
+  // }, [filters]);
+
+  // // Hàm xử lý thay đổi bộ lọc và cập nhật URL params
+  // const handleFilterChange = (newFilters) => {
+  //   const searchParams = new URLSearchParams(location.search);
+
+  //   // Cập nhật params vào URL
+  //   Object.keys(newFilters).forEach((key) => {
+  //     if (newFilters[key]) {
+  //       searchParams.set(key, newFilters[key]);
+  //     } else {
+  //       searchParams.delete(key);
+  //     }
+  //   });
+
+  //   navigate(`${location.pathname}?${searchParams.toString()}`);
+  //   setFilters((prevFilters) => ({ ...prevFilters, ...newFilters })); // Cập nhật state filters
+  // };
+
+  // // Hàm lấy dữ liệu sản phẩm từ API
+  // const fetchProductData = async ({ queryKey }) => {
+  //   const [, params] = queryKey;
+  //   try {
+  //     const response = await getAllProduct(params); // Gọi API với params
+  //     return response; // Trả về dữ liệu sản phẩm
+  //   } catch (error) {
+  //     console.error("Error fetching product data:", error.message);
+  //     throw new Error("Failed to fetch product data");
+  //   }
+  // };
+
+  // // Cập nhật lại cách gọi `useQuery` theo cú pháp mới v5
+  // const { data, isLoading, isError } = useQuery({
+  //   queryKey: ["product-data", filters], // Vẫn giữ `queryKey` như trước
+  //   queryFn: fetchProductData, // Hàm gọi API
+  //   enabled: JSON.stringify(prevFiltersRef.current) !== JSON.stringify(filters), // Chỉ gọi khi filters thay đổi
+  //   refetchOnWindowFocus: false, // Không fetch lại khi chuyển tab
+  //   keepPreviousData: true, // Giữ dữ liệu cũ khi id thay đổi
+  // });
+
+  // const products = data?.data || [];
+
   const navigate = useNavigate();
   const location = useLocation();
 
-  // State để lưu trữ các tham số lọc
+  // State lưu trữ bộ lọc
   const [filters, setFilters] = useState({
-    limit: 12,
-    page: 0,
+    limit: 9,
+    page: 1,
     sort: "",
     search: "",
     category_level_1: "",
@@ -230,13 +326,12 @@ const TypeProductPage = () => {
     priceMax: "",
   });
 
-  // Sử dụng useEffect để cập nhật `filters` từ URL params
+  // Cập nhật `filters` từ URL mỗi khi `location.search` thay đổi
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
-
     const updatedFilters = {
-      limit: 12,
-      page: searchParams.get("page") || 0,
+      limit: 9,
+      page: parseInt(searchParams.get("page")) || 1,
       sort: searchParams.get("sort") || "",
       search: searchParams.get("search") || "",
       category_level_1: searchParams.get("category_level_1") || "",
@@ -246,11 +341,10 @@ const TypeProductPage = () => {
       product_rate: searchParams.get("product_rate") || "",
       pet_age: searchParams.get("pet_age") || "",
       product_famous: searchParams.get("product_famous") || "",
-      priceMin: Number(searchParams.get("priceMin")) || "",
-      priceMax: Number(searchParams.get("priceMax")) || "",
+      priceMin: searchParams.get("priceMin") || "",
+      priceMax: searchParams.get("priceMax") || "",
     };
 
-    // Chỉ cập nhật filters khi có sự thay đổi thực sự
     setFilters((prevFilters) => {
       if (JSON.stringify(prevFilters) !== JSON.stringify(updatedFilters)) {
         return updatedFilters;
@@ -259,42 +353,41 @@ const TypeProductPage = () => {
     });
   }, [location.search]);
 
-  // Hàm xử lý thay đổi bộ lọc và cập nhật URL params
+  // Xử lý thay đổi bộ lọc và cập nhật URL
   const handleFilterChange = (newFilters) => {
     const searchParams = new URLSearchParams(location.search);
+    let hasChanged = false;
 
-    // Cập nhật params vào URL
     Object.keys(newFilters).forEach((key) => {
-      if (newFilters[key]) {
-        searchParams.set(key, newFilters[key]);
-      } else {
-        searchParams.delete(key);
+      if (newFilters[key] !== filters[key]) {
+        hasChanged = true;
+        if (newFilters[key]) {
+          searchParams.set(key, newFilters[key]);
+        } else {
+          searchParams.delete(key);
+        }
       }
     });
 
-    navigate(`${location.pathname}?${searchParams.toString()}`);
-    setFilters((prevFilters) => ({ ...prevFilters, ...newFilters })); // Cập nhật state filters
-  };
-
-  // Hàm lấy dữ liệu sản phẩm từ API
-  const fetchProductData = async ({ queryKey }) => {
-    const [, params] = queryKey;
-    try {
-      const response = await getAllProduct(params); // Gọi API với params
-      return response; // Trả về dữ liệu sản phẩm
-    } catch (error) {
-      console.error("Error fetching product data:", error.message);
-      throw new Error("Failed to fetch product data");
+    if (hasChanged) {
+      navigate(`${location.pathname}?${searchParams.toString()}`);
     }
   };
 
-  // Cập nhật lại cách gọi `useQuery` theo cú pháp mới v5
+  // Fetch dữ liệu từ API
+  const fetchProductData = async ({ queryKey }) => {
+    const [, params] = queryKey;
+    const response = await getAllProduct(params);
+    return response;
+  };
+
+  // Sử dụng React Query để gọi API
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["product-data", filters], // Vẫn giữ `queryKey` như trước
-    queryFn: fetchProductData, // Hàm gọi API
-    enabled: !!filters, // Chỉ fetch khi filters đã có giá trị page (bắt đầu từ trang 0)
-    refetchOnWindowFocus: false, // Không fetch lại khi chuyển tab
-    keepPreviousData: true, // Giữ dữ liệu cũ khi id thay đổi
+    queryKey: ["product-data", filters],
+    queryFn: fetchProductData,
+    enabled: !!filters, // Chỉ fetch khi filters hợp lệ
+    refetchOnWindowFocus: false, // Không fetch lại khi đổi tab
+    keepPreviousData: true, // Giữ dữ liệu cũ trong lúc fetch mới
   });
 
   const products = data?.data || [];
@@ -432,7 +525,10 @@ const TypeProductPage = () => {
               {products.length > 0 ? (
                 products.map((product, index) => (
                   <div key={index} className="col l-4 m-4 c-6">
-                    <Link to={`/product-details/${product._id}`} className="product-link">
+                    <Link
+                      to={`/product-details/${product._id}`}
+                      className="product-link"
+                    >
                       <CardComponent
                         src={`data:image/png;base64,${
                           product.product_images[1] || ""
@@ -454,11 +550,13 @@ const TypeProductPage = () => {
                 <div className="col l-12 m-12 c-12">Không có sản phẩm nào</div>
               )}
             </div>
-            {data?.total > 12 ? (
+
+            {data?.total > 9 ? (
               <Pagination
                 current={filters.page}
-                total={data?.total || 0} // Total là số lượng sản phẩm trả về từ API
+                total={Number(data?.total) || 0} // Total là số lượng sản phẩm trả về từ API
                 onChange={(page) => handleFilterChange({ page })}
+                pageSize="9"
               />
             ) : null}
           </div>
