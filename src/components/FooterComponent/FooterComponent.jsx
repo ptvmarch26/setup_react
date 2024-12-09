@@ -137,7 +137,7 @@ const FooterComponent = () => {
                         <Link to={"/return-policy"}>
                           Chính sách trả hàng và hoàn tiền
                         </Link>
-                        <Link to={"/"}>
+                        <Link to={"/faq"}>
                           FAQ+
                         </Link>
                       </div>
@@ -203,7 +203,7 @@ const FooterComponent = () => {
                         <Link to={"/return-policy"}>
                           Chính sách trả hàng và hoàn tiền
                         </Link>
-                        <Link to={"/"}>
+                        <Link to={"/faq"}>
                           FAQ+
                         </Link>
                       </div>

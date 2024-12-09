@@ -28,8 +28,9 @@ import NewPhone from "../pages/ChangePhone/NewPhone";
 import ChangeAddress from "../pages/ChangeAddress/ChangeAddress";
 import VerificationForm from "../components/VerificationForm/VerificationForm";
 import FavoriteProductsPage from "../pages/FavoriteProductsPage/FavoriteProductsPage";
-import NotificationPage from "../pages/Notification/Notification";
-import FQAPage from "../pages/FQAPage/FQAPage";
+import NotificationPage from "../pages/NotificationPage/NotificationPage";
+import FAQPage from "../pages/FAQPage/FAQPage";
+import UserProfile from "../pages/MyOrderPage/UserProfile";
 
 export const routes = [ 
     //Routes cho User
@@ -209,10 +210,15 @@ export const routes = [
         isShowHeader: true,
         role: "user"
     },
-
     {
-        path: '/fqa',
-        page: FQAPage,
+        path: '/faq',
+        page: FAQPage,
+        isShowHeader: true,
+        role: "user"
+    },
+    {
+        path: '/user-profile',
+        page: UserProfile,
         isShowHeader: true,
         role: "user"
     },
