@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './Header2Component.module.scss'
 import whiteLogo from "../../assets/images/whiteLogo.svg";
 import clsx from 'clsx';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Header2Component = ({title}) => {
   const navigate = useNavigate()
@@ -20,7 +20,7 @@ const Header2Component = ({title}) => {
           <h1>{title}</h1>
         </div>
         <div className={styles.support}>
-          <p>Bạn cần giúp đỡ?</p>
+          <Link to={"/faq"}>Bạn cần giúp đỡ?</Link>
         </div>
       </div>
     </div>

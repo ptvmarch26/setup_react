@@ -33,10 +33,11 @@ export const getRelatedProducts = async (id) => {
 
     // Tạo query string với filter
     const params = new URLSearchParams({
-      "filter[product_category]": product_category, // Bộ lọc theo danh mục
-      limit: "10", // Giới hạn số sản phẩm trả về
+      product_category: product_category, // Bộ lọc theo danh mục
+      limit: "8", // Giới hạn số sản phẩm trả về
+      page: "1",
     });
-
+    console.log("abc", `${API_URL}/product/get-all-product?${params.toString()}`)
     const response = await fetch(
       `${API_URL}/product/get-all-product?${params.toString()}`,
       {
