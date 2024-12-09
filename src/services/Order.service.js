@@ -132,3 +132,29 @@ export const updateCart = async (id, data, token) => {
     throw error;
   }
 }
+
+export const updateFavor = async (id, data, token) => {
+  try {
+    console.log("dataFE", data)
+    console.log(id);
+    const response = await fetch(`${API_URL}/favor/update/${id}`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data)
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw errorData;
+    }
+
+    const dataCart = await response.json();
+    return dataCart;
+  } catch (error) {
+    console.error("Error in cart updateFavor:", error);
+    throw error;
+  }
+}
