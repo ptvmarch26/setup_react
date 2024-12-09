@@ -216,7 +216,13 @@ const ProductDetailsPage = () => {
     return <div>Loading product details...</div>;
   }
 
-  const thumbnails = productDetails?.product_images || [];
+  const thumbnails = [
+    ...(productDetails?.product_images || []),
+    ...(productDetails?.variants[0]?.variant_img),
+    ...(productDetails?.variants[1]?.variant_img),
+    ...(productDetails?.variants[2]?.variant_img),
+    ...(productDetails?.variants[3]?.variant_img),
+  ];
   const doubledThumbnails = [...thumbnails, ...thumbnails];
   const feedbackList = productFeedback || [];
   const products = relatedProducts || [];
@@ -333,13 +339,13 @@ const ProductDetailsPage = () => {
                     <span className={styles.currentPrice}>
                       {selectedVariant
                         ? (
-                          selectedVariant?.product_price *
-                          (1 - productDetails?.product_percent_discount / 100)
-                        ).toLocaleString()
+                            selectedVariant?.product_price *
+                            (1 - productDetails?.product_percent_discount / 100)
+                          ).toLocaleString()
                         : (
-                          productDetails?.product_price *
-                          (1 - productDetails?.product_percent_discount / 100)
-                        ).toLocaleString()}
+                            productDetails?.product_price *
+                            (1 - productDetails?.product_percent_discount / 100)
+                          ).toLocaleString()}
                       đ
                     </span>
                     <span className={styles.oldPrice}>
@@ -360,13 +366,13 @@ const ProductDetailsPage = () => {
                     <span className={styles.currentPrice}>
                       {selectedVariant
                         ? (
-                          selectedVariant?.product_price *
-                          (1 - productDetails?.product_percent_discount / 100)
-                        ).toLocaleString()
+                            selectedVariant?.product_price *
+                            (1 - productDetails?.product_percent_discount / 100)
+                          ).toLocaleString()
                         : (
-                          productDetails?.product_price *
-                          (1 - productDetails?.product_percent_discount / 100)
-                        ).toLocaleString()}
+                            productDetails?.product_price *
+                            (1 - productDetails?.product_percent_discount / 100)
+                          ).toLocaleString()}
                       đ
                     </span>
                   </div>
@@ -384,26 +390,15 @@ const ProductDetailsPage = () => {
                       <div className="col l-4 m-4 c-4">
                         <ButtonComponent
                           key={index}
-                          title={
-                            variant.product_color
-                              ? variant.product_color
-                              : variant.product_order_type
-                                ? variant.product_order_type
-                                : variant.product_size
-                                  ? variant.product_size
-                                  : variant.product_weight
-                                    ? variant.product_weight
-                                    : variant.pet_age
-                                      ? `${variant.pet_age} tuổi`
-                                      : "Không rõ"
-                          }
+                          title={variant.product_order_type}
                           icon={`data:image/png;base64,${variant.variant_img}`}
                           fontSize="1.2rem"
                           width="170px"
                           widthDiv="none"
                           margin="0 0 10px 0"
-                          className={`${styles.btnChoice} ${selectedVariant === variant ? styles.selected : ""
-                            }`}
+                          className={`${styles.btnChoice} ${
+                            selectedVariant === variant ? styles.selected : ""
+                          }`}
                           onClick={() => handleVariantClick(variant)}
                         />
                       </div>
@@ -426,7 +421,9 @@ const ProductDetailsPage = () => {
                     onChange={(e) => handleInputChange(e.target.value)}
                     min={1}
                     max={selectedVariant?.product_countInStock || 1}
-                    className={`${styles.quantityInput} ${!selectedVariant ? styles.disabled : ""}`}
+                    className={`${styles.quantityInput} ${
+                      !selectedVariant ? styles.disabled : ""
+                    }`}
                     disabled={!selectedVariant}
                   />
                   <button
@@ -583,8 +580,9 @@ const ProductDetailsPage = () => {
             {feedbackList.map((data, index) => (
               <div key={index}>
                 <ProductFeedBackComponent
-                  img={`data:image/png;base64,${data.user_id.user_avt_img || ""
-                    }`}
+                  img={`data:image/png;base64,${
+                    data.user_id.user_avt_img || ""
+                  }`}
                   name={data.user_id.user_name || "ẩn danh"}
                   star={data.rating || "ẩn danh"}
                   date={
@@ -595,8 +593,8 @@ const ProductDetailsPage = () => {
                   imgFeedback={
                     Array.isArray(data.feedback_img)
                       ? data.feedback_img.map(
-                        (img) => `data:image/png;base64,${img}`
-                      )
+                          (img) => `data:image/png;base64,${img}`
+                        )
                       : []
                   }
                 />
@@ -626,8 +624,9 @@ const ProductDetailsPage = () => {
               {products.map((product, index) => (
                 <div key={index} className="col l-2-4 m-4 c-6">
                   <CardComponent
-                    src={`data:image/png;base64,${product.product_images[1] || ""
-                      }`}
+                    src={`data:image/png;base64,${
+                      product.product_images[0] || ""
+                    }`}
                     alt="ảnh sản phẩm"
                     name={product.product_title}
                     oldPrice={product.product_price}
