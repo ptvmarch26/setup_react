@@ -210,9 +210,15 @@ const MyCartPage = () => {
 
   // Hàm xử lý các sự kiện
   const handleCheckout = () => {
-    navigate("/check-out", {
-      state: { cartItems, checkedItems, discount, shippingFee },
-    });
+    console.log(checkedItems.length === 0)
+    if (checkedItems.length === 0){
+      alert("Bạn chưa chọn sản phẩm nào");
+    }
+    else {
+      navigate("/check-out", {
+        state: { cartItems, checkedItems, discount, shippingFee },
+      });
+    } 
   };
 
   const handleQuantityChange = (id, amount) => {

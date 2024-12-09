@@ -28,6 +28,7 @@ import NewPhone from "../pages/ChangePhone/NewPhone";
 import ChangeAddress from "../pages/ChangeAddress/ChangeAddress";
 import VerificationForm from "../components/VerificationForm/VerificationForm";
 import FavoriteProductsPage from "../pages/FavoriteProductsPage/FavoriteProductsPage";
+import HelpCarePage from "../pages/HelpCarePage/HelpCarePage";
 import NotificationPage from "../pages/NotificationPage/NotificationPage";
 import FAQPage from "../pages/FAQPage/FAQPage";
 import UserProfile from "../pages/MyOrderPage/UserProfile";
@@ -178,7 +179,7 @@ export const routes = [
         isShowHeader: true
     },
     {
-        path: '/generalpolicy',
+        path: '/guanateepolicy',
         page: GuaranteePolicy,
         isShowHeader: true
     },
@@ -229,7 +230,12 @@ export const routes = [
         isShowHeader: true,
         role: "user"
     },
-
+    {
+        path: '/help-center',
+        page: HelpCarePage,
+        isShowHeader: true,
+        role: "user"
+    },
 
     // Routes cho Admin
     // {

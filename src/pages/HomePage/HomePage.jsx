@@ -182,9 +182,9 @@ import React, { useEffect, useState } from 'react'
 import { clsx } from 'clsx'
 import SliderComponent from '../../components/SliderComponent/SliderComponent'
 import slider1 from '../../assets/images/slider1.svg'
-import slider2 from '../../assets/images/slider2.svg'
-import slider3 from '../../assets/images/slider3.svg'
-import slider4 from '../../assets/images/slider4.svg'
+// import slider2 from '../../assets/images/slider2.svg'
+// import slider3 from '../../assets/images/slider3.svg'
+// import slider4 from '../../assets/images/slider4.svg'
 import styles from './HomePage.module.scss'
 import ServiceComponent from '../../components/ServiceComponent/ServiceComponent'
 import service1 from '../../assets/images/service1.svg'
@@ -225,15 +225,18 @@ const HomePage = () => {
     queryKey = queryKey.queryKey
     const product_famous = {
       limit: Number(queryKey[4]),
-      product_famous: String(queryKey[1])
+      product_famous: String(queryKey[1]), 
+      page: 1, 
     };
     const best_seller = {
       limit: Number(queryKey[4]),
-      sort: String(queryKey[2])
+      sort: String(queryKey[2]),
+      page: 1, 
     };
     const product_new = {
       limit: Number(queryKey[4]),
-      sort: String(queryKey[3])
+      sort: String(queryKey[3]), 
+      page: 1, 
     };
     try {
       const [famousProduct, bestProduct, newProduct ] = await Promise.all([
@@ -259,7 +262,7 @@ const HomePage = () => {
   };
   // Sử dụng useQuery để quản lý việc fetch sản phẩm
   const { data, isLoading } = useQuery({
-    queryKey: ['product-data', 'true', 'best_selling', 'newest', '8'],  // Tạo khóa truy vấn cho dữ liệu sản phẩm
+    queryKey: ['product-data', 'true', 'best_selling', 'newest', '12'],  // Tạo khóa truy vấn cho dữ liệu sản phẩm
     queryFn: fetchProductData,   // Hàm fetch dữ liệu từ API
     refetchOnWindowFocus: false, // Không fetch lại khi chuyển tab
     keepPreviousData: true,      // Giữ dữ liệu cũ khi thay đổi tham số
