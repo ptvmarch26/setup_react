@@ -103,6 +103,16 @@ const ProductDetailsPage = () => {
   }, [productDetails]);
 
   const handleInputChange = (value) => {
+    // setNumProduct(
+    //   Math.min(
+    //     Math.max(1, Number(value)),
+    //     selectedVariant?.product_countInStock || 1
+    //   )
+    // );
+    if (!selectedVariant) {
+      return;
+    }
+
     setNumProduct(
       Math.min(
         Math.max(1, Number(value)),
@@ -149,6 +159,17 @@ const ProductDetailsPage = () => {
   };
 
   const handleChangeCount = (type) => {
+    // if (type === "increase") {
+    //   setNumProduct((prev) =>
+    //     Math.min(prev + 1, selectedVariant?.product_countInStock || 1)
+    //   );
+    // } else {
+    //   setNumProduct((prev) => Math.max(prev - 1, 1));
+    // }
+    if (!selectedVariant) {
+      return;
+    }
+
     if (type === "increase") {
       setNumProduct((prev) =>
         Math.min(prev + 1, selectedVariant?.product_countInStock || 1)
@@ -166,8 +187,8 @@ const ProductDetailsPage = () => {
   const settings = {
     dots: true,
     infinite: true,
-    speed: 500,
-    slidesToShow: 5,
+    speed: 200,
+    slidesToShow: 4,
     slidesToScroll: 1,
     nextArrow: (
       <NextComponent
@@ -312,13 +333,13 @@ const ProductDetailsPage = () => {
                     <span className={styles.currentPrice}>
                       {selectedVariant
                         ? (
-                            selectedVariant?.product_price *
-                            (1 - productDetails?.product_percent_discount / 100)
-                          ).toLocaleString()
+                          selectedVariant?.product_price *
+                          (1 - productDetails?.product_percent_discount / 100)
+                        ).toLocaleString()
                         : (
-                            productDetails?.product_price *
-                            (1 - productDetails?.product_percent_discount / 100)
-                          ).toLocaleString()}
+                          productDetails?.product_price *
+                          (1 - productDetails?.product_percent_discount / 100)
+                        ).toLocaleString()}
                       đ
                     </span>
                     <span className={styles.oldPrice}>
@@ -339,13 +360,13 @@ const ProductDetailsPage = () => {
                     <span className={styles.currentPrice}>
                       {selectedVariant
                         ? (
-                            selectedVariant?.product_price *
-                            (1 - productDetails?.product_percent_discount / 100)
-                          ).toLocaleString()
+                          selectedVariant?.product_price *
+                          (1 - productDetails?.product_percent_discount / 100)
+                        ).toLocaleString()
                         : (
-                            productDetails?.product_price *
-                            (1 - productDetails?.product_percent_discount / 100)
-                          ).toLocaleString()}
+                          productDetails?.product_price *
+                          (1 - productDetails?.product_percent_discount / 100)
+                        ).toLocaleString()}
                       đ
                     </span>
                   </div>
@@ -367,20 +388,22 @@ const ProductDetailsPage = () => {
                             variant.product_color
                               ? variant.product_color
                               : variant.product_order_type
-                              ? variant.product_order_type
-                              : variant.product_size
-                              ? variant.product_size
-                              : variant.product_weight
-                              ? variant.product_weight
-                              : variant.pet_age
-                              ? `${variant.pet_age} tuổi`
-                              : "Không rõ"
+                                ? variant.product_order_type
+                                : variant.product_size
+                                  ? variant.product_size
+                                  : variant.product_weight
+                                    ? variant.product_weight
+                                    : variant.pet_age
+                                      ? `${variant.pet_age} tuổi`
+                                      : "Không rõ"
                           }
                           icon={`data:image/png;base64,${variant.variant_img}`}
                           fontSize="1.2rem"
                           width="170px"
                           widthDiv="none"
                           margin="0 0 10px 0"
+                          className={`${styles.btnChoice} ${selectedVariant === variant ? styles.selected : ""
+                            }`}
                           onClick={() => handleVariantClick(variant)}
                         />
                       </div>
@@ -391,7 +414,11 @@ const ProductDetailsPage = () => {
               <div className={styles.quantity}>
                 <span>Số lượng</span>
                 <div className={styles.btn}>
-                  <button onClick={() => handleChangeCount("decrease")}>
+                  <button
+                    onClick={() => handleChangeCount("decrease")}
+                    className={!selectedVariant ? styles.disabled : ""}
+                    disabled={!selectedVariant}
+                  >
                     -
                   </button>
                   <input
@@ -399,9 +426,14 @@ const ProductDetailsPage = () => {
                     onChange={(e) => handleInputChange(e.target.value)}
                     min={1}
                     max={selectedVariant?.product_countInStock || 1}
-                    className={styles.quantityInput}
+                    className={`${styles.quantityInput} ${!selectedVariant ? styles.disabled : ""}`}
+                    disabled={!selectedVariant}
                   />
-                  <button onClick={() => handleChangeCount("increase")}>
+                  <button
+                    onClick={() => handleChangeCount("increase")}
+                    className={!selectedVariant ? styles.disabled : ""}
+                    disabled={!selectedVariant}
+                  >
                     +
                   </button>
                 </div>
@@ -551,9 +583,8 @@ const ProductDetailsPage = () => {
             {feedbackList.map((data, index) => (
               <div key={index}>
                 <ProductFeedBackComponent
-                  img={`data:image/png;base64,${
-                    data.user_id.user_avt_img || ""
-                  }`}
+                  img={`data:image/png;base64,${data.user_id.user_avt_img || ""
+                    }`}
                   name={data.user_id.user_name || "ẩn danh"}
                   star={data.rating || "ẩn danh"}
                   date={
@@ -564,8 +595,8 @@ const ProductDetailsPage = () => {
                   imgFeedback={
                     Array.isArray(data.feedback_img)
                       ? data.feedback_img.map(
-                          (img) => `data:image/png;base64,${img}`
-                        )
+                        (img) => `data:image/png;base64,${img}`
+                      )
                       : []
                   }
                 />
@@ -595,9 +626,8 @@ const ProductDetailsPage = () => {
               {products.map((product, index) => (
                 <div key={index} className="col l-2-4 m-4 c-6">
                   <CardComponent
-                    src={`data:image/png;base64,${
-                      product.product_images[1] || ""
-                    }`}
+                    src={`data:image/png;base64,${product.product_images[1] || ""
+                      }`}
                     alt="ảnh sản phẩm"
                     name={product.product_title}
                     oldPrice={product.product_price}

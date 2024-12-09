@@ -6,6 +6,11 @@
     }
 }
 
+.pani {
+    display: flex;
+    justify-content: center;
+}
+
 .overlay {
     position: fixed;
     top: 0;
@@ -20,11 +25,12 @@
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 2;
+    z-index: 3;
     width: 50%; 
     height: 100vh; 
     overflow-y: auto; 
 }
+
 
 :global {
     body.no-scroll {

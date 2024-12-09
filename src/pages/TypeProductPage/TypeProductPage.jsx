@@ -530,9 +530,8 @@ const TypeProductPage = () => {
                       className="product-link"
                     >
                       <CardComponent
-                        src={`data:image/png;base64,${
-                          product.product_images[1] || ""
-                        }`}
+                        src={`data:image/png;base64,${product.product_images[1] || ""
+                          }`}
                         alt="ảnh sản phẩm"
                         name={product.product_title}
                         oldPrice={product.product_price}
@@ -550,15 +549,26 @@ const TypeProductPage = () => {
                 <div className="col l-12 m-12 c-12">Không có sản phẩm nào</div>
               )}
             </div>
-
-            {data?.total > 9 ? (
-              <Pagination
-                current={filters.page}
-                total={Number(data?.total) || 0} // Total là số lượng sản phẩm trả về từ API
-                onChange={(page) => handleFilterChange({ page })}
-                pageSize="9"
-              />
+            {data?.total > 12 ? (
+              <div className={styles.pani}>
+                <Pagination
+                  current={filters.page}
+                  total={data?.total || 0} // Total là số lượng sản phẩm trả về từ API
+                  onChange={(page) => handleFilterChange({ page })}
+                />
+              </div>
             ) : null}
+            {showNavbar && (isInViewport || isInMobile) && (
+              <div>
+                <div onClick={handleNavbar} className={styles.overlay}></div>
+                <div className={styles.navbar}>
+                  <NavbarComponent
+                    isInViewport={isInViewport}
+                    isInMobile={isInMobile}
+                  />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
