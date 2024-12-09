@@ -1,8 +1,9 @@
 import React, { useReducer } from "react";
 import { Button, Card, Col, Row } from "antd";
-import "./Notification.css"; // Đảm bảo CSS được định nghĩa tại đây
+import styles from "./NotificationPage.module.scss";
 import ProfileUser from "../MyOrderPage/UserProfile.jsx";
 import myAvatar from "../../assets/images/avatar.jpg";
+import clsx from "clsx";
 
 const initdata = [
   {
@@ -10,14 +11,14 @@ const initdata = [
     img: "https://chiaki.vn/upload/news/content/2021/05/thuc-an-cho-cho-con-pedigree-jpg-1620290242-06052021153722.jpg",
     title: "KIỆN HÀNG ĐANG TRÊN ĐƯỜNG VẬN CHUYỂN",
     content: "🎉 Kiện hàng đã chuyển thành công cho đơn vị vận chuyển. Shipper sẽ sớm liên hệ bạn!",
-    read: false,
+    read: true,
   },
   {
     id: 2,
     img: "https://i.pinimg.com/736x/21/b3/e6/21b3e6294c5c83008fdbb4cc7e0a17ac.jpg",
     title: "NGÀY HỘI THÚ CƯNG - ĐẾN LÀ CÓ QUÀ",
     content: "📢 Với vô số giảm giá, quay số nhận quà hót hòn họn. Còn chần chờ gì không tham gia ngay!",
-    read: false,
+    read: true,
   },
   {
     id: 3,
@@ -39,6 +40,12 @@ const reducer = (state, action) => {
   switch (action.type) {
     case "MARK_ALL_AS_READ":
       return state.map((notification) => ({ ...notification, read: true }));
+    case "MARK_AS_READ":
+      return state.map((notification) =>
+        notification.id === action.payload
+          ? { ...notification, read: true }
+          : notification
+      );
     default:
       return state;
   }
@@ -52,43 +59,53 @@ const NotificationPage = () => {
     dispatch({ type: "MARK_ALL_AS_READ" });
   };
 
-  // Hàm kiểm tra trạng thái và trả về lớp CSS
-  const isRead = (read) => (read ? "notification read" : "notification unread");
-
   return (
     <div className="grid wide">
-      <div style={{ margin: "0 auto", padding: "20px" }} className="container">
-        <div className="notice-container">
-          <ProfileUser full_name="Nguyễn Lê Thanh Huyền" src_img={myAvatar} name="yurri_2506" />
-          <div className="content">
-            <div className="action-buttons">
-              <Button onClick={markAllAsRead} disabled={notifications.every((n) => n.read)}
-                className="confirm-read-button">
+      <div className={styles.main}>
+        <Row gutter={16}>
+          <ProfileUser
+            full_name="Nguyễn Lê Thanh Huyền"
+            src_img={myAvatar}
+            name="yurri_2506"
+          />
+          <Col span={18} className={styles.noti}>
+            <div className={styles.wrapBtn}>
+              <Button
+                onClick={markAllAsRead}
+                disabled={notifications.every((n) => n.read)}
+                className={styles.btn}
+              >
                 Đánh dấu tất cả đã đọc
               </Button>
             </div>
-            <div className="notifications">
-              {notifications.map((notification) => (
-                <Card key={notification.id} className={isRead(notification.read)}>
+            {notifications.map((notification) => (
+              <div className={styles.wrapNoti}>
+                <Card
+                  key={notification.id}
+                  className={clsx({
+                    [styles.isRead]: notification.read,
+                    [styles.isUnread]: !notification.read,
+                  })}
+                  onClick={() => dispatch({ type: "MARK_AS_READ", payload: notification.id })}
+                >
                   <Row>
                     <Col span={4}>
                       <img
                         src={notification.img}
                         alt="Notification"
-                        style={{ width: "100%", borderRadius: "5px" }}
+                        className={styles.img}
                       />
                     </Col>
                     <Col span={20}>
-                      <h6 className="notification-title">{notification.title}</h6>
-                      <p className="notification-content">{notification.content}</p>
+                      <h6>{notification.title}</h6>
+                      <p>{notification.content}</p>
                     </Col>
                   </Row>
                 </Card>
-              ))}
-              {notifications.length === 0 && <p>Không có thông báo nào.</p>}
-            </div>
-          </div>
-        </div>
+              </div>
+            ))}
+          </Col>
+        </Row>
       </div>
     </div>
   );

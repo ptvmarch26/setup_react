@@ -576,7 +576,7 @@ const HeaderComponent = () => {
                 />
               </li>
               <li>
-                <Link to={"/fqa"}>
+                <Link to={"/faq"}>
                   <TbHelpSquare />
                   <span>FAQ</span>
                 </Link>
@@ -653,12 +653,18 @@ const HeaderComponent = () => {
           </Col>
         </Row>
         <div className={styles.userAndCart}>
-          <div onClick={() => navigate("/my-cart")} className={styles.cCart}>
+          <div onClick={() => navigate("/my-cart/${_id}")} className={styles.cCart}>
             <FaShoppingCart />
           </div>
-          <div onClick={() => navigate("/sign-in")} className={styles.cUser}>
-            <FaUser />
-          </div>
+          {isAuthenticated ? (
+            <div onClick={() => navigate("/user-profile")} className={styles.cUser}>
+              <FaUser />
+            </div>
+          ) : (
+            <div onClick={() => navigate("/sign-in")} className={styles.cUser}>
+              <FaUser />
+            </div>
+          )}
         </div>
         <Row>
           <Col
