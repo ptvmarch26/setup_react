@@ -1,0 +1,18 @@
+.voucherImage {
+  height: 200px;
+  object-fit: cover;
+}
+
+.useButton {
+  background-color: #4caf50; 
+  color: white;
+
+  &:hover {
+    background-color: #45a049;
+  }
+}
+
+.disabledButton {
+  background-color: #ccc; 
+  color: #888;
+}

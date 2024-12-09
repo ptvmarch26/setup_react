@@ -31,6 +31,7 @@ import FavoriteProductsPage from "../pages/FavoriteProductsPage/FavoriteProducts
 import NotificationPage from "../pages/NotificationPage/NotificationPage";
 import FAQPage from "../pages/FAQPage/FAQPage";
 import UserProfile from "../pages/MyOrderPage/UserProfile";
+import VoucherPage from "../pages/VoucherPage/VoucherPage";
 
 export const routes = [ 
     //Routes cho User
@@ -207,6 +208,12 @@ export const routes = [
     {
         path: '/notifications',
         page: NotificationPage,
+        isShowHeader: true,
+        role: "user"
+    },
+    {
+        path: '/voucher',
+        page: VoucherPage,
         isShowHeader: true,
         role: "user"
     },

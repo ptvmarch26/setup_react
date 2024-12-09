@@ -434,9 +434,8 @@ const TypeProductPage = () => {
                   <div key={index} className="col l-4 m-4 c-6">
                     <Link to={`/product-details/${product._id}`} className="product-link">
                       <CardComponent
-                        src={`data:image/png;base64,${
-                          product.product_images[1] || ""
-                        }`}
+                        src={`data:image/png;base64,${product.product_images[1] || ""
+                          }`}
                         alt="ảnh sản phẩm"
                         name={product.product_title}
                         oldPrice={product.product_price}
@@ -455,12 +454,25 @@ const TypeProductPage = () => {
               )}
             </div>
             {data?.total > 12 ? (
-              <Pagination
-                current={filters.page}
-                total={data?.total || 0} // Total là số lượng sản phẩm trả về từ API
-                onChange={(page) => handleFilterChange({ page })}
-              />
+              <div className={styles.pani}>
+                <Pagination
+                  current={filters.page}
+                  total={data?.total || 0} // Total là số lượng sản phẩm trả về từ API
+                  onChange={(page) => handleFilterChange({ page })}
+                />
+              </div>
             ) : null}
+            {showNavbar && (isInViewport || isInMobile) && (
+              <div>
+                <div onClick={handleNavbar} className={styles.overlay}></div>
+                <div className={styles.navbar}>
+                  <NavbarComponent
+                    isInViewport={isInViewport}
+                    isInMobile={isInMobile}
+                  />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
