@@ -30,6 +30,7 @@ import VerificationForm from "../components/VerificationForm/VerificationForm";
 import FavoriteProductsPage from "../pages/FavoriteProductsPage/FavoriteProductsPage";
 import NotificationPage from "../pages/Notification/Notification";
 import FQAPage from "../pages/FQAPage/FQAPage";
+import HelpCarePage from "../pages/HelpCarePage/HelpCarePage";
 
 export const routes = [ 
     //Routes cho User
@@ -176,7 +177,7 @@ export const routes = [
         isShowHeader: true
     },
     {
-        path: '/generalpolicy',
+        path: '/guanateepolicy',
         page: GuaranteePolicy,
         isShowHeader: true
     },
@@ -216,7 +217,12 @@ export const routes = [
         isShowHeader: true,
         role: "user"
     },
-
+    {
+        path: '/help-center',
+        page: HelpCarePage,
+        isShowHeader: true,
+        role: "user"
+    },
 
     // Routes cho Admin
     // {

@@ -108,7 +108,8 @@ export const getAllProduct = async (params = {}) => {
     const queryParams = {};
     // Thêm các tham số vào queryParams nếu có
     if (limit) queryParams.limit = limit;
-    if (page) queryParams.page = page;
+    if (page) queryParams.page = Number(page) 
+      else queryParams.page = 1 ;
     if (sort) queryParams.sort = sort;
     if (search) queryParams.search = search;
     if (product_brand) queryParams.product_brand = product_brand;
