@@ -1,19 +1,35 @@
-import React from 'react';
-import styles from './LoadingComponent.module.scss';
-import loadingImg from '../../assets/images/loading.webp'; // Đảm bảo đường dẫn đúng
+// import React from 'react';
+// import styles from './LoadingComponent.module.scss';
+// import { Spin } from 'antd';
 
-import { Spin } from 'antd';
+// const LoadingComponent = ({ children, isLoading, deday = 200 }) => {
+//   return (
+//     <Spin spinning={isLoading} delay={deday}>
+//       {children}
+//     </Spin>
+//   );
+// };
 
-const LoadingComponent = ({ children, isLoading, deday = 200 }) => {
-  const customSpin = (
-    <img src={loadingImg} alt="Loading dog" className={styles.dogSpinner} />
-  );
-// indicator={customSpin}
+// export default LoadingComponent;
+
+import React from "react";
+import styles from "./LoadingComponent.module.scss";
+
+const LoadingComponent = ({ children, isLoading, delay = 200 }) => {
   return (
-    <Spin spinning={isLoading} delay={deday}>
-      {children}
-    </Spin>
+    <div style={{ position: "relative" }}>
+      {isLoading && (
+        <div className={styles.loadingContainer}>
+          <div className={styles.spinner}></div>
+        </div>
+      )}
+      <div style={{ opacity: isLoading ? 0.7 : 1, transition: "opacity 0.3s" }}>
+        {children}
+      </div>
+    </div>
   );
 };
 
 export default LoadingComponent;
+
+

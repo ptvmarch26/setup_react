@@ -1,9 +1,9 @@
 import React from 'react';
-import styles from './FQAPage.module.scss';
+import styles from './FAQPage.module.scss';
 
-const FQAPage = () => {
+const FAQPage = () => {
   return (
-    <div className="grid wide">
+    <div className="grid wide" style={{padding: "20px 0"}}>
       <div className={styles.fqa}>
         <h2 className={styles.header}>CÂU HỎI THƯỜNG GẶP</h2>
         <p className={styles.intro}>
@@ -100,4 +100,4 @@ const FQAPage = () => {
   );
 };
 
-export default FQAPage;
+export default FAQPage;
