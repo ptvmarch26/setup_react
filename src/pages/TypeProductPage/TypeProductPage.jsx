@@ -530,7 +530,7 @@ const TypeProductPage = () => {
                       className="product-link"
                     >
                       <CardComponent
-                        src={`data:image/png;base64,${product.product_images[1] || ""
+                        src={`data:image/png;base64,${product.product_images[0] || ""
                           }`}
                         alt="ảnh sản phẩm"
                         name={product.product_title}

@@ -565,7 +565,7 @@ const HeaderComponent = () => {
           <Col span={16} offset={8}>
             <ul>
               <li className={styles.forNotify}>
-                <Link to={"/"} onMouseEnter={handleMouseEnter}>
+                <Link to={"/notifications"} onMouseEnter={handleMouseEnter}>
                   <GrNotification />
                   <span>Thông báo</span>
                 </Link>

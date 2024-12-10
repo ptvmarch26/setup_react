@@ -4,7 +4,7 @@ import CardComponent from "../CardComponent/CardComponent";
 import TitleComponent from "../TitleComponent/TitleComponent";
 import { Link } from "react-router-dom";
 
-const BestSellingComponent = ({ products, isInMobile }) => {
+const BestSellingComponent = ({ products, isInMobile,  onClick}) => {
   return (
     <div>
       <TitleComponent
@@ -46,6 +46,7 @@ const BestSellingComponent = ({ products, isInMobile }) => {
         borderRadius="15px"
         fontSize="2rem"
         showIcon={false}
+        onClick={onClick}
       />
     </div>
   );
