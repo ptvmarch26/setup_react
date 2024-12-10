@@ -230,15 +230,15 @@ const FavoriteProductsPage = () => {
   useEffect(() => {
     if (data?.data?.products) {
       const items = data.data.products.map((item) => ({
-        id: item.variant,
-        name: item.product_id.product_title || "Không có tên sản phẩm",
-        oldPrice: item.product_id.product_price || 0,
-        price: (item.product_id.product_price *
-          (1 - item.product_id.product_percent_discount / 100)
+        id: item._id,
+        name: item.product_id?.product_title || "Không có tên sản phẩm",
+        oldPrice: item.product_id?.product_price || 0,
+        price: (item.product_id?.product_price *
+          (1 - item.product_id?.product_percent_discount / 100)
             .toLocaleString()) || 0,
         quantity: item.quantity || 1,
         img:
-          item.product_id.product_images && item.product_id.product_images[0]
+          item.product_id?.product_images && item.product_id?.product_images[0]
             ? `data:image/jpeg;base64,${item.product_id.product_images[0]}`
             : product4,
       }));
