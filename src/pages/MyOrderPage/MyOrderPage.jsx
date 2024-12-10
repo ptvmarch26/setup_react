@@ -56,6 +56,13 @@ const MyOrderPage = () => {
     };
   }, []);
 
+  const handleProductClick = (orderId) => {
+    navigate(`/order-details?tab=${currentTab}&product=${orderId}`, {
+      state: { orders }, // Truyền orders qua state
+    });
+  };
+  
+
   const orders = [
     {
       id: 1,
@@ -97,7 +104,7 @@ const MyOrderPage = () => {
       ],
     },
     {
-      id: 2,
+      id: 3,
       order_status: "Đã hủy",
       products: [
         {
@@ -112,7 +119,7 @@ const MyOrderPage = () => {
       ],
     },
     {
-      id: 2,
+      id: 4,
       order_status: "Trả hàng/Hoàn tiền",
       products: [
         {
@@ -127,7 +134,7 @@ const MyOrderPage = () => {
       ],
     },
     {
-      id: 2,
+      id: 5,
       order_status: "Đã hủy",
       products: [
         {
@@ -147,7 +154,7 @@ const MyOrderPage = () => {
     <div style={{ padding: "20px 0" }} className={styles.main}>
       <div className="grid wide">
         <Row gutter={24}>
-          <UserProfileComponent 
+          <UserProfileComponent
             full_name="Nguyễn Lê Thanh Huyền"
             src_img={myAvatar}
             name="yurri_2506"
@@ -187,7 +194,7 @@ const MyOrderPage = () => {
                 return false;
               })
               .map((order) => (
-                <Card className={styles.card} key={order.id}>
+                <Card className={styles.card} key={order.id} onClick={() => handleProductClick(order.id)}>
                   <Row className={styles.orderStatus}>
                     <Col span={24}>
                       <Text>
@@ -197,7 +204,12 @@ const MyOrderPage = () => {
                   </Row>
 
                   {order.products.map((product) => (
-                    <OrderCart key={product.id} {...product} />
+                    <div>
+                      <OrderCart
+                        key={product.id}
+                        {...product}
+                      />
+                    </div>
                   ))}
 
                   <Row className={styles.total}>

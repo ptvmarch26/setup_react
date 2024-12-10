@@ -527,7 +527,7 @@ const TypeProductPage = () => {
                   <div key={index} className="col l-4 m-4 c-6">
                     <Link
                       to={`/product-details/${product._id}`}
-                      className="product-link"
+                      style={{textDecoration: "none"}}
                     >
                       <CardComponent
                         src={`data:image/png;base64,${product.product_images[1] || ""

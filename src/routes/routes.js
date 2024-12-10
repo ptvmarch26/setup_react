@@ -1,5 +1,4 @@
 import HomePage from "../pages/HomePage/HomePage";
-import OrderPage from "../pages/OrderPage/OrderPage";
 import NotFoundPage from "../pages/NotFoundPage/NotFoundPage"
 import GeneralTermsPage from "../pages/GeneralTermsPage/GeneralTermsPage"
 import SignInPage from "../pages/SignInPage/SignInPage"
@@ -20,8 +19,6 @@ import TypeProductPage from "../pages/TypeProductPage/TypeProductPage";
 import ChangeEmail from "../pages/ChangeEmail/ChangeEmail";
 import ChangePhone from "../pages/ChangePhone/ChangePhone";
 import EditAccount from "../pages/AccountPage/EditAccount";
-import GeneralPolicy from "../pages/GeneralPolicy/GeneralPolicy"
-import GuaranteePolicy from "../pages/GuaranteePolicy/Guarantee";
 import NewPassword from "../pages/ChangePassword/NewPassword";
 import NewEmail from "../pages/ChangeEmail/NewEmail";
 import NewPhone from "../pages/ChangePhone/NewPhone";
@@ -33,18 +30,13 @@ import NotificationPage from "../pages/NotificationPage/NotificationPage";
 import FAQPage from "../pages/FAQPage/FAQPage";
 import UserProfile from "../pages/MyOrderPage/UserProfile";
 import VoucherPage from "../pages/VoucherPage/VoucherPage";
+import OrderDetailsPage from "../pages/OrderDetailsPage/OrderDetailsPage";
 
 export const routes = [ 
     //Routes cho User
     {
         path: '/',
         page: HomePage,
-        isShowHeader: true,
-        role: "user"
-    },
-    {
-        path: '/order',
-        page: OrderPage,
         isShowHeader: true,
         role: "user"
     },
@@ -75,6 +67,12 @@ export const routes = [
     {
         path: '/my-order',
         page: MyOrderPage,
+        isShowHeader: true,
+        role: "user"
+    },
+    {
+        path: '/order-details',
+        page: OrderDetailsPage,
         isShowHeader: true,
         role: "user"
     },
@@ -171,16 +169,6 @@ export const routes = [
     {
         path: '/product-details',
         page: ProductDetailsPage,
-        isShowHeader: true
-    },  
-    {
-        path: '/generalpolicy',
-        page: GeneralPolicy,
-        isShowHeader: true
-    },
-    {
-        path: '/guanateepolicy',
-        page: GuaranteePolicy,
         isShowHeader: true
     },
     {
