@@ -188,9 +188,9 @@ const MyCartPage = () => {
       const items = data.data.products.map((item) => ({
         id: item.variant,
         name: item.product_id.product_title || "Không có tên sản phẩm",
-        oldPrice: item.product_id.product_price || 0,
+        oldPrice: item.product_price || 0,
         price:
-          item.product_id.product_price *
+          item.product_price *
             (
               1 -
               item.product_id.product_percent_discount / 100

@@ -272,15 +272,15 @@ const HomePage = () => {
   const bestProduct = data?.bestProduct || {}
 
   const handleNewProduct = () => {
-    navigate("/get-all-product?sort=newest")
+    navigate("/get-all-product?sort=newest&category_level_1=Chó")
   }
 
   const handleFamousProduct = () => {
-    navigate("/get-all-product?product_famous=true")
+    navigate("/get-all-product?product_famous=true&category_level_1=Chó")
   }
 
   const handleBestProduct = () => {
-    navigate("/get-all-product?sort=best_selling")
+    navigate("/get-all-product?sort=best_selling&category_level_1=Chó")
   }
 
   // Xử lý sản phẩm lấy được từ API

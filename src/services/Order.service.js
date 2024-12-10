@@ -109,8 +109,6 @@ export const getAllFavoriteByUserId = async (id, token) => {
 // Cart
 export const updateCart = async (id, data, token) => {
   try {
-    console.log("dataFE", data)
-    console.log(id);
     const response = await fetch(`${API_URL}/cart/update/${id}`, {
       method: "PATCH",
       headers: {
@@ -119,7 +117,7 @@ export const updateCart = async (id, data, token) => {
       },
       body: JSON.stringify(data)
     });
-
+    console.log(JSON.stringify(data))
     if (!response.ok) {
       const errorData = await response.json();
       throw errorData;
@@ -145,6 +143,7 @@ export const updateFavor = async (id, data, token) => {
       },
       body: JSON.stringify(data)
     });
+    console.log("dataFEaaa", JSON.stringify(data))
 
     if (!response.ok) {
       const errorData = await response.json();

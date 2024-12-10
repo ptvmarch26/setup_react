@@ -27,7 +27,7 @@ import clsx from "clsx";
 import cart from "../../assets/images/cart.svg";
 import { FaHeart } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
-import { updateCart } from "../../services/Order.service";
+import { updateCart, updateFavor } from "../../services/Order.service";
 
 const ProductDetailsPage = () => {
   const { id } = useParams();
@@ -129,26 +129,23 @@ const ProductDetailsPage = () => {
     } else {
       // Gửi API cập nhật giỏ hàng vào DB (lấy ID của người dùng và dữ liệu giỏ hàng)
       const cartData = {
-        products: [
+        "products": [
           {
             product_id: productDetails?._id,
             variant: selectedVariant?._id,
             quantity: numProduct,
-            price: selectedVariant.product_price,
+            product_price: selectedVariant?.product_price,
+            product_order_type: selectedVariant?.product_order_type
           },
-        ],
+        ]
       };
-
-      if (selectedVariant?.product_order_type != null) {
-        cartData.product_order_type = selectedVariant.product_order_type;
-      }
-
+      console.log(cartData);
       dispatch(addToCart(cartData));
       try {
         const userId = user._id; // Lấy ID người dùng từ thông tin người dùng đã đăng nhập
         const updatedCart = await updateCart(userId, cartData, accessToken); // Gửi API để cập nhật giỏ hàng
         if (updatedCart) {
-          alert("Sản phẩm đã được thêm vào giỏ hàng.");
+          alert("Thêm sản phẩm thành công vào giỏ hàng");
         }
       } catch (error) {
         // Xử lý lỗi nếu có
@@ -216,13 +213,23 @@ const ProductDetailsPage = () => {
     return <div>Loading product details...</div>;
   }
 
-  const thumbnails = [
-    ...(productDetails?.product_images || []),
-    ...(productDetails?.variants[0]?.variant_img),
-    ...(productDetails?.variants[1]?.variant_img),
-    ...(productDetails?.variants[2]?.variant_img),
-    ...(productDetails?.variants[3]?.variant_img),
-  ];
+  // const thumbnails = [productDetails?.product_images || []];
+  const thumbnails = [];
+
+  // Kiểm tra xem productDetails có tồn tại và có mảng biến thể không
+  if (productDetails?.product_images) {
+    // Thêm hình ảnh sản phẩm chính
+    thumbnails.push(productDetails.product_images);
+  }
+
+  // Nếu có mảng biến thể (variants), duyệt qua từng biến thể và lấy hình ảnh
+  if (productDetails?.variants) {
+    productDetails.variants.forEach((variant) => {
+      if (variant.variant_img) {
+        thumbnails.push(variant.variant_img);
+      }
+    });
+  }
   const doubledThumbnails = [...thumbnails, ...thumbnails];
   const feedbackList = productFeedback || [];
   const products = relatedProducts || [];
@@ -236,8 +243,33 @@ const ProductDetailsPage = () => {
     arrows: false,
   };
 
-  const handleLike = () => {
+  const handleLike = async() => {
     setLike(!like);
+    if (!user?.isAuthenticated) {
+      navigate("/sign-in", { state: location?.pathname });
+    } else {
+      // Gửi API cập nhật giỏ hàng vào DB (lấy ID của người dùng và dữ liệu giỏ hàng)
+      const cartData2 = {
+        "products": [
+          {
+            product_id: productDetails?._id,
+          }
+        ]
+      };
+      console.log(cartData2);
+      dispatch(addToCart(cartData2));
+      try {
+        const userId = user._id; // Lấy ID người dùng từ thông tin người dùng đã đăng nhập
+        const updatedCart = await updateFavor(userId, cartData2, accessToken); // Gửi API để cập nhật giỏ hàng
+        if (updatedCart) {
+          alert("Thêm sản phẩm thành công vào giỏ hàng");
+        }
+      } catch (error) {
+        // Xử lý lỗi nếu có
+        console.error("Lỗi khi cập nhật giỏ hàng:", error);
+        alert("Có lỗi xảy ra khi cập nhật giỏ hàng. Vui lòng thử lại.");
+      }
+    }
   };
 
   return (
