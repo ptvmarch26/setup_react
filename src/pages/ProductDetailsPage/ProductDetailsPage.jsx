@@ -110,6 +110,7 @@ const ProductDetailsPage = () => {
     //   )
     // );
     if (!selectedVariant) {
+      setNumProduct(1);
       return;
     }
 
@@ -167,6 +168,7 @@ const ProductDetailsPage = () => {
     //   setNumProduct((prev) => Math.max(prev - 1, 1));
     // }
     if (!selectedVariant) {
+      setNumProduct(1);
       return;
     }
 
@@ -180,8 +182,12 @@ const ProductDetailsPage = () => {
   };
 
   const handleVariantClick = (variant) => {
-    setSelectedVariant(variant); // Cập nhật biến thể được chọn
-    setNumProduct(1); // Reset số lượng khi chọn biến thể mới
+    if (variant !== selectedVariant) {
+      setSelectedVariant(variant); // Cập nhật biến thể được chọn
+      setNumProduct(1); // Reset số lượng khi chọn biến thể mới
+    } else {
+      setSelectedVariant(null); // Nếu nhấn vào cùng biến thể, hủy chọn
+    }
   };
 
   const settings = {
@@ -344,8 +350,8 @@ const ProductDetailsPage = () => {
                     </span>
                     <span className={styles.oldPrice}>
                       {selectedVariant
-                        ? selectedVariant?.product_price
-                        : productDetails?.product_price}
+                        ? selectedVariant?.product_price.toLocaleString()
+                        : productDetails?.product_price.toLocaleString()}
                       đ
                     </span>
                   </div>
@@ -354,7 +360,7 @@ const ProductDetailsPage = () => {
                     <span className={styles.oldPrice}>
                       {selectedVariant
                         ? selectedVariant?.product_price?.toLocaleString()
-                        : productDetails?.product_price}
+                        : productDetails?.product_price.toLocaleString()}
                       đ
                     </span>
                     <span className={styles.currentPrice}>
