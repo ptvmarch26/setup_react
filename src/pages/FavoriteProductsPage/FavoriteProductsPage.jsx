@@ -113,7 +113,7 @@
 //       alert("Vui lòng chọn ít nhất một sản phẩm để thêm vào giỏ!");
 //       return;
 //     }
-  
+
 //     // Gửi danh sách sản phẩm đã chọn tới API hoặc xử lý thêm vào giỏ
 //     console.log("Sản phẩm được thêm vào giỏ:", selectedItems);
 //     // Ví dụ: gọi API thêm sản phẩm vào giỏ
@@ -186,12 +186,15 @@ import React, { useEffect, useState } from "react";
 import CartItemComponent from "../../components/CartItemComponent/CartItemComponent";
 import OrderSummaryComponent from "../../components/OrderSummaryComponent/OrderSummaryComponent";
 import styles from "./FavoriteProductsPage.module.scss";
-import { useNavigate, useParams } from "react-router-dom";
-import { getAllFavoriteByUserId } from "../../services/Order.service";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import {
+  deleteProductFavor,
+  getAllFavoriteByUserId,
+} from "../../services/Order.service";
 import { useQuery } from "@tanstack/react-query";
 import product4 from "../../assets/images/product4.svg";
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
-import cart from '../../assets/images/cart.svg'
+import cart from "../../assets/images/cart.svg";
 
 const FavoriteProductsPage = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -230,12 +233,15 @@ const FavoriteProductsPage = () => {
   useEffect(() => {
     if (data?.data?.products) {
       const items = data.data.products.map((item) => ({
-        id: item._id,
+        id: item.product_id?._id,
         name: item.product_id?.product_title || "Không có tên sản phẩm",
         oldPrice: item.product_id?.product_price || 0,
-        price: (item.product_id?.product_price *
-          (1 - item.product_id?.product_percent_discount / 100)
-            .toLocaleString()) || 0,
+        price:
+          item.product_id?.product_price *
+            (
+              1 -
+              item.product_id?.product_percent_discount / 100
+            ).toLocaleString() || 0,
         quantity: item.quantity || 1,
         img:
           item.product_id?.product_images && item.product_id?.product_images[0]
@@ -247,8 +253,41 @@ const FavoriteProductsPage = () => {
   }, [data]);
 
   // Hàm xử lý các sự kiện
-  const handleRemoveItem = (id) => {
-    setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
+  const handleRemoveItem = async (id1) => {
+    // Tìm sản phẩm bị xóa từ `cartItems`
+    const itemToRemove = cartItems.find((item) => item.id === id1);
+
+    if (!itemToRemove) {
+      alert("Sản phẩm không tồn tại trong giỏ hàng.");
+      return;
+    }
+    // Loại bỏ sản phẩm khỏi trạng thái
+    const updatedItems = cartItems.filter((item) => item.id !== id1);
+    setCartItems(updatedItems);
+    // Chuẩn bị dữ liệu gửi lên Backend
+    const removeData = {
+      products: [
+        {
+          product_id: itemToRemove.id,
+        },
+      ],
+    };
+    console.log("dât", removeData);
+    try {
+      // Gửi yêu cầu API để xóa sản phẩm
+      const response = await deleteProductFavor(id, removeData, accessToken);
+
+      if (response) {
+        alert("Xóa sản phẩm thành công!");
+      }
+    } catch (error) {
+      // Xử lý lỗi nếu có
+      console.error("Lỗi khi xóa sản phẩm:", error);
+      alert("Có lỗi xảy ra khi xóa sản phẩm. Vui lòng thử lại.");
+
+      // Khôi phục trạng thái nếu API thất bại
+      setCartItems((prevItems) => [...prevItems, itemToRemove]);
+    }
   };
 
   const handleCheckItem = (id) => {
@@ -284,9 +323,28 @@ const FavoriteProductsPage = () => {
     return <div>Đang tải dữ liệu giỏ hàng...</div>;
   }
 
-  const handleRemoveAllItems = () => {
-    setCartItems([]);
-    setCheckedItems([]);
+  const handleRemoveAllItems = async () => {
+    // Chuẩn bị dữ liệu gửi lên Backend
+    const removeData = {
+      products: cartItems.map((item) => ({
+        product_id: item.id,
+      })),
+    };
+    try {
+      // Gửi yêu cầu API để xóa sản phẩm
+      const response = await deleteProductFavor(id, removeData, accessToken);
+
+      if (response) {
+        alert("Xóa nhiều sản phẩm yêu thích thành công!");
+      }
+
+      setCartItems([]);
+      setCheckedItems([]);
+    } catch (error) {
+      // Xử lý lỗi nếu có
+      console.error("Lỗi khi xóa sản phẩm yêu thích:", error);
+      alert("Có lỗi xảy ra khi xóa sản phẩm yêu thích. Vui lòng thử lại.");
+    }
   };
 
   const handleAddToCart = () => {
@@ -297,7 +355,7 @@ const FavoriteProductsPage = () => {
       alert("Vui lòng chọn ít nhất một sản phẩm để thêm vào giỏ!");
       return;
     }
-  
+
     // Gửi danh sách sản phẩm đã chọn tới API hoặc xử lý thêm vào giỏ
     console.log("Sản phẩm được thêm vào giỏ:", selectedItems);
     // Ví dụ: gọi API thêm sản phẩm vào giỏ
@@ -335,15 +393,17 @@ const FavoriteProductsPage = () => {
         <div className={styles.cart}>
           <div className={styles.cartItems}>
             {cartItems.map((item) => (
-              <CartItemComponent
-                key={item.id}
-                item={item}
-                onRemove={handleRemoveItem}
-                onCheck={handleCheckItem}
-                isChecked={checkedItems.includes(item.id)}
-                isInMobile={isInMobile}
-                isLike={true}
-              />
+              <Link to={`/product-details/${item.id}`} className="product-link">
+                <CartItemComponent
+                  key={item.id}
+                  item={item}
+                  onRemove={handleRemoveItem}
+                  onCheck={handleCheckItem}
+                  isChecked={checkedItems.includes(item.id)}
+                  isInMobile={isInMobile}
+                  isLike={true}
+                />
+              </Link>
             ))}
           </div>
         </div>

@@ -141,8 +141,13 @@ import React, { useEffect, useState } from "react";
 import CartItemComponent from "../../components/CartItemComponent/CartItemComponent";
 import OrderSummaryComponent from "../../components/OrderSummaryComponent/OrderSummaryComponent";
 import styles from "./MyCartPage.module.scss";
-import { useNavigate, useParams } from "react-router-dom";
-import { getAllProductByUserId } from "../../services/Order.service";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import {
+  deleteProductCart,
+  getAllProductByUserId,
+  updateCart,
+  updateCart2,
+} from "../../services/Order.service";
 import { useQuery } from "@tanstack/react-query";
 import product4 from "../../assets/images/product4.svg";
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
@@ -181,11 +186,11 @@ const MyCartPage = () => {
     refetchOnWindowFocus: true,
     keepPreviousData: true,
   });
-  console.log("data", data);
-  // Cập nhật cartItems khi data từ API thay đổi
+
   useEffect(() => {
     if (data?.data?.products) {
       const items = data.data.products.map((item) => ({
+        product_id: item.product_id?._id,
         id: item.variant,
         name: item.product_id?.product_title || "Không có tên sản phẩm",
         oldPrice: item?.product_price || 0,
@@ -210,29 +215,85 @@ const MyCartPage = () => {
 
   // Hàm xử lý các sự kiện
   const handleCheckout = () => {
-    console.log(checkedItems.length === 0)
-    if (checkedItems.length === 0){
+    console.log(checkedItems.length === 0);
+    if (checkedItems.length === 0) {
       alert("Bạn chưa chọn sản phẩm nào");
-    }
-    else {
+    } else {
       navigate("/check-out", {
         state: { cartItems, checkedItems, discount, shippingFee },
       });
-    } 
+    }
   };
 
-  const handleQuantityChange = (id, amount) => {
+  const handleQuantityChange = async (id1, amount) => {
     setCartItems((prevItems) =>
       prevItems.map((item) =>
-        item.id === id
+        item.id === id1
           ? { ...item, quantity: Math.max(1, item.quantity + amount) }
           : item
       )
     );
+    const itemUpdate = cartItems.find((item) => item.id === id1);
+
+    // Chuẩn bị dữ liệu gửi lên Backend
+    const updateData = {
+      products: [
+        {
+          product_id: itemUpdate.product_id,
+          variant: id1,
+          quantity: Math.max(1, itemUpdate.quantity + amount),
+        },
+      ],
+    };
+    try {
+      // Gửi yêu cầu API để xóa sản phẩm
+      const response = await updateCart2(id, updateData, accessToken);
+      if (response) {
+        console.log("Cập nhật sản phẩm thành công!");
+      }
+    } catch (error) {
+      // Xử lý lỗi nếu có
+      console.error("Lỗi khi xóa sản phẩm:", error);
+      alert("Có lỗi xảy ra khi xóa sản phẩm. Vui lòng thử lại.");
+    }
   };
 
-  const handleRemoveItem = (id) => {
-    setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
+  const handleRemoveItem = async (id1) => {
+    // Tìm sản phẩm bị xóa từ `cartItems`
+    const itemToRemove = cartItems.find((item) => item.id === id1);
+
+    if (!itemToRemove) {
+      alert("Sản phẩm không tồn tại trong giỏ hàng.");
+      return;
+    }
+    // Loại bỏ sản phẩm khỏi trạng thái
+    const updatedItems = cartItems.filter((item) => item.id !== id1);
+    setCartItems(updatedItems);
+
+    // Chuẩn bị dữ liệu gửi lên Backend
+    const removeData = {
+      products: [
+        {
+          product_id: itemToRemove.product_id,
+          variant: id1,
+        },
+      ],
+    };
+    try {
+      // Gửi yêu cầu API để xóa sản phẩm
+      const response = await deleteProductCart(id, removeData, accessToken);
+
+      if (response) {
+        alert("Xóa sản phẩm thành công!");
+      }
+    } catch (error) {
+      // Xử lý lỗi nếu có
+      console.error("Lỗi khi xóa sản phẩm:", error);
+      alert("Có lỗi xảy ra khi xóa sản phẩm. Vui lòng thử lại.");
+
+      // Khôi phục trạng thái nếu API thất bại
+      setCartItems((prevItems) => [...prevItems, itemToRemove]);
+    }
   };
 
   const handleCheckItem = (id) => {
@@ -304,11 +365,31 @@ const MyCartPage = () => {
     return <div>Đang tải dữ liệu giỏ hàng...</div>;
   }
 
-  const handleRemoveAllItems = () => {
-    setCartItems([]);
-    setCheckedItems([]);
-    setDiscount(0);
-    setShippingFee(0);
+  const handleRemoveAllItems = async () => {
+    // Chuẩn bị dữ liệu gửi lên Backend
+    const removeData = {
+      products: cartItems.map((item) => ({
+        product_id: item.product_id,
+        variant: item.id,
+      })),
+    };
+    try {
+      // Gửi yêu cầu API để xóa sản phẩm
+      const response = await deleteProductCart(id, removeData, accessToken);
+
+      if (response) {
+        alert("Xóa nhiều sản phẩm thành công!");
+      }
+
+      setCartItems([]);
+      setCheckedItems([]);
+      setDiscount(0);
+      setShippingFee(0);
+    } catch (error) {
+      // Xử lý lỗi nếu có
+      console.error("Lỗi khi xóa sản phẩm:", error);
+      alert("Có lỗi xảy ra khi xóa sản phẩm. Vui lòng thử lại.");
+    }
   };
 
   return (
@@ -342,15 +423,29 @@ const MyCartPage = () => {
         <div className={styles.cart}>
           <div className={styles.cartItems}>
             {cartItems.map((item) => (
+              // <Link
+              //   to={`/product-details/${item.product_id}`}
+              //   className="product-link"
+              // >
+              //   <CartItemComponent
+              //     key={item.id}
+              //     item={item}
+              //     onQuantityChange={handleQuantityChange}
+              //     onRemove={handleRemoveItem}
+              //     onCheck={handleCheckItem}
+              //     isChecked={checkedItems.includes(item.id)}
+              //     isInMobile={isInMobile}
+              //   />
+              // </Link>
               <CartItemComponent
-                key={item.id}
-                item={item}
-                onQuantityChange={handleQuantityChange}
-                onRemove={handleRemoveItem}
-                onCheck={handleCheckItem}
-                isChecked={checkedItems.includes(item.id)}
-                isInMobile={isInMobile}
-              />
+                  key={item.id}
+                  item={item}
+                  onQuantityChange={handleQuantityChange}
+                  onRemove={handleRemoveItem}
+                  onCheck={handleCheckItem}
+                  isChecked={checkedItems.includes(item.id)}
+                  isInMobile={isInMobile}
+                />
             ))}
           </div>
           <OrderSummaryComponent

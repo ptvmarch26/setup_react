@@ -122,9 +122,63 @@ export const updateCart = async (id, data, token) => {
       const errorData = await response.json();
       throw errorData;
     }
-
+    
     const dataCart = await response.json();
+    console.log(dataCart)
     return dataCart;
+
+  } catch (error) {
+    console.error("Error in cart updateCart:", error);
+    throw error;
+  } 
+}
+
+export const updateCart2 = async (id, data, token) => {
+  try {
+    const response = await fetch(`${API_URL}/cart/update2/${id}`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data)
+    });
+    console.log(JSON.stringify(data))
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw errorData;
+    }
+    
+    const dataCart = await response.json();
+    console.log(dataCart)
+    return dataCart;
+
+  } catch (error) {
+    console.error("Error in cart updateCart:", error);
+    throw error;
+  } 
+}
+
+export const deleteProductCart = async (id, data, token) => {
+  try { 
+    const response = await fetch(`${API_URL}/cart/delete/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data)
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw errorData;
+    }
+    
+    const dataCart = await response.json();
+    console.log(dataCart)
+    return dataCart;
+
   } catch (error) {
     console.error("Error in cart updateCart:", error);
     throw error;
@@ -154,6 +208,32 @@ export const updateFavor = async (id, data, token) => {
     return dataCart;
   } catch (error) {
     console.error("Error in cart updateFavor:", error);
+    throw error;
+  }
+}
+
+export const deleteProductFavor = async (id, data, token) => {
+  try { 
+    const response = await fetch(`${API_URL}/favor/delete/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data)
+    });
+    console.log(JSON.stringify(data))
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw errorData;
+    }
+    
+    const dataCart = await response.json();
+    console.log(dataCart)
+    return dataCart;
+
+  } catch (error) {
+    console.error("Error in cart updateCart:", error);
     throw error;
   }
 }

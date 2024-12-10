@@ -130,15 +130,15 @@ const ProductDetailsPage = () => {
     } else {
       // Gửi API cập nhật giỏ hàng vào DB (lấy ID của người dùng và dữ liệu giỏ hàng)
       const cartData = {
-        "products": [
+        products: [
           {
             product_id: productDetails?._id,
             variant: selectedVariant?._id,
             quantity: numProduct,
             product_price: selectedVariant?.product_price,
-            product_order_type: selectedVariant?.product_order_type
+            product_order_type: selectedVariant?.product_order_type,
           },
-        ]
+        ],
       };
       console.log(cartData);
       dispatch(addToCart(cartData));
@@ -249,18 +249,18 @@ const ProductDetailsPage = () => {
     arrows: false,
   };
 
-  const handleLike = async() => {
+  const handleLike = async () => {
     setLike(!like);
     if (!user?.isAuthenticated) {
       navigate("/sign-in", { state: location?.pathname });
     } else {
       // Gửi API cập nhật giỏ hàng vào DB (lấy ID của người dùng và dữ liệu giỏ hàng)
       const cartData2 = {
-        "products": [
+        products: [
           {
             product_id: productDetails?._id,
-          }
-        ]
+          },
+        ],
       };
       console.log(cartData2);
       dispatch(addToCart(cartData2));
@@ -661,20 +661,25 @@ const ProductDetailsPage = () => {
             <div className="row">
               {products.map((product, index) => (
                 <div key={index} className="col l-2-4 m-4 c-6">
-                  <CardComponent
-                    src={`data:image/png;base64,${
-                      product.product_images[0] || ""
-                    }`}
-                    alt="ảnh sản phẩm"
-                    name={product.product_title}
-                    oldPrice={product.product_price}
-                    newPrice={(
-                      product?.product_price *
-                      (1 - product?.product_percent_discount / 100)
-                    ).toLocaleString()}
-                    start={product.rating}
-                    percent={product?.product_percent_discount}
-                  />
+                  <Link
+                    to={`/product-details/${product._id}`}
+                    className="product-link"
+                  >
+                    <CardComponent
+                      src={`data:image/png;base64,${
+                        product.product_images[0] || ""
+                      }`}
+                      alt="ảnh sản phẩm"
+                      name={product.product_title}
+                      oldPrice={product.product_price}
+                      newPrice={(
+                        product?.product_price *
+                        (1 - product?.product_percent_discount / 100)
+                      ).toLocaleString()}
+                      start={product.rating}
+                      percent={product?.product_percent_discount}
+                    />
+                  </Link>
                 </div>
               ))}
             </div>
