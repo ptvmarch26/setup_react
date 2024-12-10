@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import "./MyOrderPage.scss";
-import styles from './MyOrderPage.module.scss';
+import styles from './UserProfileComponent.module.scss'
+import './UserProfileComponent.scss'
 import {
   UserOutlined,
   ShoppingOutlined,
@@ -17,7 +17,7 @@ import { Avatar, Menu, Card, Col, Typography } from "antd";
 
 const { Title, Text } = Typography;
 
-const ProfileUser = ({ full_name, src_img, name, isInViewport, isInMobile }) => {
+const UserProfileComponent = ({ full_name, src_img, name, isInViewport, isInMobile, className }) => {
   const [selectedKey, setSelectedKey] = useState("2");
   const [openKeys, setOpenKeys] = useState([]);
   const [avatar, setAvatar] = useState(src_img); // Lưu ảnh đại diện
@@ -77,7 +77,7 @@ const ProfileUser = ({ full_name, src_img, name, isInViewport, isInMobile }) => 
   };
 
   return (
-    <Col span={6}>
+    <Col span={6} className={className}>
       <Card className={styles.profile}>
         <div className={styles.info}>
           <div>
@@ -229,4 +229,4 @@ const ProfileUser = ({ full_name, src_img, name, isInViewport, isInMobile }) => 
   );
 };
 
-export default ProfileUser;
+export default UserProfileComponent;

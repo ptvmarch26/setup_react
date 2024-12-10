@@ -5,7 +5,7 @@ import NextComponent from "../NextComponent/NextComponent";
 import FeedBackComponent from "../FeedBackComponent/FeedBackComponent";
 import TitleComponent from "../TitleComponent/TitleComponent";
 
-const CustomerReviewsComponent = ({isInViewport, isInMobile}) => {
+const CustomerReviewsComponent = ({ isInViewport, isInMobile }) => {
   const reviews = [
     { id: 1, name: "Sarah M.", review: "Rất nhiều sản phẩm cho cún yêu có ở cửa hàng, mình có thể tìm thấy mọi thứ ở đây." },
     { id: 2, name: "Alex K.", review: "Điểm đến ưa thích mỗi khi muốn shopping cho boss nhà mình!!" },
@@ -21,21 +21,23 @@ const CustomerReviewsComponent = ({isInViewport, isInMobile}) => {
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 3,
-    nextArrow: <NextComponent 
-        fontSize="5rem"
-        color="#000"
-        position="absolute"
-        zIndex="2"
-        top="-80px"
-        right="0"
+    autoplay: true,
+    autoplaySpeed: 5000,
+    nextArrow: <NextComponent
+      fontSize="5rem"
+      color="#000"
+      position="absolute"
+      zIndex="2"
+      top="-80px"
+      right="0"
     />,
-    prevArrow: <BackComponent 
-        fontSize="5rem"
-        color="#000"
-        position="absolute"
-        zIndex="2"
-        top="-80px"
-        right="50px"
+    prevArrow: <BackComponent
+      fontSize="5rem"
+      color="#000"
+      position="absolute"
+      zIndex="2"
+      top="-80px"
+      right="50px"
     />
   });
 
@@ -47,6 +49,8 @@ const CustomerReviewsComponent = ({isInViewport, isInMobile}) => {
         speed: 500,
         slidesToShow: 2,
         slidesToScroll: 2,
+        autoplay: true,
+        autoplaySpeed: 5000,
         arrows: false
       });
     }
@@ -58,21 +62,23 @@ const CustomerReviewsComponent = ({isInViewport, isInMobile}) => {
           speed: 500,
           slidesToShow: 3,
           slidesToScroll: 3,
-          nextArrow: <NextComponent 
-              fontSize="5rem"
-              color="#000"
-              position="absolute"
-              zIndex="2"
-              top="-80px"
-              right="0"
+          autoplay: true,
+          autoplaySpeed: 5000,
+          nextArrow: <NextComponent
+            fontSize="5rem"
+            color="#000"
+            position="absolute"
+            zIndex="2"
+            top="-80px"
+            right="0"
           />,
-          prevArrow: <BackComponent 
-              fontSize="5rem"
-              color="#000"
-              position="absolute"
-              zIndex="2"
-              top="-80px"
-              right="50px"
+          prevArrow: <BackComponent
+            fontSize="5rem"
+            color="#000"
+            position="absolute"
+            zIndex="2"
+            top="-80px"
+            right="50px"
           />
         }
       )
@@ -93,12 +99,12 @@ const CustomerReviewsComponent = ({isInViewport, isInMobile}) => {
       />
       <Slider {...settings}>
         {reviews.map((review) => (
-            <div key={review.id} className='col'>
-                <FeedBackComponent 
-                  customer={review.name}
-                  review={review.review}
-                />
-            </div>
+          <div key={review.id} className='col'>
+            <FeedBackComponent
+              customer={review.name}
+              review={review.review}
+            />
+          </div>
         ))}
       </Slider>
     </div>

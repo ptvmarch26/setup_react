@@ -360,7 +360,7 @@ const HomePage = () => {
         </div>
         <NewProductComponent
           isInMobile={isInMobile}
-          products={famousProduct}
+          products={Array.isArray(famousProduct) ? famousProduct : []}
           title="Sản phẩm nổi bật"
           onClick={handleFamousProduct}
         />
@@ -373,7 +373,7 @@ const HomePage = () => {
         </div>
         <NewProductComponent
           isInMobile={isInMobile}
-          products={newProduct}
+          products={Array.isArray(newProduct) ? newProduct : []}
           title="Sản phẩm mới"
           onClick={handleNewProduct}
         />
@@ -386,7 +386,7 @@ const HomePage = () => {
         </div>
         <BestSellingComponent 
           isInMobile={isInMobile}
-          products={bestProduct}
+          products={Array.isArray(bestProduct) ? bestProduct : []}
           onClick={handleBestProduct}
         />
         <div className={styles.underLine}>

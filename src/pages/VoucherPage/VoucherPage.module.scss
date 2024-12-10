@@ -1,18 +1,59 @@
-.voucherImage {
-  height: 200px;
-  object-fit: cover;
+.main {
+    padding: 20px 0;
 }
 
-.useButton {
-  background-color: #4caf50; 
-  color: white;
-
-  &:hover {
-    background-color: #45a049;
-  }
+.category {
+    h2 {
+        font-size: 2rem;
+        font-weight: 600;
+    }
 }
 
-.disabledButton {
-  background-color: #ccc; 
-  color: #888;
+.card {
+    margin: 10px 0;
+}
+
+.wrap {
+    display: flex;
+
+    .img {
+
+        img {
+            width: 100px;
+            height: 100%;
+            object-fit: contain;
+        }
+    }
+}
+
+.info {
+    margin-left: 20px;
+
+    h3 {
+        font-size: 1.8rem;
+        font-weight: 700;
+    }
+}
+
+.wrapBtn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    cursor: default;
+    flex: 1;
+
+    .applyPriceBtn {
+        background-color: #fff;
+        color:#E87428;
+        border: 1px solid #E87428;
+        margin: 10px 0 0 0;
+        width: 120px;
+        height: 30px;
+        border-radius: 4px !important;
+    }
+}
+
+.shipping {
+    color: #26ab9a !important;
+    border: 1px solid #26ab9a !important;
 }

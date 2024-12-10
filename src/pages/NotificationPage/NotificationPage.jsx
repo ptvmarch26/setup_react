@@ -1,9 +1,10 @@
 import React, { useReducer } from "react";
+import clsx from "clsx";
 import { Button, Card, Col, Row } from "antd";
 import styles from "./NotificationPage.module.scss";
 import ProfileUser from "../MyOrderPage/UserProfile.jsx";
 import myAvatar from "../../assets/images/avatar.jpg";
-import clsx from "clsx";
+import UserProfileComponent from "../../components/UserProfileComponent/UserProfileComponent.jsx";
 
 const initdata = [
   {
@@ -63,7 +64,7 @@ const NotificationPage = () => {
     <div className="grid wide">
       <div className={styles.main}>
         <Row gutter={16}>
-          <ProfileUser
+          <UserProfileComponent
             full_name="Nguyễn Lê Thanh Huyền"
             src_img={myAvatar}
             name="yurri_2506"
