@@ -1,104 +1,123 @@
-// import React, { useReducer } from "react";
-// import { Button, Card, Col, Row } from "antd";
-// import clsx from "clsx";
-// import styles from "./VoucherPage.module.scss";
-// import ProfileUser from "../MyOrderPage/UserProfile.jsx";
-// import myAvatar from "../../assets/images/avatar.jpg";
+import React, { useReducer, useState } from "react";
+import { Button, Card, Col, Row } from "antd";
+import clsx from "clsx";
+import styles from "./VoucherPage.module.scss";
+import ProfileUser from "../MyOrderPage/UserProfile.jsx";
+import myAvatar from "../../assets/images/avatar.jpg";
+import freeship from '../../assets/images/freeship.webp'
+import { useNavigate } from "react-router-dom";
+import ButtonComponent from '../../components/ButtonComponent/ButtonComponent'
+import UserProfileComponent from "../../components/UserProfileComponent/UserProfileComponent.jsx";
 
-// const initVoucherData = [
-//     {
-//         id: 1,
-//         code: "SHIPFREE20",
-//         description: "Miễn phí vận chuyển cho đơn trên 100k",
-//         expiration: "2024-12-31",
-//         minOrder: 100000,
-//         count: 50,
-//         productRequirement: null,
-//         image: "https://example.com/voucher1.jpg",
-//     },
-//     {
-//         id: 2,
-//         code: "SALE20",
-//         description: "Giảm 20% cho đơn trên 300k",
-//         expiration: "2024-12-31",
-//         minOrder: 300000,
-//         count: 10,
-//         productRequirement: "Áp dụng cho tất cả sản phẩm",
-//         image: "https://example.com/voucher2.jpg",
-//     },
-//     {
-//         id: 3,
-//         code: "DISCOUNT50",
-//         description: "Giảm 50k cho đơn trên 500k",
-//         expiration: "2024-12-31",
-//         minOrder: 500000,
-//         count: 0, // Hết số lượng
-//         productRequirement: null,
-//         image: "https://example.com/voucher3.jpg",
-//     },
-// ];
+const initVoucherData = {
+    shipping: [
+        {
+            id: 1,
+            code: "SHIPFREE20",
+            description: "Miễn phí vận chuyển cho đơn trên 100k",
+            expiration: "2024-12-31",
+            minOrder: 100000,
+            count: 50,
+            image: freeship
+        },
+        {
+            id: 2,
+            code: "SHIP30K",
+            description: "Giảm 30k phí vận chuyển",
+            expiration: "2024-12-25",
+            minOrder: 200000,
+            count: 2,
+            image: freeship
+        },
+    ],
+    product: [
+        {
+            id: 3,
+            code: "SAVE10",
+            description: "Giảm 10% giá trị đơn hàng",
+            expiration: "2024-12-20",
+            minOrder: 150000,
+            count: 0,
+            image: freeship
+        },
+        {
+            id: 4,
+            code: "DISCOUNT50",
+            description: "Giảm 50k cho đơn hàng trên 300k",
+            expiration: "2024-12-15",
+            minOrder: 300000,
+            count: 10,
+            image: freeship
+        },
+    ],
+};
 
-// const voucherReducer = (state, action) => {
-//     switch (action.type) {
-//         case "USE_VOUCHER":
-//             return state.map((voucher) =>
-//                 voucher.id === action.payload && voucher.count > 0
-//                     ? { ...voucher, count: voucher.count - 1 }
-//                     : voucher
-//             );
-//         default:
-//             return state;
-//     }
-// };
+const VoucherPage = () => {
+    const [vouchers, setVouchers] = useState(initVoucherData);
+    const navigate = useNavigate();
 
-// const VoucherPage = () => {
-//     const [vouchers, dispatch] = useReducer(voucherReducer, initVoucherData);
+    const handleUseNow = () => {
+        navigate("/get-all-product"); // Điều hướng đến trang đăng ký
+    };
 
-//     const handleVoucher = (id) => {
-//         dispatch({ type: "USE_VOUCHER", payload: id });
-//     };
+    return (
+        <div className={styles.main}>
+            <div className="grid wide">
+                <Row gutter={16}>
+                    <UserProfileComponent
+                        full_name="Nguyễn Lê Thanh Huyền"
+                        src_img={myAvatar}
+                        name="yurri_2506"
+                    />
+                    <Col span={18}>
+                        {Object.keys(vouchers).map((category) => (
+                            <div key={category} className={styles.category}>
+                                <h2>{category === "shipping" ? "Vận chuyển" : "Sản phẩm"}</h2>
+                                {vouchers[category].map((voucher) => (
+                                    <Card
+                                        key={voucher.id}
+                                        hoverable
+                                        className={styles.card}
+                                    >
+                                        <div className={styles.wrap}>
+                                            <div className={styles.img}>
+                                                <img
+                                                    alt="Voucher"
+                                                    src={voucher.image}
+                                                    className={styles.voucherImage}
+                                                />
+                                            </div>
+                                            <div className={styles.info}>
+                                                <h3>{voucher.code}</h3>
+                                                <p>{voucher.description}</p>
+                                                <p>{voucher.expiration}</p>
+                                                <p>Đơn tối thiểu: {voucher.minOrder.toLocaleString()} VNĐ</p>
+                                                <p>Số lượng: {voucher.count}</p>
+                                            </div>
+                                            <div className={styles.wrapBtn}>
+                                                <ButtonComponent
+                                                    title="Áp dụng"
+                                                    className={clsx(styles.applyPriceBtn, {
+                                                        [styles.shipping]: category === "shipping",
+                                                    })}
+                                                    showIcon={false}
+                                                    fontSize="1.3rem"
+                                                    borderRadius="none"
+                                                    widthDiv="none"
+                                                    primary
+                                                    onClick={handleUseNow}
+                                                />
+                                            </div>
+                                        </div>
+                                    </Card>
+                                ))}
+                            </div>
+                        ))}
+                    </Col>
+                </Row>
+            </div>
+        </div>
+    );
+};
 
-//     return (
-//         <div className="grid wide">
-//             <Row gutter={16}>
-//                 <ProfileUser
-//                     full_name="Nguyễn Lê Thanh Huyền"
-//                     src_img={myAvatar}
-//                     name="yurri_2506"
-//                 />
-//                 <Col span={18}>
-//                     {vouchers.map((voucher) => (
-//                         <Card
-//                             key={voucher.id}
-//                             hoverable
-//                             cover={
-//                                 <img
-//                                     alt="Voucher"
-//                                     src={voucher.image}
-//                                     className={styles.voucherImage}
-//                                 />
-//                             }
-//                         >
-//                             <h3>{voucher.description}</h3>
-//                             <p>Mã: {voucher.code}</p>
-//                             <p>HSD: {voucher.expiration}</p>
-//                             <p>Đơn tối thiểu: {voucher.minOrder.toLocaleString()} VNĐ</p>
-//                             <p>Số lượng còn lại: {voucher.count}</p>
-//                             <Button
-//                                 onClick={() => handleVoucher(voucher.id)}
-//                                 disabled={voucher.count === 0}
-//                                 className={clsx(styles.useButton, {
-//                                     [styles.disabledButton]: voucher.count === 0,
-//                                 })}
-//                             >
-//                                 {voucher.count > 0 ? "Sử dụng" : "Hết số lượng"}
-//                             </Button>
-//                         </Card>
-//                     ))}
-//                 </Col>
-//             </Row>
-//         </div>
-//     );
-// };
-
-// export default VoucherPage;
+export default VoucherPage;
