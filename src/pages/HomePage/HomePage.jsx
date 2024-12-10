@@ -265,6 +265,8 @@ const HomePage = () => {
     queryKey: ['product-data', 'true', 'best_selling', 'newest', '12'],  // Tạo khóa truy vấn cho dữ liệu sản phẩm
     queryFn: fetchProductData,   // Hàm fetch dữ liệu từ API
     refetchOnWindowFocus: false, // Không fetch lại khi chuyển tab
+    refetchOnMount: false,
+    refetchOnReconnect: false,
     keepPreviousData: true,      // Giữ dữ liệu cũ khi thay đổi tham số
   });
   const newProduct = data?.newProduct || {}
