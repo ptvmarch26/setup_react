@@ -54,7 +54,7 @@ const NotifyComponent = ({ notifications, className }) => {
                 <ul>
                     {visibleNotifications.map((notify, index) => (
                         <li
-                            key={index}
+                            key={index} 
                             onClick={() => handleNotificationClick(notify)}
                             className={clsx({
                                 [styles.isRead]: notify.isRead,
@@ -84,7 +84,7 @@ const NotifyComponent = ({ notifications, className }) => {
     }
 
     // Nếu không có thông báo, có thể trả về thông báo không có dữ liệu
-    return <div>No notifications available</div>;
+    //return <div>No notifications available</div>;
 }
 
 export default NotifyComponent;
