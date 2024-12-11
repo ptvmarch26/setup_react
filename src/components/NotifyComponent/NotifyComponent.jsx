@@ -4,7 +4,8 @@ import styles from './NotifyComponent.module.scss'
 import clsx from 'clsx'
 import order_img from "../../assets/images/order.png"; // Hình ảnh thông báo đơn hàng
 import voucher_img from "../../assets/images/voucher.png"; // Hình ảnh thông báo voucher
-import product_img from "../../assets/images/product.png"; // Hình ảnh thông báo sản phẩm
+import product_img from "../../assets/images/product.png"; 
+import user_img from '../../assets/images/user.webp'
 import { readNotify } from '../../services/Notification.service';
 import { useSelector } from 'react-redux';
 
@@ -19,10 +20,14 @@ const NotifyComponent = ({ notifications, className }) => {
             console.log(res)
         }
         
-        if (notify.type === 'Tình trạng đơn hàng') {
+        if (notify.notify_type === 'Tình trạng đơn hàng') {
             navigate('/my-order')
-        } else if (notify.type === 'Sản phẩm') {
+        } else if (notify.notify_type === 'Sản phẩm') {
             navigate(`/product-details/${notify.product_id}`)
+        } else if (notify.notify_type === 'Tài khoản') {
+            navigate('/profile')
+        } else if (notify.notify_type === 'Khuyến mãi') {
+            navigate('/voucher')
         }
     };
 
@@ -42,8 +47,10 @@ const NotifyComponent = ({ notifications, className }) => {
                 return product_img;
             case 'Khuyến mãi':
                 return voucher_img;
+            case 'Tài khoản':
+                return user_img;
             default:
-                return null; // Nếu không có loại nào trùng khớp, trả về null hoặc một hình ảnh mặc định
+                return null; 
         }
     };
 
@@ -68,7 +75,7 @@ const NotifyComponent = ({ notifications, className }) => {
                                 />
                                 <div className={styles.info}>
                                     <span>{notify.notify_title}</span>
-                                    <span>{notify.notify_type}</span>
+                                    <span>{notify.notify_desc}</span>
                                 </div>
                             </Link>
                         </li>

@@ -97,18 +97,19 @@
 // export default NotificationPage;
 import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Row, Spin, message } from "antd";
-import "./NotificationPage.scss"
-import styles from './NotificationPage.module.scss'
-import UserProfileComponent from "../../components/UserProfileComponent/UserProfileComponent.jsx";
 import order_img from "../../assets/images/order.png"; // Hình ảnh thông báo đơn hàng
 import voucher_img from "../../assets/images/voucher.png"; // Hình ảnh thông báo voucher
-import product_img from "../../assets/images/product.png"; // Hình ảnh thông báo sản phẩm
+import product_img from "../../assets/images/product.png";
+import user_img from '../../assets/images/user.webp'
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getAllNotification, readNotify } from "../../services/Notification.service.js";
+import UserProfileComponent from "../../components/UserProfileComponent/UserProfileComponent.jsx";
+import styles from './NotificationPage.module.scss'
+import './Notification.scss'
 import clsx from "clsx";
 
-const NotificationPage = () => {
+const NotificationP = () => {
   const [loading, setLoading] = useState(true); // Trạng thái loading
   const [error, setError] = useState(null); // Trạng thái lỗi
   const [notifications, setNotifications] = useState([]); // Lưu trữ thông báo
@@ -155,18 +156,21 @@ const NotificationPage = () => {
     }
   };
 
-  // Kiểm tra trạng thái đã đọc và trả về lớp CSS tương ứng
-  const isRead = (read) => (read ? "notification read" : "notification unread");
-
   // Hàm để lấy hình ảnh đúng theo loại thông báo
   const getNotificationImage = (type) => {
     switch (type) {
       case "Tình trạng đơn hàng":
-        return order_img; // Hình ảnh thông báo đơn hàng
+        return order_img;
+        break; // Hình ảnh thông báo đơn hàng
       case "Sản phẩm":
-        return product_img; // Hình ảnh thông báo sản phẩm
+        return product_img; 
+        break;// Hình ảnh thông báo sản phẩm
       case "Khuyến mãi":
-        return voucher_img; // Hình ảnh thông báo voucher
+        return voucher_img;
+        break;
+      case 'Tài khoản':
+        return user_img;
+        break;
       default:
         return null;
     }
@@ -182,7 +186,7 @@ const NotificationPage = () => {
         console.log(res)
       }
       // Điều hướng hoặc thực hiện hành động theo loại thông báo
-      switch (notification.type) {
+      switch (notification.notify_type) {
         case "Tình trạng đơn hàng":
           navigate("/my-order"); // Điều hướng tới trang chi tiết đơn hàng
           break;
@@ -190,7 +194,10 @@ const NotificationPage = () => {
           navigate(`/product-details/${notification.product_id}`); // Điều hướng tới trang chi tiết sản phẩm
           break;
         case "Khuyến mãi":
-          message.info("Xem chi tiết khuyến mãi trong mục ưu đãi!");
+          navigate('/voucher');
+          break;
+        case 'Tài khoản':
+          navigate('/profile');
           break;
         default:
           message.info("Thông báo không có liên kết cụ thể.");
@@ -201,6 +208,56 @@ const NotificationPage = () => {
   };
 
   return (
+    // <div className="grid wide">
+    //   <div style={{ margin: "0 auto", padding: "20px" }} className="container">
+    //     <div className="notice-container">
+    //       <ProfileUser full_name={full_name} src_img={user_avt_img} name={user_name} />
+    //       <div className="content">
+    //         <div className="action-buttons">
+    //           <Button
+    //             onClick={markAllAsRead}
+    //             disabled={notifications.every((n) => n.isRead)} // Disable khi tất cả đã đọc
+    //             className="confirm-read-button"
+    //           >
+    //             Đánh dấu tất cả đã đọc
+    //           </Button>
+    //         </div>
+    //         <div className="notifications">
+    //           {loading ? (
+    //             <Spin size="large" />
+    //           ) : error ? (
+    //             <p>{error}</p>
+    //           ) : notifications.length === 0 ? (
+    //             <p>Không có thông báo nào.</p>
+    //           ) : (
+    //             notifications.map((notification) => (
+    //               <Card
+    //                 key={notification._id}
+    //                 className={isRead(notification.isRead)}
+    //                 onClick={() => handleNotificationClick(notification)} // Thêm sự kiện onClick
+    //                 hoverable // Để thẻ Card có hiệu ứng hover
+    //               >
+    //                 <Row>
+    //                   <Col span={4}>
+    //                     <img
+    //                       src={getNotificationImage(notification.notify_type)} // Hiển thị hình ảnh theo loại thông báo
+    //                       alt={notification.type}
+    //                       style={{ width: "100%", borderRadius: "5px" }}
+    //                     />
+    //                   </Col>
+    //                   <Col span={20}>
+    //                     <h6 className="notification-title">{notification.notify_title}</h6>
+    //                     <p className="notification-content">{notification.notify_desc}</p>
+    //                   </Col>
+    //                 </Row>
+    //               </Card>
+    //             ))
+    //           )}
+    //         </div>
+    //       </div>
+    //     </div>
+    //   </div>
+    // </div>
     <div className="grid wide">
       <div className={styles.main}>
         <Row gutter={16}>
@@ -225,22 +282,22 @@ const NotificationPage = () => {
                 <Card
                   key={notification.id}
                   className={clsx({
-                    [styles.isRead]: notification.read,
-                    [styles.isUnread]: !notification.read,
+                    [styles.isRead]: notification.isRead,
+                    [styles.isUnread]: !notification.isRead,
                   })}
                   onClick={() => handleNotificationClick(notification)}
                 >
                   <div className={styles.wrapNoti}>
                     <div>
                       <img
-                        src={getNotificationImage(notification.type)}
+                        src={getNotificationImage(notification.notify_type)} // Hiển thị hình ảnh theo loại thông báo
                         alt={notification.type}
                         className={styles.img}
                       />
                     </div>
                     <div className={styles.content}>
-                      <h6>{notification.content}</h6>
-                      <p>{notification.type}</p>
+                      <h6>{notification.notify_title}</h6>
+                      <p>{notification.notify_desc}</p>
                     </div>
                   </div>
                 </Card>
@@ -253,4 +310,4 @@ const NotificationPage = () => {
   );
 };
 
-export default NotificationPage;
+export default NotificationP;
