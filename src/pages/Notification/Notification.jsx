@@ -106,7 +106,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getAllNotification, readNotify } from "../../services/Notification.service.js";
 
-const NotificationPage = () => {
+const NotificationP = () => {
   const [loading, setLoading] = useState(true); // Trạng thái loading
   const [error, setError] = useState(null); // Trạng thái lỗi
   const [notifications, setNotifications] = useState([]); // Lưu trữ thông báo
@@ -180,7 +180,7 @@ const NotificationPage = () => {
         console.log(res)
       }
       // Điều hướng hoặc thực hiện hành động theo loại thông báo
-      switch (notification.type) {
+      switch (notification.notify_type) {
         case "Tình trạng đơn hàng":
           navigate("/my-order"); // Điều hướng tới trang chi tiết đơn hàng
           break;
@@ -231,14 +231,14 @@ const NotificationPage = () => {
                     <Row>
                       <Col span={4}>
                         <img
-                          src={getNotificationImage(notification.type)} // Hiển thị hình ảnh theo loại thông báo
+                          src={getNotificationImage(notification.notify_type)} // Hiển thị hình ảnh theo loại thông báo
                           alt={notification.type}
                           style={{ width: "100%", borderRadius: "5px" }}
                         />
                       </Col>
                       <Col span={20}>
-                        <h6 className="notification-title">{notification.content}</h6>
-                        <p className="notification-content">{notification.type}</p>
+                        <h6 className="notification-title">{notification.notify_title}</h6>
+                        <p className="notification-content">{notification.notify_desc}</p>
                       </Col>
                     </Row>
                   </Card>
@@ -252,4 +252,4 @@ const NotificationPage = () => {
   );
 };
 
-export default NotificationPage;
+export default NotificationP;
