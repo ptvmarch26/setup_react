@@ -17,7 +17,7 @@ import { Avatar, Menu, Card, Col, Typography } from "antd";
 
 const { Title, Text } = Typography;
 
-const UserProfileComponent = ({ full_name, src_img, name, isInViewport, isInMobile, className }) => {
+const UserProfileComponent = ({ full_name, src_img, name, className }) => {
   const [selectedKey, setSelectedKey] = useState("2");
   const [openKeys, setOpenKeys] = useState([]);
   const [avatar, setAvatar] = useState(src_img); // Lưu ảnh đại diện

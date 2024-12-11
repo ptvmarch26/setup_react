@@ -146,6 +146,7 @@
 import React, { useState } from "react";
 import { Checkbox, Radio, Rate, Input } from "antd";
 import styles from "./NavbarComponent.module.scss";
+import './NavbarComponent.scss'
 import ButtonComponent from "../ButtonComponent/ButtonComponent";
 import { Link } from "react-router-dom";
 
@@ -337,7 +338,7 @@ const NavbarComponent = ({ isInViewport, isInMobile, handleFilterChange }) => {
       {isInViewport || isInMobile ? (
         <ButtonComponent
           title="Áp dụng"
-          onClick={onApplyPriceChange}
+          // onClick={handleFilterChange}
           className={styles.applyPriceBtn}
           showIcon={false}
           fontSize="1.3rem"

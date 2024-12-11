@@ -10,7 +10,7 @@ import { IoHomeSharp } from "react-icons/io5";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { IoMdNotifications } from "react-icons/io";
 
-const BottomMenuComponent = () => {
+const BottomMenuComponent = ({favorite}) => {
     const [hoveredIndex, setHoveredIndex] = useState(null); 
 
     const handleMouseEnter = (index) => {
@@ -33,7 +33,7 @@ const BottomMenuComponent = () => {
                 <span>Trang chủ</span>
             </Link>
             <Link 
-                to="/notify" 
+                to="/notifications" 
                 className={styles.menuItem}
                 onMouseEnter={() => handleMouseEnter(1)}
                 onMouseLeave={handleMouseLeave}
@@ -42,7 +42,7 @@ const BottomMenuComponent = () => {
                 <span>Thông báo</span>
             </Link>
             <Link 
-                to="/wish-list" 
+                to={`/${favorite}`} 
                 className={styles.menuItem}
                 onMouseEnter={() => handleMouseEnter(2)}
                 onMouseLeave={handleMouseLeave}
@@ -51,7 +51,7 @@ const BottomMenuComponent = () => {
                 <span>Yêu thích</span>
             </Link>
             <Link 
-                to="/profile" 
+                to="/user-profile" 
                 className={styles.menuItem} 
                 onMouseEnter={() => handleMouseEnter(3)}
                 onMouseLeave={handleMouseLeave}

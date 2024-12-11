@@ -4,6 +4,7 @@
     background-color: #F3EFEF;
     padding: 20px;
     // width: 300px;
+    min-height: calc(100vh - 60px);
     border-radius: 10px;
 }
 
@@ -42,8 +43,6 @@
         font-weight: 900;
         text-transform: uppercase;
     }
-
-    .price {}
 
     .choice {
         margin: 0 0 0 10px;

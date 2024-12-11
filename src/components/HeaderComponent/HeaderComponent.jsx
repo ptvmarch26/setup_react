@@ -739,7 +739,7 @@ const HeaderComponent = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link>
+                  <Link to={`/favorite-products/${_id}`}>
                     <div className={styles.iconNav}>
                       <FaHeart className={styles.iconForNav} />
                       Sản phẩm yêu thích
@@ -751,7 +751,10 @@ const HeaderComponent = () => {
           </div>
         )}
       </div>
-      {(isInViewport || isInMobile) && <BottomMenuComponent />}
+      {(isInViewport || isInMobile) &&
+        <BottomMenuComponent
+          favorite={`favorite-products/${_id}`}
+        />}
     </div>
   );
 };
