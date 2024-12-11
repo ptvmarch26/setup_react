@@ -63,6 +63,8 @@ const NotificationPage = () => {
   const { isAuthenticated, user_name, user_avt_img, _id, full_name } =
     useSelector((state) => state.user);
 
+    
+
   // Đánh dấu tất cả đã đọc
   const markAllAsRead = () => {
     dispatch({ type: "MARK_ALL_AS_READ" });
