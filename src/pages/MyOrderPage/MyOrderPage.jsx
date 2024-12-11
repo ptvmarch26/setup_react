@@ -3,11 +3,11 @@ import { Tabs, Input, Card, Button, Typography, Row, Col } from "antd";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import "./MyOrderPage.scss";
 import styles from './MyOrderPage.module.scss'
+import myAvatar from "../../assets/images/avatar.jpg";
 
-import ProfileUser from  "./UserProfile.jsx";
+import ProfileUser from  "./UserProfile.jsx"; 
 import OrderCart from  "./OrderCart.jsx";
 import { useSelector } from "react-redux";
-import OrderCart from './OrderCart.jsx';
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent.jsx";
 import UserProfileComponent from "../../components/UserProfileComponent/UserProfileComponent.jsx";
 
@@ -164,8 +164,9 @@ const MyOrderPage = () => {
       <div className="grid wide">
         <Row gutter={24}>
           <UserProfileComponent
-            full_name="Nguyễn Lê Thanh Huyền"
-            src_img={myAvatar}
+            full_name={full_name}
+            src_img={user_avt_img}
+            user_name = {user_name}
             isInViewport={isInViewport}
             isInMobile={isInMobile}
             className={styles.profiles}

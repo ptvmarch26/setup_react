@@ -8,6 +8,7 @@ import freeship from '../../assets/images/freeship.webp'
 import { useNavigate } from "react-router-dom";
 import ButtonComponent from '../../components/ButtonComponent/ButtonComponent'
 import UserProfileComponent from "../../components/UserProfileComponent/UserProfileComponent.jsx";
+import { useSelector } from "react-redux";
 
 const initVoucherData = {
     shipping: [
@@ -56,6 +57,10 @@ const VoucherPage = () => {
     const [vouchers, setVouchers] = useState(initVoucherData);
     const navigate = useNavigate();
 
+    const { isAuthenticated, user_name, user_avt_img, _id, full_name} = useSelector(
+        (state) => state.user
+      );
+
     const handleUseNow = () => {
         navigate("/get-all-product"); // Điều hướng đến trang đăng ký
     };
@@ -65,8 +70,9 @@ const VoucherPage = () => {
             <div className="grid wide">
                 <Row gutter={16}>
                     <UserProfileComponent
-                        full_name="Nguyễn Lê Thanh Huyền"
-                        src_img={myAvatar}
+                        full_name={full_name}
+                        src_img={user_avt_img}
+                        user_name = {user_name}
                         className={styles.user}
                     />
                     <Col span={18}>

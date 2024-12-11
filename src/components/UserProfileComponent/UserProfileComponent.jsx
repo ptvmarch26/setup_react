@@ -14,10 +14,11 @@ import {
   PushpinOutlined
 } from "@ant-design/icons";
 import { Avatar, Menu, Card, Col, Typography } from "antd";
+import myAvatarFalse from "../../assets/images/avatar-false.jpg";
 
 const { Title, Text } = Typography;
 
-const UserProfileComponent = ({ full_name, src_img, name, className }) => {
+const UserProfileComponent = ({ full_name, src_img, name, className, user_name }) => {
   const [selectedKey, setSelectedKey] = useState("2");
   const [openKeys, setOpenKeys] = useState([]);
   const [avatar, setAvatar] = useState(src_img); // Lưu ảnh đại diện
@@ -83,7 +84,7 @@ const UserProfileComponent = ({ full_name, src_img, name, className }) => {
           <div>
             <Avatar
               className={styles.img}
-              src={avatar}
+              src={src_img? (`data:image/jpeg;base64,${src_img}`) : (myAvatarFalse)}
               size={60}
               icon={<UserOutlined />}
               onClick={handleAvatarClick}
@@ -99,7 +100,7 @@ const UserProfileComponent = ({ full_name, src_img, name, className }) => {
           </div>
           <div className={styles.name}>
             <Title>{full_name}</Title>
-            <Text type="secondary">{name}</Text>
+            <Text type="secondary">{user_name}</Text>
           </div>
         </div>
         <Menu
