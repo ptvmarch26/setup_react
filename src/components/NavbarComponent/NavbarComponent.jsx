@@ -338,7 +338,6 @@ const NavbarComponent = ({ isInViewport, isInMobile, handleFilterChange }) => {
       {isInViewport || isInMobile ? (
         <ButtonComponent
           title="Áp dụng"
-          // onClick={handleFilterChange}
           className={styles.applyPriceBtn}
           showIcon={false}
           fontSize="1.3rem"

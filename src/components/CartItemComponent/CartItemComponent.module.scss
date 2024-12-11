@@ -48,6 +48,7 @@
         justify-content: center;
         align-items: center;
         border-radius: 10px;
+        cursor: pointer;
 
         img {
             width: 100px;
@@ -63,12 +64,23 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    cursor: pointer;
     // flex: 1;
+
+    .type {
+        font-size: 1.3rem;
+    }
 
     >p:first-of-type {
         font-size: 1.6rem;
         font-weight: 600;
         margin-top: 5px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
     }
 
     .price {
@@ -199,6 +211,10 @@
 
     .details {
 
+        .type {
+            font-size: 1rem;
+        }
+
         >p:first-of-type {
             font-size: 1.2rem;
             margin-top: 17px;
@@ -239,23 +255,23 @@
 
         .quantity {
             font-size: 1.3rem;
-    
+
             button {
                 width: 40px;
                 height: 30px;
                 font-size: 2rem;
             }
-    
+
             button:first-of-type {
                 border-top-left-radius: 20px;
                 border-bottom-left-radius: 20px;
             }
-    
+
             button:last-of-type {
                 border-top-right-radius: 20px;
                 border-bottom-right-radius: 20px;
             }
-    
+
             span {
                 width: 40px;
                 height: 30px;

@@ -565,6 +565,7 @@ const TypeProductPage = () => {
                   <NavbarComponent
                     isInViewport={isInViewport}
                     isInMobile={isInMobile}
+                    // onClick={handleFilterChange}
                   />
                 </div>
               </div>

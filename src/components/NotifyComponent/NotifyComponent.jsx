@@ -63,12 +63,12 @@ const NotifyComponent = ({ notifications, className }) => {
                         >
                             <Link>
                                 <img
-                                    src={getNotificationImage(notify.type)} // Lấy ảnh theo loại thông báo
+                                    src={getNotificationImage(notify.notify_type)} // Lấy ảnh theo loại thông báo
                                     alt={notify.type}
                                 />
                                 <div className={styles.info}>
-                                    <span>{notify.content}</span>
-                                    <span>{notify.type}</span>
+                                    <span>{notify.notify_title}</span>
+                                    <span>{notify.notify_type}</span>
                                 </div>
                             </Link>
                         </li>

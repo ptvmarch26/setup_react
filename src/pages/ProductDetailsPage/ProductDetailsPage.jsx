@@ -663,7 +663,7 @@ const ProductDetailsPage = () => {
                 <div key={index} className="col l-2-4 m-4 c-6">
                   <Link
                     to={`/product-details/${product._id}`}
-                    className="product-link"
+                    style={{textDecoration: "none"}}
                   >
                     <CardComponent
                       src={`data:image/png;base64,${

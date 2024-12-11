@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import ButtonComponent from '../ButtonComponent/ButtonComponent';
 import cart from '../../assets/images/cart.svg'
 
-const CartItemComponent = ({ item, onQuantityChange, onRemove, onCheck, isChecked, isLike = false, isInMobile }) => {
+const CartItemComponent = ({ item, onQuantityChange, onRemove, onCheck, isChecked, isLike = false, isInMobile, onClick }) => {
   return (
     <div className={styles.carts}>
       <input
@@ -13,12 +13,12 @@ const CartItemComponent = ({ item, onQuantityChange, onRemove, onCheck, isChecke
         onChange={() => onCheck(item.id)}
         checked={isChecked}
       />
-      <div className={styles.img}>
+      <div className={styles.img} onClick={onClick}>
         <img src={item.img} alt={item.name} />
       </div>
-      <div className={clsx(styles.details, { [styles.detailsLike]: isLike })}>
+      <div className={clsx(styles.details, { [styles.detailsLike]: isLike })} onClick={onClick}>
         <p>{item.name}</p>
-        {item.product_order_type? (<p>Loại: {item.product_order_type}</p>) : []}
+        {item.product_order_type? (<p className={styles.type}>Loại: {item.product_order_type}</p>) : []}
         <div className={styles.price}>
           <p>{isInMobile ? 'đ' : ''}{item.oldPrice.toLocaleString()}{isInMobile ? '' : 'VNĐ'}</p>
           <p>{isInMobile ? 'đ' : ''}{item.price.toLocaleString()}{isInMobile ? '' : 'VNĐ'}</p>
