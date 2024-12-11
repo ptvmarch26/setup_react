@@ -5,6 +5,7 @@ import "./MyOrderPage.scss";
 import styles from './MyOrderPage.module.scss'
 import ProfileUser from  "./UserProfile.jsx";
 import OrderCart from  "./OrderCart.jsx";
+import { useSelector } from "react-redux";
 
 const { TabPane } = Tabs;
 const { Text } = Typography;
@@ -19,12 +20,17 @@ const MyOrderPage = () => {
     6: "Trả hàng/Hoàn tiền",
   };
 
+  const { isAuthenticated, user_name, user_avt_img, _id, full_name} = useSelector(
+    (state) => state.user
+  );
+
   const [activeTab, setActiveTab] = useState("1");
 
   const handleTabChange = (key) => {
     setActiveTab(key);
   };
-
+  
+  // Chưa có code xong order nên chưa có đổ data phần này nha
   const orders = [
     {
       id: 1,
@@ -72,9 +78,9 @@ const MyOrderPage = () => {
     <div style={{ margin: "0 auto", padding: "20px" }} className="container">
       <Row gutter={16}>
         <ProfileUser
-          full_name="Nguyễn Lê Thanh Huyền"
-          src_img={myAvatar}
-          name="yurri_2506"
+          full_name={full_name}
+          src_img={user_avt_img}
+          name={user_name}
         />
 
         {/* Main Content */}
