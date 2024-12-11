@@ -33,7 +33,6 @@ import VoucherPage from "../pages/VoucherPage/VoucherPage";
 import OrderDetailsPage from "../pages/OrderDetailsPage/OrderDetailsPage";
 import ProfilePage from "../pages/ProfilePage/ProfilePage";
 import ProductFeedBackPage from "../pages/ProductFeedBackPage/ProductFeedBackPage";
-import NotificationP from "../pages/Notification/Notification";
 
 export const routes = [ 
     //Routes cho User
@@ -205,7 +204,7 @@ export const routes = [
     },
     {
         path: '/notifications',
-        page: NotificationP,
+        page: NotificationPage,
         isShowHeader: true,
         role: "user"
     },

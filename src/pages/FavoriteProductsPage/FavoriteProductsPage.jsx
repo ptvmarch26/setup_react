@@ -238,10 +238,10 @@ const FavoriteProductsPage = () => {
         oldPrice: item.product_id?.product_price || 0,
         price:
           item.product_id?.product_price *
-            (
-              1 -
-              item.product_id?.product_percent_discount / 100
-            ).toLocaleString() || 0,
+          (
+            1 -
+            item.product_id?.product_percent_discount / 100
+          ).toLocaleString() || 0,
         quantity: item.quantity || 1,
         img:
           item.product_id?.product_images && item.product_id?.product_images[0]
@@ -362,6 +362,10 @@ const FavoriteProductsPage = () => {
     // addToCartAPI(selectedItems);
   };
 
+  const navigateProduct = (id) => {
+    navigate(`/product-details/${id}`)
+  }
+
   return (
     <div className={styles.main}>
       <div className="grid wide">
@@ -393,17 +397,16 @@ const FavoriteProductsPage = () => {
         <div className={styles.cart}>
           <div className={styles.cartItems}>
             {cartItems.map((item) => (
-              <Link to={`/product-details/${item.id}`} className="product-link">
-                <CartItemComponent
-                  key={item.id}
-                  item={item}
-                  onRemove={handleRemoveItem}
-                  onCheck={handleCheckItem}
-                  isChecked={checkedItems.includes(item.id)}
-                  isInMobile={isInMobile}
-                  isLike={true}
-                />
-              </Link>
+              <CartItemComponent
+                key={item.id}
+                item={item}
+                onRemove={handleRemoveItem}
+                onCheck={handleCheckItem}
+                isChecked={checkedItems.includes(item.id)}
+                isInMobile={isInMobile}
+                isLike={true}
+                onClick={() => navigateProduct(item.id)}
+              />
             ))}
           </div>
         </div>
