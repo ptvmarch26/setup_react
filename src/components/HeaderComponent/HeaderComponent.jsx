@@ -583,7 +583,7 @@ const HeaderComponent = () => {
               </li>
               {isAuthenticated ? (
                 <li className={styles.userInfo}>
-                  <Link to={"/my-order"}>
+                  <Link to={"/account/profile"}>
                     <img
                       src={avatar}
                       alt="User Avatar"

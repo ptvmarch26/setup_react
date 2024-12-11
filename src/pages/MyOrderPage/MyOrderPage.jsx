@@ -3,7 +3,10 @@ import { Tabs, Input, Card, Button, Typography, Row, Col } from "antd";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import "./MyOrderPage.scss";
 import styles from './MyOrderPage.module.scss'
-import myAvatar from "../../assets/images/avatar.jpg";
+
+import ProfileUser from  "./UserProfile.jsx";
+import OrderCart from  "./OrderCart.jsx";
+import { useSelector } from "react-redux";
 import OrderCart from './OrderCart.jsx';
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent.jsx";
 import UserProfileComponent from "../../components/UserProfileComponent/UserProfileComponent.jsx";
@@ -25,9 +28,16 @@ const MyOrderPage = () => {
     6: "Trả hàng/Hoàn tiền",
   };
 
+  const { isAuthenticated, user_name, user_avt_img, _id, full_name} = useSelector(
+    (state) => state.user
+  );
+
+  const [activeTab, setActiveTab] = useState("1");
+
   const handleTabChange = (key) => {
     navigate(`/my-order?tab=${key}`);
   };
+
 
   const [isInViewport, setIsInViewport] = useState(false);
 
@@ -62,7 +72,6 @@ const MyOrderPage = () => {
     });
   };
   
-
   const orders = [
     {
       id: 1,
