@@ -1,0 +1,175 @@
+.main {
+    padding: 20px 0;
+    background-color: #f5f5f5;
+}
+
+.wrap {
+    display: flex;
+}
+
+.details {
+    flex: 1;
+    margin-left: 30px;
+
+    .status {
+        display: flex;
+        justify-content: space-between;
+
+        h2 {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        p {
+            font-size: 1.5rem;
+            color: #E87428;
+            font-weight: 600;
+        }
+    }
+}
+
+.reviceInfo {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+
+    .title {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+
+        h3 {
+            font-size: 1.7rem;
+            font-weight: 700;
+            margin: 0;
+            margin-left: 10px;
+            text-transform: uppercase;
+        }
+    }
+
+    .infoAddress {
+        p {
+            font-size: 1.3rem;
+        }
+
+        strong {
+            min-width: 100px;
+            display: inline-block;
+        }
+    }
+}
+
+.payment {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+
+    .paymentMethod {
+        display: flex;
+
+        h3 {
+            font-size: 1.7rem;
+            font-weight: 700;
+            margin: 0;
+            margin-left: 10px;
+            text-transform: uppercase;
+        }
+    }
+
+    p {
+        font-size: 1.5rem;
+        display: block;
+        margin-top: 10px;
+        margin-bottom: 0;
+    }
+}
+
+.product {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+
+    .productDetails {
+        display: flex;
+
+        h3 {
+            font-size: 1.7rem;
+            font-weight: 700;
+            margin: 0;
+            margin-left: 10px;
+            text-transform: uppercase;
+        }
+    }
+}
+
+.info {
+    display: flex;
+    margin: 20px 0;
+
+    img {
+        width: 70px;
+        height: 70px;
+        object-fit: cover;
+    }
+
+    .name {
+        margin: 0 10px;
+        flex: 1;
+
+        h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        p {
+            font-size: 1.3rem;
+        }
+    }
+
+    .price {
+        display: flex;
+        align-items: center;
+
+        span {
+            font-size: 1.5rem;
+
+            &:first-of-type {
+                text-decoration: line-through;
+                opacity: 0.26;
+            }
+
+            &:last-of-type {
+                color: #E87428;
+                font-size: 1.7rem;
+                margin-left: 10px;
+            }
+        }
+    }
+}
+
+.total {
+    display: flex;
+    align-items: center;
+    .totalPrice {
+        display: flex;
+        flex: 1;
+        justify-content: flex-end;
+
+        h3 {
+            font-size: 2rem;
+            font-weight: 500;
+            text-align: right;
+            margin: 0;
+        }
+    }
+
+    p {
+        color: #E87428;
+        text-align: right;
+        margin: 0;
+        font-size: 1.7rem;
+        margin-left: 10px;
+    }
+}

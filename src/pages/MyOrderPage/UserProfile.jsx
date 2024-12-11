@@ -302,7 +302,7 @@ const ProfileUser = ({ full_name, src_img, name, isInViewport, isInMobile }) => 
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        setAvatar(reader.result); 
+        setAvatar(reader.result);
         alert("Đổi ảnh đại diện thành công!");
       };
       reader.readAsDataURL(file);
@@ -319,7 +319,7 @@ const ProfileUser = ({ full_name, src_img, name, isInViewport, isInMobile }) => 
               src={src_img? (`data:image/jpeg;base64,${src_img}`) : (myAvatarFalse)}
               size={60}
               icon={<UserOutlined />}
-              onClick={handleAvatarClick} 
+              onClick={handleAvatarClick}
               style={{ cursor: "pointer" }}
             />
             <input
@@ -327,7 +327,7 @@ const ProfileUser = ({ full_name, src_img, name, isInViewport, isInMobile }) => 
               id="upload-avatar"
               style={{ display: "none" }}
               accept="image/*"
-              onChange={handleAvatarChange} 
+              onChange={handleAvatarChange}
             />
           </div>
           <div className={styles.name}>

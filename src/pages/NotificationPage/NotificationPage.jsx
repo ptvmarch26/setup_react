@@ -1,9 +1,10 @@
 import React, { useReducer } from "react";
+import clsx from "clsx";
 import { Button, Card, Col, Row } from "antd";
 import styles from "./NotificationPage.module.scss";
-import ProfileUser from "../MyOrderPage/UserProfile.jsx";
+import './NotificationPage.scss'
 import myAvatar from "../../assets/images/avatar.jpg";
-import clsx from "clsx";
+import UserProfileComponent from "../../components/UserProfileComponent/UserProfileComponent.jsx";
 
 const initdata = [
   {
@@ -63,10 +64,10 @@ const NotificationPage = () => {
     <div className="grid wide">
       <div className={styles.main}>
         <Row gutter={16}>
-          <ProfileUser
+          <UserProfileComponent
             full_name="Nguyễn Lê Thanh Huyền"
             src_img={myAvatar}
-            name="yurri_2506"
+            className={styles.user}
           />
           <Col span={18} className={styles.noti}>
             <div className={styles.wrapBtn}>
@@ -79,7 +80,7 @@ const NotificationPage = () => {
               </Button>
             </div>
             {notifications.map((notification) => (
-              <div className={styles.wrapNoti}>
+              <div style={{margin: "10px 0"}}>
                 <Card
                   key={notification.id}
                   className={clsx({
@@ -88,19 +89,19 @@ const NotificationPage = () => {
                   })}
                   onClick={() => dispatch({ type: "MARK_AS_READ", payload: notification.id })}
                 >
-                  <Row>
-                    <Col span={4}>
-                      <img
-                        src={notification.img}
-                        alt="Notification"
-                        className={styles.img}
-                      />
-                    </Col>
-                    <Col span={20}>
-                      <h6>{notification.title}</h6>
-                      <p>{notification.content}</p>
-                    </Col>
-                  </Row>
+                  <div className={styles.wrapNoti}>
+                  <div>
+                    <img
+                      src={notification.img}
+                      alt="Notification"
+                      className={styles.img}
+                    />
+                  </div>
+                  <div className={styles.content}>
+                    <h6>{notification.title}</h6>
+                    <p>{notification.content}</p>
+                  </div>
+                  </div>
                 </Card>
               </div>
             ))}

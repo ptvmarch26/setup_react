@@ -1,16 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Tabs, Input, Card, Button, Typography, Row, Col } from "antd";
-import myAvatar from "../../assets/images/avatar.jpg";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import "./MyOrderPage.scss";
 import styles from './MyOrderPage.module.scss'
+
 import ProfileUser from  "./UserProfile.jsx";
 import OrderCart from  "./OrderCart.jsx";
 import { useSelector } from "react-redux";
+import OrderCart from './OrderCart.jsx';
+import ButtonComponent from "../../components/ButtonComponent/ButtonComponent.jsx";
+import UserProfileComponent from "../../components/UserProfileComponent/UserProfileComponent.jsx";
 
 const { TabPane } = Tabs;
 const { Text } = Typography;
 
 const MyOrderPage = () => {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const currentTab = searchParams.get("tab") || "1";
+
   const menuTab = {
     1: "Tất cả",
     2: "Chờ xác nhận",
@@ -27,10 +35,43 @@ const MyOrderPage = () => {
   const [activeTab, setActiveTab] = useState("1");
 
   const handleTabChange = (key) => {
-    setActiveTab(key);
+    navigate(`/my-order?tab=${key}`);
+  };
+
+
+  const [isInViewport, setIsInViewport] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(min-width: 740px) and (max-width: 1023px)');
+    const handleViewportChange = () => setIsInViewport(mediaQuery.matches);
+
+    handleViewportChange();
+    mediaQuery.addEventListener('change', handleViewportChange);
+
+    return () => {
+      mediaQuery.removeEventListener('change', handleViewportChange);
+    };
+  }, []);
+
+  const [isInMobile, setisInMobile] = useState(false);
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 739px)');
+    const handleViewportChange = () => setisInMobile(mediaQuery.matches);
+
+    handleViewportChange();
+    mediaQuery.addEventListener('change', handleViewportChange);
+
+    return () => {
+      mediaQuery.removeEventListener('change', handleViewportChange);
+    };
+  }, []);
+
+  const handleProductClick = (orderId) => {
+    navigate(`/order-details?tab=${currentTab}&product=${orderId}`, {
+      state: { orders }, // Truyền orders qua state
+    });
   };
   
-  // Chưa có code xong order nên chưa có đổ data phần này nha
   const orders = [
     {
       id: 1,
@@ -71,97 +112,177 @@ const MyOrderPage = () => {
         },
       ],
     },
+    {
+      id: 3,
+      order_status: "Đã hủy",
+      products: [
+        {
+          id: 201,
+          src_img: myAvatar,
+          product_title: "Dầu xả cho chó",
+          product_description: "Phân loại hàng: Dầu xả",
+          number: "1",
+          price_old: "200.000",
+          price_new: "180.000",
+        },
+      ],
+    },
+    {
+      id: 4,
+      order_status: "Trả hàng/Hoàn tiền",
+      products: [
+        {
+          id: 201,
+          src_img: myAvatar,
+          product_title: "Dầu xả cho chó",
+          product_description: "Phân loại hàng: Dầu xả",
+          number: "1",
+          price_old: "200.000",
+          price_new: "180.000",
+        },
+      ],
+    },
+    {
+      id: 5,
+      order_status: "Đã hủy",
+      products: [
+        {
+          id: 201,
+          src_img: myAvatar,
+          product_title: "Dầu xả cho chó",
+          product_description: "Phân loại hàng: Dầu xả",
+          number: "1",
+          price_old: "200.000",
+          price_new: "180.000",
+        },
+      ],
+    },
   ];
 
   return (
-    <div className='grid wide'>
-    <div style={{ margin: "0 auto", padding: "20px" }} className="container">
-      <Row gutter={16}>
-        <ProfileUser
-          full_name={full_name}
-          src_img={user_avt_img}
-          name={user_name}
-        />
-
-        {/* Main Content */}
-        <Col span={18}>
-          {/* Tabs */}
-          <Tabs defaultActiveKey="1" tabBarGutter={40} size="large" onChange={handleTabChange}>
-            {Object.entries(menuTab).map(([key, label]) => (
-              <TabPane tab={label} key={key} />
-            ))}
-          </Tabs>
-
-          {/* Search Bar */}
-          <Input.Search
-            placeholder="Tìm kiếm theo tên Shop, ID đơn hàng hoặc tên sản phẩm"
-            style={{ marginTop: "0px", marginBottom: "20px" }}
+    <div style={{ padding: "20px 0" }} className={styles.main}>
+      <div className="grid wide">
+        <Row gutter={24}>
+          <UserProfileComponent
+            full_name="Nguyễn Lê Thanh Huyền"
+            src_img={myAvatar}
+            isInViewport={isInViewport}
+            isInMobile={isInMobile}
+            className={styles.profiles}
           />
 
-          {orders
-            .filter((order) => {
-              if (activeTab === "1") return true; // Tất cả đơn hàng
-              if (activeTab === "2") return order.order_status === "Chờ xác nhận";
-              if (activeTab === "3") return order.order_status === "Đang vận chuyển";
-              if (activeTab === "4") return order.order_status === "Hoàn thành";
-              if (activeTab === "5") return order.order_status === "Đã hủy";
-              if (activeTab === "6") return order.order_status === "Trả hàng/Hoàn tiền";
-              return false;
-            })
-            .map((order) => (
-              <Card className="order-card" key={order.id}>
-                <Row className="order-status">
-                  <Col span={24} className="status-product">
-                    <Text style={{ color: "orange", fontSize: "20px" }}>{order.order_status}</Text>
-                  </Col>
-                </Row>
+          {/* Main Content */}
+          <Col span={isInViewport || isInMobile ? 24 : 18} className={styles.tabs}>
+            {/* Tabs */}
+            <Tabs
+              activeKey={currentTab}
+              tabBarGutter={40}
+              size="large"
+              onChange={handleTabChange}
+            >
+              {Object.entries(menuTab).map(([key, label]) => (
+                <TabPane tab={label} key={key} />
+              ))}
+            </Tabs>
 
-                {order.products.map((product) => (
-                  <OrderCart key={product.id} {...product} />
-                ))}
-                
-                <hr style={{ margin: "20px 0" }} />
-                
-                <Row justify="end" className="title-order">
-                  <Col span={21} className="title-price-card">
-                    <p className="title-price">Thành tiền:</p>
-                  </Col>
-                  <Col span={3} className="title-price-card">
-                    <p className="price">
-                      {order.products.reduce(
-                        (total, product) =>
-                          total + parseInt(product.price_new.replace(".", "")) * parseInt(product.number),
-                        0
-                      ).toLocaleString()}đ
-                    </p>
-                  </Col>
+            {/* Search Bar */}
+            <Input.Search
+              placeholder="Tìm kiếm theo tên Shop, ID đơn hàng hoặc tên sản phẩm"
+              style={{ marginTop: "0px", marginBottom: "20px" }}
+            />
 
-                  <Col span={10} className="button-order-card">
-                    {order.order_status === "Hoàn thành" && (
-                      <>
-                        <Button
-                          type="primary"
-                          style={{ backgroundColor: "orange", color: "black" }}
-                        >
-                          Đánh giá
-                        </Button>
-                        <Button>Mua lại</Button>
-                      </>
-                    )}
-                    {(order.order_status === "Đã hủy" ||
-                      order.order_status === "Trả hàng/Hoàn tiền") && <Button>Mua lại</Button>}
-                    {order.order_status === "Chờ xác nhận" && (
-                      <Button type="primary" danger>
-                        Hủy
-                      </Button>
-                    )}
-                  </Col>
-                </Row>
-              </Card>
-            ))}
-        </Col>
-      </Row>
-    </div>
+            {orders
+              .filter((order) => {
+                if (currentTab === "1") return true; // Tất cả đơn hàng
+                if (currentTab === "2") return order.order_status === "Chờ xác nhận";
+                if (currentTab === "3") return order.order_status === "Đang vận chuyển";
+                if (currentTab === "4") return order.order_status === "Hoàn thành";
+                if (currentTab === "5") return order.order_status === "Đã hủy";
+                if (currentTab === "6") return order.order_status === "Trả hàng/Hoàn tiền";
+                return false;
+              })
+              .map((order) => (
+                <Card className={styles.card} key={order.id}>
+                  <Row className={styles.orderStatus}>
+                    <Col span={24}>
+                      <Text>
+                        {order.order_status}
+                      </Text>
+                    </Col>
+                  </Row>
+
+                  {order.products.map((product) => (
+                    <div onClick={() => handleProductClick(order.id)} style={{cursor: "pointer"}}>
+                      <OrderCart
+                        key={product.id}
+                        {...product}
+                      />
+                    </div>
+                  ))}
+
+                  <Row className={styles.total}>
+                    <Col span={21}>
+                      <p>Thành tiền:</p>
+                    </Col>
+                    <Col span={3}>
+                      <p className={styles.price}>
+                        {order.products
+                          .reduce(
+                            (total, product) =>
+                              total +
+                              parseInt(product.price_new.replace(".", "")) *
+                              parseInt(product.number),
+                            0
+                          )
+                          .toLocaleString()}
+                        đ
+                      </p>
+                    </Col>
+
+                    <Col span={24} className={styles.allBtn}>
+                      {order.order_status === "Hoàn thành" && (
+                        <div className={styles.btnDetails}>
+                          <ButtonComponent
+                            title="Đánh giá"
+                            primary
+                            className={styles.btnPrimary}
+                            widthDiv="none"
+                            showIcon={false}
+                          />
+                          <ButtonComponent
+                            title="Mua lại"
+                            className={styles.btn}
+                            widthDiv="none"
+                            showIcon={false}
+                          />
+                        </div>
+                      )}
+                      {(order.order_status === "Đã hủy" ||
+                        order.order_status === "Trả hàng/Hoàn tiền") && (
+                          <ButtonComponent
+                            title="Mua lại"
+                            primary
+                            className={styles.btnPrimary}
+                            widthDiv="none"
+                            showIcon={false}
+                          />
+                        )}
+                      {order.order_status === "Chờ xác nhận" && (
+                        <ButtonComponent
+                          title="Hủy"
+                          primary
+                          className={styles.btnPrimary}
+                          widthDiv="none"
+                          showIcon={false}
+                        />
+                      )}
+                    </Col>
+                  </Row>
+                </Card>
+              ))}
+          </Col>
+        </Row>
+      </div>
     </div>
   );
 };
