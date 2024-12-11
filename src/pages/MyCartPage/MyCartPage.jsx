@@ -455,6 +455,7 @@ const MyCartPage = () => {
             discount={discount}
             shippingFee={shippingFee}
             safe={safe}
+            products={cartItems}
           />
         </div>
       </div>
