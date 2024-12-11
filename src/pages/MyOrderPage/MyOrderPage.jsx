@@ -164,7 +164,9 @@ const MyOrderPage = () => {
       <div className="grid wide">
         <Row gutter={24}>
           <UserProfileComponent
-            full_name="Nguyễn Lê Thanh Huyền"
+            full_name={full_name}
+            src_img={user_avt_img}
+            user_name = {user_name}
             isInViewport={isInViewport}
             isInMobile={isInMobile}
             className={styles.profiles}
