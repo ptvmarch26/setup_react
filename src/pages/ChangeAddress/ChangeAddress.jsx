@@ -686,17 +686,25 @@ const ChangeAddress = () => {
     setHomeAddress("");
     setPhone("");
     setName("");
+    setAddressID("");
     setIsModalVisible(true);
   };
 
   const handleNewAddress = async (newAddress) => {
     try {
       const response = await addAddress(_id, access_token, newAddress);
-      return response;
+      console.log("kq",response)
+      if (response && response.status === "Successfully") {
+        return response;
+      } else {
+        throw new Error("Thêm địa chỉ thất bại.");
+      }
     } catch (error) {
       console.error(error.message || "Có lỗi xảy ra.");
+      return null; // Trả về null để không tiếp tục logic sai
     }
   };
+  
 
   const handleUpdateAddress = async (newAddress, adr_id) => {
     try {
@@ -721,12 +729,13 @@ const ChangeAddress = () => {
       district: districtName,
       commune: wardName,
     };
-
     try {
       if (adr_id === "") {
+        console.log("adr",adr_id)
         const res = await handleNewAddress(newAddress);
+        console.log("res", res)
         if (res && res.status === "Successfully") {
-          dispatch(updateUser({ user_address: res.data }));
+          dispatch(updateUser({ user_address: res.data.user_address }));
           navigate("/account/edit-address");
         }
       } else {
@@ -896,9 +905,9 @@ const AddressForm = ({
   // useEffect để thiết lập giá trị mặc định cho form từ home_address
   useEffect(() => {
     form.setFieldsValue({
-      name: name || '', // Thiết lập giá trị name
-      phone: phone || '', // Thiết lập giá trị phone
-      home_address: home_address || '', // Thiết lập các giá trị ban đầu từ home_address
+      name: name || '', 
+      phone: phone || '',
+      home_address: home_address || '',
     });
   }, [home_address, name, phone, form]);
 
