@@ -596,13 +596,14 @@
 
 import React, { useState, useEffect } from "react";
 import { Input, Button, Typography, List, Modal, Select, Form } from "antd";
-import ProfileUser from "../MyOrderPage/UserProfile.jsx";
 import { EditOutlined, DeleteOutlined, SettingOutlined, PlusOutlined } from "@ant-design/icons";
 import { apiGetProvinces, apiGetDistricts, apiGetWards } from "./getAddress.js";
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../../redux/slices/userSlice.js';
 import { addAddress, deleteAddress, setAddressDefault, updateAddress } from "../../services/User.service.js";
 import { useNavigate } from "react-router-dom";
+import styles from './ChangeAddress.module.scss'
+import UserProfileComponent from '../../components/UserProfileComponent/UserProfileComponent'
 
 const { Text } = Typography;
 
@@ -634,9 +635,9 @@ const ChangeAddress = () => {
     fetchProvinces();
   }, []);
 
-  const handleSetDefault = async(id) => {
+  const handleSetDefault = async (id) => {
     try {
-      const res = await setAddressDefault(_id ,access_token, id);
+      const res = await setAddressDefault(_id, access_token, id);
       console.log(res)
       if (res && res.status === 'Successfully') {
         dispatch(updateUser({ user_address: res.data }));
@@ -763,17 +764,22 @@ const ChangeAddress = () => {
   };
 
   return (
-    <div className="grid wide">
-      <div className="container" style={{ margin: "0 auto", padding: "20px" }}>
-        <div className="profile-container">
-          <ProfileUser full_name={full_name} src_img={user_avt_img} name={user_name} />
-          <div className="content">
-            <span className="header">Địa chỉ của tôi</span>
+    <div className={styles.main}>
+      <div className="grid wide">
+        <div className={styles.wrapMain}>
+          <UserProfileComponent
+            full_name={full_name}
+            src_img={user_avt_img}
+            user_name={user_name}
+            className={styles.user}
+          />
+          <div className={styles.wrapInfo}>
+            <h2 className={styles.change}>Địa chỉ của tôi</h2>
             <Button
               type="primary"
               icon={<PlusOutlined />}
               onClick={handleAddNew}
-              style={{ position: "relative", left: "450px", color: "white", backgroundColor: "#E87428" }}
+              className={styles.addBtn}
             >
               Thêm địa chỉ mới
             </Button>
@@ -837,44 +843,44 @@ const ChangeAddress = () => {
               )}
             />
           </div>
-        </div>
-        <Modal
-          title={home_address ? "Cập nhật địa chỉ" : "Thêm địa chỉ mới"}
-          open={isModalVisible}
-          onCancel={() => setIsModalVisible(false)}
-          footer={null}
-          centered
-        >
-          <AddressForm
-            addressID={addressID}
-            name={name}
-            phone={phone}
-            home_address={home_address}
-            onSubmit={handleSave}
-            provinces={provinces}
-            districts={districts}
-            wards={wards}
-            onProvinceChange={handleProvinceChange}
-            onDistrictChange={handleDistrictChange}
-          />
-        </Modal>
+          <Modal
+            title={home_address ? "Cập nhật địa chỉ" : "Thêm địa chỉ mới"}
+            open={isModalVisible}
+            onCancel={() => setIsModalVisible(false)}
+            footer={null}
+            centered
+          >
+            <AddressForm
+              addressID={addressID}
+              name={name}
+              phone={phone}
+              home_address={home_address}
+              onSubmit={handleSave}
+              provinces={provinces}
+              districts={districts}
+              wards={wards}
+              onProvinceChange={handleProvinceChange}
+              onDistrictChange={handleDistrictChange}
+            />
+          </Modal>
 
-        <Modal
-          title="Xác nhận xóa"
-          visible={isConfirmDeleteVisible}
-          onCancel={() => setIsConfirmDeleteVisible(false)}
-          onOk={handleDelete}
-          okText="Xóa"
-          cancelText="Hủy"
-          okButtonProps={{
-            style: { backgroundColor: 'red', color: 'white', borderColor: 'red' },
-          }}
-          cancelButtonProps={{
-            style: { backgroundColor: '#f0f0f0', color: '#000' },
-          }}
-        >
-          <p>Bạn có chắc chắn muốn xóa địa chỉ này không?</p>
-        </Modal>
+          <Modal
+            title="Xác nhận xóa"
+            visible={isConfirmDeleteVisible}
+            onCancel={() => setIsConfirmDeleteVisible(false)}
+            onOk={handleDelete}
+            okText="Xóa"
+            cancelText="Hủy"
+            okButtonProps={{
+              style: { backgroundColor: 'red', color: 'white', borderColor: 'red' },
+            }}
+            cancelButtonProps={{
+              style: { backgroundColor: '#f0f0f0', color: '#000' },
+            }}
+          >
+            <p>Bạn có chắc chắn muốn xóa địa chỉ này không?</p>
+          </Modal>
+        </div>
       </div>
     </div>
   );
@@ -903,9 +909,11 @@ const AddressForm = ({
   }, [home_address, name, phone, form]);
 
   const handleFinish = (values) => {
-    onSubmit({ ...values, adr_id: addressID }); // Gọi onSubmit với các giá trị của form
-    form.resetFields(); // Reset các trường sau khi lưu
-  };
+  console.log("Values received from form:", values);
+  onSubmit({ ...values, adr_id: addressID }); // Gọi onSubmit
+  form.resetFields(); // Reset form sau khi xử lý
+};
+
 
   return (
     <Form form={form} onFinish={handleFinish} layout="vertical">

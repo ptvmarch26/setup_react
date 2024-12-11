@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Input, Button, message, notification } from 'antd';
 import classNames from 'classnames/bind';
-import styles from './ChangePassword.css';
-import ProfileUser from "../MyOrderPage/UserProfile.jsx";
+import styles from './ChangePassword.module.scss'
+import UserProfileComponent from '../../components/UserProfileComponent/UserProfileComponent'
 import { useSelector } from 'react-redux';
 import { changePassword } from '../../services/User.service.js';
 
@@ -55,76 +55,79 @@ function NewPassword() {
   };
 
   return (
-    <div className='grid wide'>
-      <div style={{ margin: "0 auto", padding: "20px" }} className={cx('container')}>
-        <div className="profile-container">
-          <ProfileUser
-            full_name={full_name}
-            src_img={user_avt_img}
-            name={user_name}
-          />
+    <div className={styles.main}>
+      <div className='grid wide'>
+        <div className={styles.wrapMain}>
+          <UserProfileComponent
+                full_name={full_name}
+                src_img={user_avt_img}
+                user_name={user_name}
+                className={styles.user}
+              />
 
-          <div className={cx('content')}>
-            <span className={cx('header')}>Đổi mật khẩu</span>
-            <Form
-              layout="horizontal"
-              labelCol={{ span: 6 }}
-              wrapperCol={{ span: 18 }}
-              className={cx('form')}
-              form={form}
-              onFinish={handleSaveNewPassword}
-              onValuesChange={handleValuesChange}
-            >
-              <Form.Item
-                label="Mật khẩu mới"
-                name="newPassword"
-                rules={[{ required: true, message: 'Vui lòng nhập mật khẩu mới!' }]}
+            <div className={styles.wrapInfo}>
+              <h2 className={styles.change}>Đổi mật khẩu</h2>
+              <Form
+                layout="horizontal"
+                labelCol={{ span: 6 }}
+                wrapperCol={{ span: 18 }}
+                className={styles.form}
+                form={form}
+                onFinish={handleSaveNewPassword}
+                onValuesChange={handleValuesChange}
               >
-                <Input.Password />
-              </Form.Item>
-
-              <Form.Item
-                label="Xác nhận mật khẩu mới"
-                name="confirmPassword"
-                dependencies={['newPassword']}
-                rules={[
-                  { required: true, message: 'Vui lòng xác nhận mật khẩu mới!' },
-                  ({ getFieldValue }) => ({
-                    validator(_, value) {
-                      if (!value || getFieldValue('newPassword') === value) {
-                        return Promise.resolve();
-                      }
-                      return Promise.reject('Mật khẩu xác nhận không khớp!');
-                    },
-                  }),
-                ]}
-              >
-                <Input.Password />
-              </Form.Item>
-
-              <Form.Item wrapperCol={{ offset: 6, span: 18 }}>
-                <Button
-                  htmlType="reset"
-                  className={cx('cancel-button')}
-                  onClick={handleCancel}
+                <Form.Item
+                  label="Mật khẩu mới"
+                  name="newPassword"
+                  rules={[{ required: true, message: 'Vui lòng nhập mật khẩu mới!' }]}
                 >
-                  Hủy
-                </Button>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  className={cx('confirm-button')}
-                  disabled={!isFormFilled}
-                  style={{
-                    backgroundColor: isFormFilled ? '#E87428' : '#d9d9d9',
-                    borderColor: isFormFilled ? '#E87428' : '#d9d9d9',
-                  }}
+                  <Input.Password />
+                </Form.Item>
+
+                <Form.Item
+                  label="Nhập lại mật khẩu"
+                  name="confirmPassword"
+                  dependencies={['newPassword']}
+                  rules={[
+                    { required: true, message: 'Vui lòng xác nhận mật khẩu mới!' },
+                    ({ getFieldValue }) => ({
+                      validator(_, value) {
+                        if (!value || getFieldValue('newPassword') === value) {
+                          return Promise.resolve();
+                        }
+                        return Promise.reject('Mật khẩu xác nhận không khớp!');
+                      },
+                    }),
+                  ]}
                 >
-                  Xác nhận
-                </Button>
-              </Form.Item>
-            </Form>
-          </div>
+                  <Input.Password />
+                </Form.Item>
+
+                <Form.Item wrapperCol={{ offset: 6, span: 18 }}>
+                  <div className={styles.btn}>
+                    <Button
+                      htmlType="reset"
+                      className={styles.cancelBtn}
+                      onClick={handleCancel}
+                    >
+                      Hủy
+                    </Button>
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      className={styles.submitBtn}
+                      disabled={!isFormFilled}
+                      style={{
+                        backgroundColor: isFormFilled ? '#E87428' : '#d9d9d9',
+                        borderColor: isFormFilled ? '#E87428' : '#d9d9d9',
+                      }}
+                    >
+                      Xác nhận
+                    </Button>
+                  </div>
+                </Form.Item>
+              </Form>
+            </div>
         </div>
       </div>
     </div>

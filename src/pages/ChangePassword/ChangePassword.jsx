@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Input, Button, message } from 'antd';
-import classNames from 'classnames/bind';
-import styles from './ChangePassword.css';
-import ProfileUser from "../MyOrderPage/UserProfile.jsx";
-import myAvatar from "../../assets/images/avatar.jpg";
 import { checkCurrentPass } from '../../services/User.service.js';
 import { useSelector } from 'react-redux';
+import styles from './ChangePassword.module.scss'
+import './ChangePassword.scss'
+import UserProfileComponent from '../../components/UserProfileComponent/UserProfileComponent'
 
-const cx = classNames.bind(styles);
 
 const initialData = {
   oldPassword: 'thanhhuyen@123',
@@ -26,10 +24,10 @@ function CurrentPassword() {
     setIsFormFilled(!!allValues.oldPassword?.trim());
   };
 
-  const handleCheckPassword = async(values) => {
-    const{oldPassword} = values
+  const handleCheckPassword = async (values) => {
+    const { oldPassword } = values
     try {
-      const res = await checkCurrentPass(_id ,access_token, oldPassword);
+      const res = await checkCurrentPass(_id, access_token, oldPassword);
       console.log(res)
       if (res && res.status === 'OK') {
         navigate('/account/edit-password/new-password');
@@ -40,28 +38,29 @@ function CurrentPassword() {
     }
   };
 
-  
+
 
   const handleCancel = () => {
     navigate('/account/profile');
   };
 
   return (
-    <div className='grid wide'>
-      <div style={{ margin: "0 auto", padding: "20px" }} className={cx('container')}>
-        <div className="profile-container">
-          <ProfileUser
+    <div className={styles.main}>
+      <div className='grid wide'>
+        <div className={styles.wrapMain}>
+          <UserProfileComponent
             full_name={full_name}
             src_img={user_avt_img}
-            name={user_name}
+            user_name={user_name}
+            className={styles.user}
           />
-          <div className={cx('content')}>
-            <span className={cx('header')}>Đổi mật khẩu</span>
+          <div className={styles.wrapInfo}>
+            <h2 className={styles.change}>Đổi mật khẩu</h2>
             <Form
               layout="horizontal"
               labelCol={{ span: 6 }}
               wrapperCol={{ span: 18 }}
-              className={cx('form')}
+              className={styles.form}
               form={form}
               onFinish={handleCheckPassword}
               onValuesChange={handleValuesChange}
@@ -77,25 +76,27 @@ function CurrentPassword() {
               </Form.Item>
 
               <Form.Item wrapperCol={{ offset: 6, span: 18 }}>
-                <Button
-                  htmlType="reset"
-                  className={cx('cancel-button')}
-                  onClick={handleCancel}
-                >
-                  Hủy
-                </Button>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  className={cx('confirm-button')}
-                  disabled={!isFormFilled}
-                  style={{
-                    backgroundColor: isFormFilled ? '#E87428' : '#d9d9d9',
-                    borderColor: isFormFilled ? '#E87428' : '#d9d9d9',
-                  }}
-                >
-                  Tiếp tục
-                </Button>
+                <div className={styles.btn}>
+                  <Button
+                    htmlType="reset"
+                    className={styles.cancelBtn}
+                    onClick={handleCancel}
+                  >
+                    Hủy
+                  </Button>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    className={styles.submitBtn}
+                    disabled={!isFormFilled}
+                    style={{
+                      backgroundColor: isFormFilled ? '#E87428' : '#d9d9d9',
+                      borderColor: isFormFilled ? '#E87428' : '#d9d9d9',
+                    }}
+                  >
+                    Tiếp tục
+                  </Button>
+                </div>
               </Form.Item>
             </Form>
           </div>

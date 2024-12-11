@@ -107,10 +107,10 @@ import { useNavigate } from "react-router-dom";
 import { getAllNotification, readNotify } from "../../services/Notification.service.js";
 import UserProfileComponent from "../../components/UserProfileComponent/UserProfileComponent.jsx";
 import styles from './NotificationPage.module.scss'
-import './Notification.scss'
+import './NotificationPage.scss'
 import clsx from "clsx";
 
-const NotificationP = () => {
+const NotificationPage = () => {
   const [loading, setLoading] = useState(true); // Trạng thái loading
   const [error, setError] = useState(null); // Trạng thái lỗi
   const [notifications, setNotifications] = useState([]); // Lưu trữ thông báo
@@ -164,7 +164,7 @@ const NotificationP = () => {
         return order_img;
         break; // Hình ảnh thông báo đơn hàng
       case "Sản phẩm":
-        return product_img; 
+        return product_img;
         break;// Hình ảnh thông báo sản phẩm
       case "Khuyến mãi":
         return voucher_img;
@@ -208,100 +208,51 @@ const NotificationP = () => {
   };
 
   return (
-    // <div className="grid wide">
-    //   <div style={{ margin: "0 auto", padding: "20px" }} className="container">
-    //     <div className="notice-container">
-    //       <ProfileUser full_name={full_name} src_img={user_avt_img} name={user_name} />
-    //       <div className="content">
-    //         <div className="action-buttons">
-    //           <Button
-    //             onClick={markAllAsRead}
-    //             disabled={notifications.every((n) => n.isRead)} // Disable khi tất cả đã đọc
-    //             className="confirm-read-button"
-    //           >
-    //             Đánh dấu tất cả đã đọc
-    //           </Button>
-    //         </div>
-    //         <div className="notifications">
-    //           {loading ? (
-    //             <Spin size="large" />
-    //           ) : error ? (
-    //             <p>{error}</p>
-    //           ) : notifications.length === 0 ? (
-    //             <p>Không có thông báo nào.</p>
-    //           ) : (
-    //             notifications.map((notification) => (
-    //               <Card
-    //                 key={notification._id}
-    //                 className={isRead(notification.isRead)}
-    //                 onClick={() => handleNotificationClick(notification)} // Thêm sự kiện onClick
-    //                 hoverable // Để thẻ Card có hiệu ứng hover
-    //               >
-    //                 <Row>
-    //                   <Col span={4}>
-    //                     <img
-    //                       src={getNotificationImage(notification.notify_type)} // Hiển thị hình ảnh theo loại thông báo
-    //                       alt={notification.type}
-    //                       style={{ width: "100%", borderRadius: "5px" }}
-    //                     />
-    //                   </Col>
-    //                   <Col span={20}>
-    //                     <h6 className="notification-title">{notification.notify_title}</h6>
-    //                     <p className="notification-content">{notification.notify_desc}</p>
-    //                   </Col>
-    //                 </Row>
-    //               </Card>
-    //             ))
-    //           )}
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
     <div className="grid wide">
       <div className={styles.main}>
         <Row gutter={16}>
-          <ProfileUser
-            full_name="Nguyễn Lê Thanh Huyền"
-            src_img={myAvatar}
-            name="yurri_2506"
+          <UserProfileComponent
+            full_name={full_name}
+            src_img={user_avt_img}
+            user_name={user_name}
+            className={styles.user}
           />
           <Col span={18} className={styles.noti}>
             <div className={styles.wrapBtn}>
               <Button
                 onClick={markAllAsRead}
-                disabled={notifications.every((n) => n.read)}
+                disabled={notifications.every((n) => n.isRead)}
                 className={styles.btn}
               >
                 Đánh dấu tất cả đã đọc
               </Button>
             </div>
-            {notifications.map((notification) => (
-              <div className={styles.wrapNoti}>
-                <Card
-                  key={notification.id}
-                  className={clsx({
-                    [styles.isRead]: notification.isRead,
-                    [styles.isUnread]: !notification.isRead,
-                  })}
-                  onClick={() => handleNotificationClick(notification)}
-                >
-                  <Row>
-                    <Col span={4}>
+            <div>
+              {notifications.map((notification) => (
+                <div key={notification.id} className={styles.wrapNoti}>
+                  <Card
+                    className={clsx({
+                      [styles.isRead]: notification.isRead,
+                      [styles.isUnread]: !notification.isRead,
+                    })}
+                    onClick={() => handleNotificationClick(notification)}
+                  >
+                    <div className={styles.info}>
                       <img
                         src={getNotificationImage(notification.notify_type)} // Hiển thị hình ảnh theo loại thông báo
                         alt={notification.type}
                         className={styles.img}
                       />
+                      <div className={styles.content}>
+                        <h6>{notification.notify_title}</h6>
+                        <p>{notification.notify_desc}</p>
+                      </div>
                     </div>
-                    <div className={styles.content}>
-                      <h6>{notification.notify_title}</h6>
-                      <p>{notification.notify_desc}</p>
-                    </div>
-                  </div>
-                </Card>
-              </div>
-            ))}
+                  </Card>
+                </div>
+              ))}
+
+            </div>
           </Col>
         </Row>
       </div>
@@ -309,4 +260,4 @@ const NotificationP = () => {
   );
 };
 
-export default NotificationP;
+export default NotificationPage;

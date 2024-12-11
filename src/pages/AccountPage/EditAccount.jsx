@@ -133,16 +133,13 @@
 import React, { useState } from 'react';
 import { Button, Form, Input, DatePicker, Select } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import classNames from 'classnames/bind';
-import styles from './AccountPage.css';
-import ProfileUser from "../MyOrderPage/UserProfile.jsx";
-import myAvatar from "../../assets/images/avatar.jpg";
+import styles from './AccountPage.module.scss'
+import './AccountPage.scss'
 import moment from 'moment';
 import { useDispatch, useSelector } from "react-redux";
-import { editUser} from '../../services/User.service.js';
+import { editUser } from '../../services/User.service.js';
 import { updateUser } from '../../redux/slices/userSlice.js';
-
-const cx = classNames.bind(styles);
+import UserProfileComponent from '../../components/UserProfileComponent/UserProfileComponent.jsx';
 
 
 function EditAccount() {
@@ -162,7 +159,7 @@ function EditAccount() {
     user_sex: user_sex,
   };
 
-  const handleSave = (values ) => {
+  const handleSave = (values) => {
     //const{User_name, HoTen, NgaySinh, GioiTinh} = values
     console.log('gia tri', values)
     const res = handleUpdateUser(values)
@@ -188,9 +185,9 @@ function EditAccount() {
     setIsFormFilled(isAllFieldsFilled);
   };
 
-  const handleUpdateUser = async(userData) =>{
+  const handleUpdateUser = async (userData) => {
     try {
-      console.log('user',userData)
+      console.log('user', userData)
       const res = await editUser(_id, access_token, userData);
       console.log("Fetched update user", res);
       dispatch(
@@ -198,96 +195,101 @@ function EditAccount() {
           ...res?.data
         })
       );
-      
+
     } catch (error) {
       console.error("Error in handleUpdate:", error);
     }
   }
 
   return (
-    <div className='grid wide'>
-    <div style={{ margin: "0 auto", padding: "20px" }} className={cx('container')}>
-      <div className={cx('profile-container')}>
-        <ProfileUser
-          full_name={full_name}
-          src_img={user_avt_img}
-          name={user_name}
-        />
+    <div className={styles.main}>
+      <div className='grid wide'>
+        <div className={styles.wrapMain}>
+          <UserProfileComponent
+            full_name={full_name}
+            src_img={user_avt_img}
+            user_name={user_name}
+            className={styles.user}
+          />
 
-        <div className={cx('content')}>
-          <span className={cx('header')}>Sửa thông tin tài khoản</span>
+          <div className={styles.wrapInfo}>
+            <h2 className={styles.change}>Sửa thông tin tài khoản</h2>
 
-          <Form
-            layout="horizontal"
-            labelCol={{ span: 6 }}
-            wrapperCol={{ span: 18 }}
-            className={cx('form')}
-            form={form}
-            initialValues={initialData}
-            onFinish={handleSave}
-            onValuesChange={handleValuesChange}
-          >
-            <Form.Item
-              label="Tên người dùng"
-              name="user_name"
-              rules={[{ required: true, message: 'Nhập tên người dùng!' }]}
+            <Form
+              layout="horizontal"
+              labelCol={{ span: 6 }}
+              wrapperCol={{ span: 18 }}
+              className={styles.form}
+              form={form}
+              initialValues={initialData}
+              onFinish={handleSave}
+              onValuesChange={handleValuesChange}
             >
-              <Input />
-            </Form.Item>
-
-            <Form.Item
-              label="Họ và tên"
-              name="full_name"
-              rules={[{ required: true, message: 'Nhập họ và tên!' }]}
-            >
-              <Input />
-            </Form.Item>
-
-            <Form.Item
-              label="Ngày sinh"
-              name="user_birth"
-              rules={[{ required: true, message: 'Nhập ngày sinh!' }]}
-            >
-              <DatePicker format="DD/MM/YYYY" />
-            </Form.Item>
-
-            <Form.Item
-              label="Giới tính"
-              name="user_sex"
-              rules={[{ required: true, message: 'Chọn giới tính!' }]}
-            >
-              <Select>
-                <Select.Option value="Nam">Nam</Select.Option>
-                <Select.Option value="Nữ">Nữ</Select.Option>
-                <Select.Option value="Khác">Khác</Select.Option>
-              </Select>
-            </Form.Item>
-
-            <Form.Item wrapperCol={{ offset: 6, span: 18 }}>
-              <Button
-                htmlType="reset"
-                className={cx('cancel-button')}
-                onClick={handleCancel}
+              <div className={styles.filed}>
+              <Form.Item
+                label="Tên người dùng"
+                name="user_name"
+                rules={[{ required: true, message: 'Nhập tên người dùng!' }]}
               >
-                Hủy
-              </Button>
-              <Button
-                type="primary"
-                htmlType="submit"
-                className={cx('confirm-button')}
-                disabled={!isFormFilled} 
-                style={{
-                  backgroundColor: isFormFilled ? '#E87428' : '#d9d9d9',
-                  borderColor: isFormFilled ? '#E87428' : '#d9d9d9',
-                }}
+                <Input />
+              </Form.Item>
+
+              <Form.Item
+                label="Họ và tên"
+                name="full_name"
+                rules={[{ required: true, message: 'Nhập họ và tên!' }]}
               >
-                Lưu thay đổi
-              </Button>
-            </Form.Item>
-          </Form>
+                <Input />
+              </Form.Item>
+
+              <Form.Item
+                label="Ngày sinh"
+                name="user_birth"
+                rules={[{ required: true, message: 'Nhập ngày sinh!' }]}
+              >
+                <DatePicker format="DD/MM/YYYY" />
+              </Form.Item>
+
+              <Form.Item
+                label="Giới tính"
+                name="user_sex"
+                rules={[{ required: true, message: 'Chọn giới tính!' }]}
+              >
+                <Select>
+                  <Select.Option value="Nam" style={{display: "block"}}>Nam</Select.Option>
+                  <Select.Option value="Nữ">Nữ</Select.Option>
+                  <Select.Option value="Khác">Khác</Select.Option>
+                </Select>
+              </Form.Item>
+              </div>
+
+              <Form.Item wrapperCol={{ offset: 6, span: 18 }}>
+                <div className={styles.btn}>
+                  <Button
+                    htmlType="reset"
+                    className={styles.cancelBtn}
+                    onClick={handleCancel}
+                  >
+                    Hủy
+                  </Button>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    className={styles.submitBtn}
+                    disabled={!isFormFilled}
+                    style={{
+                      backgroundColor: isFormFilled ? '#E87428' : '#d9d9d9',
+                      borderColor: isFormFilled ? '#E87428' : '#d9d9d9',
+                    }}
+                  >
+                    Lưu thay đổi
+                  </Button>
+                </div>
+              </Form.Item>
+            </Form>
+          </div>
         </div>
       </div>
-    </div>
     </div>
   );
 }
