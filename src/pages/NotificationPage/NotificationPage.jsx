@@ -1,3 +1,4 @@
+
 // import React, { useReducer } from "react";
 // import { Button, Card, Col, Row } from "antd";
 // import "./Notification.css"; // Đảm bảo CSS được định nghĩa tại đây
@@ -175,7 +176,6 @@ const NotificationP = () => {
         return null;
     }
   };
-
   // Xử lý khi người dùng nhấn vào thông báo
   const handleNotificationClick = async (notification) => {
     try {
@@ -261,11 +261,10 @@ const NotificationP = () => {
     <div className="grid wide">
       <div className={styles.main}>
         <Row gutter={16}>
-          <UserProfileComponent
-            full_name={full_name}
-            src_img={user_avt_img}
-            user_name={user_name}
-            className={styles.user}
+          <ProfileUser
+            full_name="Nguyễn Lê Thanh Huyền"
+            src_img={myAvatar}
+            name="yurri_2506"
           />
           <Col span={18} className={styles.noti}>
             <div className={styles.wrapBtn}>
@@ -278,7 +277,7 @@ const NotificationP = () => {
               </Button>
             </div>
             {notifications.map((notification) => (
-              <div style={{ margin: "10px 0" }}>
+              <div className={styles.wrapNoti}>
                 <Card
                   key={notification.id}
                   className={clsx({
@@ -287,8 +286,8 @@ const NotificationP = () => {
                   })}
                   onClick={() => handleNotificationClick(notification)}
                 >
-                  <div className={styles.wrapNoti}>
-                    <div>
+                  <Row>
+                    <Col span={4}>
                       <img
                         src={getNotificationImage(notification.notify_type)} // Hiển thị hình ảnh theo loại thông báo
                         alt={notification.type}
