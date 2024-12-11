@@ -3,11 +3,9 @@ import { Tabs, Input, Card, Button, Typography, Row, Col } from "antd";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import "./MyOrderPage.scss";
 import styles from './MyOrderPage.module.scss'
-
-import ProfileUser from  "./UserProfile.jsx";
 import OrderCart from  "./OrderCart.jsx";
 import { useSelector } from "react-redux";
-import OrderCart from './OrderCart.jsx';
+import myAvatar from "../../assets/images/avatar.jpg";
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent.jsx";
 import UserProfileComponent from "../../components/UserProfileComponent/UserProfileComponent.jsx";
 
@@ -71,6 +69,12 @@ const MyOrderPage = () => {
       state: { orders }, // Truyền orders qua state
     });
   };
+
+  const handleFeedBackClick = (orderId) => {
+    navigate(`/product-feedback?tab=${currentTab}&product=${orderId}`, {
+      state: { orders }, // Truyền orders qua state
+    });
+  }
   
   const orders = [
     {
@@ -79,19 +83,19 @@ const MyOrderPage = () => {
       products: [
         {
           id: 101,
-          src_img: myAvatar,
           product_title: "Thức ăn dạng hạt cho chó",
           product_description: "Phân loại hàng: Thức ăn",
           number: "1",
+          src_img: myAvatar,
           price_old: "400.000",
           price_new: "320.000",
         },
         {
           id: 102,
-          src_img: myAvatar,
           product_title: "Sữa tắm cho chó",
           product_description: "Phân loại hàng: Sữa tắm",
           number: "2",
+          src_img: myAvatar,
           price_old: "150.000",
           price_new: "120.000",
         },
@@ -103,7 +107,6 @@ const MyOrderPage = () => {
       products: [
         {
           id: 201,
-          src_img: myAvatar,
           product_title: "Dầu xả cho chó",
           product_description: "Phân loại hàng: Dầu xả",
           number: "1",
@@ -118,7 +121,6 @@ const MyOrderPage = () => {
       products: [
         {
           id: 201,
-          src_img: myAvatar,
           product_title: "Dầu xả cho chó",
           product_description: "Phân loại hàng: Dầu xả",
           number: "1",
@@ -133,7 +135,6 @@ const MyOrderPage = () => {
       products: [
         {
           id: 201,
-          src_img: myAvatar,
           product_title: "Dầu xả cho chó",
           product_description: "Phân loại hàng: Dầu xả",
           number: "1",
@@ -148,7 +149,6 @@ const MyOrderPage = () => {
       products: [
         {
           id: 201,
-          src_img: myAvatar,
           product_title: "Dầu xả cho chó",
           product_description: "Phân loại hàng: Dầu xả",
           number: "1",
@@ -165,7 +165,6 @@ const MyOrderPage = () => {
         <Row gutter={24}>
           <UserProfileComponent
             full_name="Nguyễn Lê Thanh Huyền"
-            src_img={myAvatar}
             isInViewport={isInViewport}
             isInMobile={isInMobile}
             className={styles.profiles}
@@ -248,6 +247,7 @@ const MyOrderPage = () => {
                             className={styles.btnPrimary}
                             widthDiv="none"
                             showIcon={false}
+                            onClick={() => handleFeedBackClick(order.id)}
                           />
                           <ButtonComponent
                             title="Mua lại"

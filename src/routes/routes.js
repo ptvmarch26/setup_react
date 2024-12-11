@@ -32,6 +32,7 @@ import UserProfile from "../pages/MyOrderPage/UserProfile";
 import VoucherPage from "../pages/VoucherPage/VoucherPage";
 import OrderDetailsPage from "../pages/OrderDetailsPage/OrderDetailsPage";
 import ProfilePage from "../pages/ProfilePage/ProfilePage";
+import ProductFeedBackPage from "../pages/ProductFeedBackPage/ProductFeedBackPage";
 
 export const routes = [ 
     //Routes cho User
@@ -74,6 +75,12 @@ export const routes = [
     {
         path: '/order-details',
         page: OrderDetailsPage,
+        isShowHeader: true,
+        role: "user"
+    },
+    {
+        path: '/product-feedback',
+        page: ProductFeedBackPage,
         isShowHeader: true,
         role: "user"
     },
