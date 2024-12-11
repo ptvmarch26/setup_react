@@ -4,7 +4,7 @@ import CardComponent from "../CardComponent/CardComponent";
 import TitleComponent from "../TitleComponent/TitleComponent";
 import { Link } from "react-router-dom";
 
-const BestSellingComponent = ({ products, isInMobile }) => {
+const BestSellingComponent = ({ products, isInMobile,  onClick}) => {
   return (
     <div>
       <TitleComponent
@@ -18,7 +18,7 @@ const BestSellingComponent = ({ products, isInMobile }) => {
           <div key={index} className="col l-3 m-4 c-6">
             <Link
               to={`/product-details/${product._id}`}
-              className="product-link"
+              style={{textDecoration: "none"}}
             >
               <CardComponent
                 src={`data:image/png;base64,${product.product_images[0] || ""}`}
@@ -46,6 +46,7 @@ const BestSellingComponent = ({ products, isInMobile }) => {
         borderRadius="15px"
         fontSize="2rem"
         showIcon={false}
+        onClick={onClick}
       />
     </div>
   );

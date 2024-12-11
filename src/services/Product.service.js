@@ -33,10 +33,11 @@ export const getRelatedProducts = async (id) => {
 
     // Tạo query string với filter
     const params = new URLSearchParams({
-      "filter[product_category]": product_category, // Bộ lọc theo danh mục
-      limit: "10", // Giới hạn số sản phẩm trả về
+      product_category: product_category, // Bộ lọc theo danh mục
+      limit: "8", // Giới hạn số sản phẩm trả về
+      page: "1",
     });
-
+    console.log("abc", `${API_URL}/product/get-all-product?${params.toString()}`)
     const response = await fetch(
       `${API_URL}/product/get-all-product?${params.toString()}`,
       {
@@ -108,7 +109,8 @@ export const getAllProduct = async (params = {}) => {
     const queryParams = {};
     // Thêm các tham số vào queryParams nếu có
     if (limit) queryParams.limit = limit;
-    if (page) queryParams.page = page;
+    if (page) queryParams.page = Number(page) 
+      else queryParams.page = 1 ;
     if (sort) queryParams.sort = sort;
     if (search) queryParams.search = search;
     if (product_brand) queryParams.product_brand = product_brand;

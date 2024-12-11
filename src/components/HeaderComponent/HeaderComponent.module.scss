@@ -295,7 +295,7 @@
 
   .logo {
     position: absolute;
-    top: -330%;
+    top: -260%;
     left: 50%;
     transform: translateX(-50%);
 
@@ -359,8 +359,8 @@
 
   .logo {
     position: absolute;
-    top: -330%;
-    left: 53%;
+    top: -260%;
+    left: 50%;
     transform: translateX(-50%);
 
     img {
@@ -400,10 +400,10 @@
   .nav {
     display: none;
   }
-
-  //Overlay
   .navbar {
-    left: -140px;
+    top: 0;
+    left: 0;
+
 
     ul {
       .moreDog,
@@ -413,53 +413,6 @@
     }
   }
 }
-
-// @media screen and (min-width: 46.25em) and (max-width: 63.9375em) {
-//     .logo {
-//         top: 15px;
-//         left: -45px;
-//         img {
-//             width: 220px;
-//             height: 120px;
-//         }
-//     }
-
-//     ul {
-//         padding: 0;
-//     }
-
-//     .cart {
-
-//         a {
-//             font-size: 2.5rem;
-
-//             span {
-//                 font-size: 1.5rem;
-//             }
-//         }
-//     }
-//     .nav {
-
-//         ul {
-//             margin-top: 4px;
-//         }
-
-//         a {
-//             font-size: 1.4rem;
-//             font-weight: 700;
-//             margin: 0 10px;
-
-//             .icon {
-//                 margin-left: 4px;
-//             }
-//         }
-
-//         .moreDog,
-//         .moreCat {
-//             top: 25px;
-//         }
-//     }
-// }
 
 @media screen and (min-width: 64em) and (max-width: 77.4375em) {
   .logo {

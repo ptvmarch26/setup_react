@@ -23,6 +23,8 @@ const SliderComponent = ({ arrImages, dots = false, arrows = false, defaultArrow
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 3000,
         nextArrow: (
           <NextComponent
             fontSize="4rem"

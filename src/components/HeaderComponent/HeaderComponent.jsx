@@ -565,7 +565,7 @@ const HeaderComponent = () => {
           <Col span={16} offset={8}>
             <ul>
               <li className={styles.forNotify}>
-                <Link to={"/"} onMouseEnter={handleMouseEnter}>
+                <Link to={"/notifications"} onMouseEnter={handleMouseEnter}>
                   <GrNotification />
                   <span>Thông báo</span>
                 </Link>
@@ -576,14 +576,14 @@ const HeaderComponent = () => {
                 />
               </li>
               <li>
-                <Link to={"/fqa"}>
+                <Link to={"/faq"}>
                   <TbHelpSquare />
                   <span>FAQ</span>
                 </Link>
               </li>
               {isAuthenticated ? (
                 <li className={styles.userInfo}>
-                  <Link to={"/my-order"}>
+                  <Link to={"/account/profile"}>
                     <img
                       src={avatar}
                       alt="User Avatar"
@@ -653,12 +653,18 @@ const HeaderComponent = () => {
           </Col>
         </Row>
         <div className={styles.userAndCart}>
-          <div onClick={() => navigate("/my-cart")} className={styles.cCart}>
+          <div onClick={() => navigate("/my-cart/${_id}")} className={styles.cCart}>
             <FaShoppingCart />
           </div>
-          <div onClick={() => navigate("/sign-up")} className={styles.cUser}>
-            <FaUser />
-          </div>
+          {isAuthenticated ? (
+            <div onClick={() => navigate("/user-profile")} className={styles.cUser}>
+              <FaUser />
+            </div>
+          ) : (
+            <div onClick={() => navigate("/sign-in")} className={styles.cUser}>
+              <FaUser />
+            </div>
+          )}
         </div>
         <Row>
           <Col
@@ -733,7 +739,7 @@ const HeaderComponent = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link>
+                  <Link to={`/favorite-products/${_id}`}>
                     <div className={styles.iconNav}>
                       <FaHeart className={styles.iconForNav} />
                       Sản phẩm yêu thích
@@ -745,7 +751,10 @@ const HeaderComponent = () => {
           </div>
         )}
       </div>
-      {(isInViewport || isInMobile) && <BottomMenuComponent />}
+      {(isInViewport || isInMobile) &&
+        <BottomMenuComponent
+          favorite={`favorite-products/${_id}`}
+        />}
     </div>
   );
 };

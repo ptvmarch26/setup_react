@@ -191,6 +191,7 @@ const SortProductComponent = ({ handleNavbar, isInViewport, isInMobile, handleFi
                 className={styles.btn}
                 primary={selectedButton === 'Liên quan'}
                 onClick={() => handleClick('Liên quan')}
+                showIcon={false}
               />
               <ButtonComponent 
                 title="Mới nhất"
@@ -200,7 +201,8 @@ const SortProductComponent = ({ handleNavbar, isInViewport, isInMobile, handleFi
                 widthDiv="none"
                 className={styles.btn}
                 primary={selectedButton === 'Mới nhất'}
-                onClick={() => handleClick('Mới nhất')}  
+                onClick={() => handleClick('Mới nhất')} 
+                showIcon={false}
               />
               <ButtonComponent 
                 title="Bán chạy"
@@ -211,6 +213,7 @@ const SortProductComponent = ({ handleNavbar, isInViewport, isInMobile, handleFi
                 className={styles.btn}
                 primary={selectedButton === 'Bán chạy'}
                 onClick={() => handleClick('Bán chạy')}
+                showIcon={false}
               />
             </div>
             <div className={styles.price}>

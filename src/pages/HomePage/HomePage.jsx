@@ -182,6 +182,9 @@ import React, { useEffect, useState } from 'react'
 import { clsx } from 'clsx'
 import SliderComponent from '../../components/SliderComponent/SliderComponent'
 import slider1 from '../../assets/images/slider1.svg'
+import slider2 from '../../assets/images/slider2.svg'
+import slider3 from '../../assets/images/slider3.svg'
+import slider4 from '../../assets/images/slider4.svg'
 import styles from './HomePage.module.scss'
 import ServiceComponent from '../../components/ServiceComponent/ServiceComponent'
 import service1 from '../../assets/images/service1.svg'
@@ -211,9 +214,6 @@ import AllBrandsComponent from '../../components/AllBrandsComponent/AllBrandsCom
 import { getAllProduct } from '../../services/Product.service'
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from 'react-router-dom'
-import slider2 from '../../assets/images/1.png'
-import slider3 from '../../assets/images/2.png'
-import slider4 from '../../assets/images/3.png'  
 
 const HomePage = () => {
   const [visibleCount, setVisibleCount] = useState(6);
@@ -225,15 +225,18 @@ const HomePage = () => {
     queryKey = queryKey.queryKey
     const product_famous = {
       limit: Number(queryKey[4]),
-      product_famous: String(queryKey[1])
+      product_famous: String(queryKey[1]), 
+      page: 1, 
     };
     const best_seller = {
       limit: Number(queryKey[4]),
-      sort: String(queryKey[2])
+      sort: String(queryKey[2]),
+      page: 1, 
     };
     const product_new = {
       limit: Number(queryKey[4]),
-      sort: String(queryKey[3])
+      sort: String(queryKey[3]), 
+      page: 1, 
     };
     try {
       const [famousProduct, bestProduct, newProduct ] = await Promise.all([
@@ -259,9 +262,11 @@ const HomePage = () => {
   };
   // Sử dụng useQuery để quản lý việc fetch sản phẩm
   const { data, isLoading } = useQuery({
-    queryKey: ['product-data', 'true', 'best_selling', 'newest', '8'],  // Tạo khóa truy vấn cho dữ liệu sản phẩm
+    queryKey: ['product-data', 'true', 'best_selling', 'newest', '12'],  // Tạo khóa truy vấn cho dữ liệu sản phẩm
     queryFn: fetchProductData,   // Hàm fetch dữ liệu từ API
     refetchOnWindowFocus: false, // Không fetch lại khi chuyển tab
+    refetchOnMount: false,
+    refetchOnReconnect: false,
     keepPreviousData: true,      // Giữ dữ liệu cũ khi thay đổi tham số
   });
   const newProduct = data?.newProduct || {}
@@ -269,15 +274,15 @@ const HomePage = () => {
   const bestProduct = data?.bestProduct || {}
 
   const handleNewProduct = () => {
-    navigate("/get-all-product?sort=newest")
+    navigate("/get-all-product?sort=newest&category_level_1=Chó")
   }
 
   const handleFamousProduct = () => {
-    navigate("/get-all-product?product_famous=true")
+    navigate("/get-all-product?product_famous=true&category_level_1=Chó")
   }
 
   const handleBestProduct = () => {
-    navigate("/get-all-product?sort=best_selling")
+    navigate("/get-all-product?sort=best_selling&category_level_1=Chó")
   }
 
   // Xử lý sản phẩm lấy được từ API
@@ -357,7 +362,7 @@ const HomePage = () => {
         </div>
         <NewProductComponent
           isInMobile={isInMobile}
-          products={famousProduct}
+          products={Array.isArray(famousProduct) ? famousProduct : []}
           title="Sản phẩm nổi bật"
           onClick={handleFamousProduct}
         />
@@ -370,7 +375,7 @@ const HomePage = () => {
         </div>
         <NewProductComponent
           isInMobile={isInMobile}
-          products={newProduct}
+          products={Array.isArray(newProduct) ? newProduct : []}
           title="Sản phẩm mới"
           onClick={handleNewProduct}
         />
@@ -383,7 +388,7 @@ const HomePage = () => {
         </div>
         <BestSellingComponent 
           isInMobile={isInMobile}
-          products={bestProduct}
+          products={Array.isArray(bestProduct) ? bestProduct : []}
           onClick={handleBestProduct}
         />
         <div className={styles.underLine}>

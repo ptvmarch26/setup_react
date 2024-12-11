@@ -1,0 +1,21 @@
+@media screen and (max-width: 46.1875em) {
+    .VoucherPage_main__OLpu8 {
+        :where(.css-dev-only-do-not-override-49qm).ant-col-18 {
+            flex: 1;
+            max-width: 100%;
+        }
+
+        :where(.css-dev-only-do-not-override-49qm).ant-card .ant-card-body {
+            padding: 10px;
+        }
+    }
+}
+
+@media screen and (min-width: 46.25em) and (max-width: 63.9375em) {
+    .VoucherPage_main__OLpu8 {
+        :where(.css-dev-only-do-not-override-49qm).ant-col-18 {
+            flex: 1;
+            max-width: 100%;
+        }
+    }
+}

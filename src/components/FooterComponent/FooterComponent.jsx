@@ -128,7 +128,7 @@ const FooterComponent = () => {
                         <Link to={"/privacy-policy"}>
                           Chính sách bảo mật
                         </Link>
-                        <Link to={"/"}>
+                        <Link to={"/help-center"}>
                           Trung tâm trợ giúp
                         </Link>
                         <Link to={"/guarantee"}>
@@ -137,7 +137,7 @@ const FooterComponent = () => {
                         <Link to={"/return-policy"}>
                           Chính sách trả hàng và hoàn tiền
                         </Link>
-                        <Link to={"/"}>
+                        <Link to={"/faq"}>
                           FAQ+
                         </Link>
                       </div>
@@ -164,7 +164,7 @@ const FooterComponent = () => {
                         borderRadisus="2px"
                       />
                       <div className={styles.more}>
-                        <Link to={"/"}>
+                        <Link to={"/about"}>
                           Giới thiệu về PAWFECT
                         </Link>
                         <Link to={"/general-terms"}>
@@ -203,7 +203,7 @@ const FooterComponent = () => {
                         <Link to={"/return-policy"}>
                           Chính sách trả hàng và hoàn tiền
                         </Link>
-                        <Link to={"/"}>
+                        <Link to={"/faq"}>
                           FAQ+
                         </Link>
                       </div>

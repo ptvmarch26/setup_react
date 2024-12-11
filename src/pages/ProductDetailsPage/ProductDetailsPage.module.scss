@@ -11,6 +11,7 @@
     object-fit: contain;
     object-position: center;
     border-radius: 8px;
+    border: 1px solid #ccc;
   }
 
 }
@@ -44,12 +45,12 @@
   }
 
   a {
-      margin-right: 10px;
+    margin-right: 10px;
 
-      img {
-        width: 40px;
-        height: 40px;
-      }
+    img {
+      width: 40px;
+      height: 40px;
+    }
   }
 }
 
@@ -146,7 +147,7 @@
     }
   }
 }
-  
+
 .options {
 
   .option {
@@ -168,9 +169,19 @@
     // gap: 10px;
     flex: 1;
   }
-  
+
+  .btnChoice {
+    border: 1px solid #ccc;
+    transition: border 0.3s ease;
+
+    &.selected {
+      border: 1px solid #E86528;
+    }
+  }
+
+
 }
-  
+
 .size {
   display: flex;
   margin: 20px;
@@ -230,7 +241,7 @@
         outline: none;
       }
     }
-  
+
     .quantityInput {
       width: 60px;
       height: 37px;
@@ -239,14 +250,23 @@
       text-align: center;
       color: #E87428;
       font-size: 2rem;
-  
+
       &:focus {
         outline: 2px solid #E87428;
         z-index: 2;
         outline-offset: -1px;
       }
+
+      &:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+      }
     }
 
+    .disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
   }
 
   .remain {
@@ -260,7 +280,7 @@
     margin: 0;
     margin-left: 10px;
     display: flex;
-    align-items: center;  
+    align-items: center;
 
     svg {
       color: red;
@@ -277,10 +297,11 @@
 
 .chat {
   display: flex;
+
   // margin-left: 30px;
   .btn {
     border-radius: 0 !important;
-    
+
     img {
       margin-right: 10px;
     }
@@ -343,7 +364,7 @@
 }
 
 .feedback {
-  
+
   .title {
     background-color: rgba(243, 239, 239, 0.5);
     padding: 20px;
@@ -361,6 +382,7 @@
   }
 
 }
+
 .overallRating {
   display: flex;
   align-items: center;
@@ -400,7 +422,8 @@
       border-radius: 0 !important;
 
       &:focus {
-        border: 1px solid #E87428;;
+        border: 1px solid #E87428;
+        ;
       }
     }
 
@@ -452,32 +475,32 @@
 
   .contact {
     margin: 30px 0 0 0;
-  
+
     a {
-        margin-right: 0;
+      margin-right: 0;
     }
   }
 
-  .productInfo { 
+  .productInfo {
 
     h2 {
       font-size: 2.5rem;
     }
   }
-  
+
   .price {
     padding: 0;
     background-color: #fff;
 
-  
+
     .oldPrice {
       font-size: 2rem;
     }
-  
+
     .currentPrice {
       font-size: 2.5rem;
     }
-  
+
     .discount {
       display: none;
     }
@@ -503,7 +526,7 @@
       margin: 4px 0;
     }
   }
-    
+
   .size {
     margin: 10px 0 0 0;
     display: flex;
@@ -513,7 +536,7 @@
       margin: 4px;
     }
   }
-  
+
   .quantity {
     margin: 20px 0 0 0;
     display: flex;
@@ -530,7 +553,7 @@
         height: 30px;
         width: 30px;
       }
-    
+
       .quantityInput {
         width: 50px;
         height: 30px;
@@ -548,7 +571,7 @@
     display: flex;
     flex-wrap: wrap;
   }
-  
+
   .productDescription {
 
     .title {
@@ -556,7 +579,7 @@
         font-size: 2rem;
       }
     }
-  
+
     p {
       margin: 0 0 15px 0;
       font-size: 1.5rem;
@@ -573,20 +596,21 @@
   }
 
   .overallRating {
-  
+
     .totalStar {
       min-width: 120px;
+
       span {
         font-size: 2rem;
       }
-  
+
       .star {
         font-size: 1.5rem;
       }
     }
-  
+
     .filter {
-  
+
       .haveStar {
         flex-wrap: wrap;
 
@@ -604,29 +628,29 @@
 
 
 @media screen and (min-width: 46.25em) and (max-width: 63.9375em) {
-  .productInfo {  
+  .productInfo {
     h2 {
       font-size: 3rem;
     }
   }
-  
+
   .rt {
     span {
       font-size: 1.5rem;
     }
-  
+
     &::after {
       height: 16px;
       top: 0;
     }
   }
-  
+
   .sell {
     span {
       font-size: 1.5rem;
     }
   }
-  
+
   .price {
     flex-direction: row-reverse;
     justify-content: flex-end;
@@ -634,15 +658,15 @@
     padding: 0;
     margin: 0;
 
-  
+
     .oldPrice {
       font-size: 2rem;
     }
-  
+
     .currentPrice {
       font-size: 2.5rem;
     }
-  
+
     .discount {
       display: none;
     }
@@ -652,39 +676,40 @@
 
     .option {
       margin: 0;
-    }  
+    }
   }
-    
+
   .size {
     margin: 10px 0 0 0;
   }
-  
+
   .quantity {
     margin: 20px 0 0 0;
   }
-  
+
   .productDescription {
-  
+
     p {
       font-size: 1.5rem;
     }
   }
 
   .overallRating {
-  
+
     .totalStar {
       min-width: 210px;
+
       span {
         font-size: 2.5rem;
       }
-  
+
       .star {
         font-size: 2rem;
       }
     }
-  
+
     .filter {
-  
+
       .haveStar {
         flex-wrap: wrap;
       }

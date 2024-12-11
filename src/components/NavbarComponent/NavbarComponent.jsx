@@ -146,6 +146,7 @@
 import React, { useState } from "react";
 import { Checkbox, Radio, Rate, Input } from "antd";
 import styles from "./NavbarComponent.module.scss";
+import './NavbarComponent.scss'
 import ButtonComponent from "../ButtonComponent/ButtonComponent";
 import { Link } from "react-router-dom";
 
@@ -153,6 +154,7 @@ const NavbarComponent = ({ isInViewport, isInMobile, handleFilterChange }) => {
   const [showAllBrands, setShowAllBrands] = useState(false);
   const [priceMin, setMinPrice] = useState(""); // Lưu giá trị minPrice
   const [priceMax, setMaxPrice] = useState(""); // Lưu giá trị maxPrice
+  const [errorMessage, setErrorMessage] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]); // Lưu trữ các danh mục đã chọn
 
   // Hàm xử lý thay đổi bộ lọc danh mục
@@ -161,22 +163,32 @@ const NavbarComponent = ({ isInViewport, isInMobile, handleFilterChange }) => {
     handleFilterChange({ category_level_2: selectedCategories }); // Gọi hàm handleFilterChange từ parent component
   };
 
-  // Hàm xử lý thay đổi bộ lọc giá
   const onMinPriceChange = (e) => {
-    setMinPrice(e.target.value); // Cập nhật giá trị minPrice
+    const value = parseInt(e.target.value, 10);
+    setMinPrice(value < 0 ? 0 : value);
   };
 
   const onMaxPriceChange = (e) => {
-    setMaxPrice(e.target.value); // Cập nhật giá trị maxPrice
+    const value = parseInt(e.target.value, 10);
+    setMaxPrice(value < 0 ? 0 : value);
   };
 
   const onApplyPriceChange = () => {
-    // Kiểm tra nếu cả minPrice và maxPrice đều hợp lệ
-    if (priceMin && priceMax && !isNaN(priceMin) && !isNaN(priceMax)) {
+    const min = priceMin ? Number(priceMin) : null;
+    const max = priceMax ? Number(priceMax) : null;
+
+    if ((min === null && max === null) || (min !== null && max !== null && min > max)) {
+      setErrorMessage("Vui lòng điền giá trị phù hợp");
+      return;
+    }
+
+    setErrorMessage("");
+
+    if (!isNaN(min) && !isNaN(max)) {
       handleFilterChange({
-        priceMin: Number(priceMin),
-        priceMax: Number(priceMax),
-      }); // Gửi giá trị lên parent component
+        priceMin: min !== null ? min : 1, // Nếu Min trống, mặc định là 1
+        priceMax: max,
+      });
     }
   };
 
@@ -221,12 +233,16 @@ const NavbarComponent = ({ isInViewport, isInMobile, handleFilterChange }) => {
                 style={{ width: "45%" }}
               />
             </div>
-            <button
+            <ButtonComponent
+              title="Áp dụng"
               onClick={onApplyPriceChange}
               className={styles.applyPriceBtn}
-            >
-              Áp dụng
-            </button>
+              showIcon={false}
+              fontSize="1.3rem"
+              borderRadius="none"
+              primary
+            />
+            {errorMessage && <p style={{ color: "red", margin: "10px 0 0 0" }}>{errorMessage}</p>}
           </div>
         );
       case "brand":
@@ -249,9 +265,17 @@ const NavbarComponent = ({ isInViewport, isInMobile, handleFilterChange }) => {
         );
       case "star":
         return options.map((option, index) => (
-          <div key={index}>
-            <Rate disabled defaultValue={option} />
-            <p>Sao</p>
+          <div key={index} className={styles.wrapStar}>
+            <div className={styles.starRow}>
+              {Array.from({ length: 5 }).map((_, i) => (
+                <span
+                  key={i}
+                  className={`${styles.stars} ${i < Number(option) ? styles.active : styles.inactive
+                    }`}
+                ></span>
+              ))}
+            </div>
+            <p>Sao {option}</p>
           </div>
         ));
       default:
@@ -308,18 +332,18 @@ const NavbarComponent = ({ isInViewport, isInMobile, handleFilterChange }) => {
       <div className={styles.filter}>
         <h2>Số sao đánh giá</h2>
         <div className={styles.star}>
-          {renderContent("star", ["5", "4", "3", "2", "1"])}
+        {renderContent("star", ["5", "4", "3", "2", "1"])}
         </div>
       </div>
       {isInViewport || isInMobile ? (
         <ButtonComponent
-          primary
           title="Áp dụng"
-          width="80%"
-          height="40px"
-          textAlign="center"
-          margin="10px 0 0 0"
-          className={styles.btn}
+          // onClick={handleFilterChange}
+          className={styles.applyPriceBtn}
+          showIcon={false}
+          fontSize="1.3rem"
+          borderRadius="none"
+          primary
         />
       ) : null}
     </div>

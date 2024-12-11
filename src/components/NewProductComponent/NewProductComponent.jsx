@@ -14,11 +14,11 @@ const NewProductComponent = ({ products, isInMobile, title, onClick }) => {
         fontSize={isInMobile ? "3rem" : "4rem"}
       />
       <div style={isInMobile ? { margin: "0 4px" } : undefined} className="row">
-        {products.map((product, index) => (
+        {products?.map((product, index) => (
           <div key={index} className="col l-3 m-4 c-6">
             <Link
               to={`/product-details/${product._id}`}
-              className="product-link"
+              style={{textDecoration: "none"}}
             >
               <CardComponent
                 src={`data:image/png;base64,${product.product_images[0] || ""}`}
