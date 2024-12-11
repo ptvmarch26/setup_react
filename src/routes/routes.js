@@ -31,6 +31,7 @@ import FAQPage from "../pages/FAQPage/FAQPage";
 import UserProfile from "../pages/MyOrderPage/UserProfile";
 import VoucherPage from "../pages/VoucherPage/VoucherPage";
 import OrderDetailsPage from "../pages/OrderDetailsPage/OrderDetailsPage";
+import ProfilePage from "../pages/ProfilePage/ProfilePage";
 
 export const routes = [ 
     //Routes cho User
@@ -214,7 +215,7 @@ export const routes = [
     },
     {
         path: '/user-profile',
-        page: UserProfile,
+        page: ProfilePage,
         isShowHeader: true,
         role: "user"
     },

@@ -2,7 +2,7 @@ import React, { useReducer, useState } from "react";
 import { Button, Card, Col, Row } from "antd";
 import clsx from "clsx";
 import styles from "./VoucherPage.module.scss";
-import ProfileUser from "../MyOrderPage/UserProfile.jsx";
+import './VoucherPage.scss'
 import myAvatar from "../../assets/images/avatar.jpg";
 import freeship from '../../assets/images/freeship.webp'
 import { useNavigate } from "react-router-dom";
@@ -67,7 +67,7 @@ const VoucherPage = () => {
                     <UserProfileComponent
                         full_name="Nguyễn Lê Thanh Huyền"
                         src_img={myAvatar}
-                        name="yurri_2506"
+                        className={styles.user}
                     />
                     <Col span={18}>
                         {Object.keys(vouchers).map((category) => (

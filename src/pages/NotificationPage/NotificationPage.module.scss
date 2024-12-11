@@ -12,11 +12,15 @@
 }
 
 .wrapNoti {
-  margin: 10px 0;
+  display: flex;
   .img {
     width: 80px;
     height: 80px;
     border-radius: 10px;
+  }
+
+  .content {
+    margin-left: 10px;
   }
 }
 
@@ -33,5 +37,21 @@
 
   &:hover {
       background-color: rgba(0, 0, 0, 0.05);
+  }
+}
+
+@media screen and (max-width: 46.1875em) {
+  .main {
+    margin: 0 4px;
+  }
+
+  .user {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 46.25em) and (max-width: 63.9375em) {
+  .user {
+    display: none;
   }
 }

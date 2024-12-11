@@ -157,7 +157,6 @@ const MyOrderPage = () => {
           <UserProfileComponent
             full_name="Nguyễn Lê Thanh Huyền"
             src_img={myAvatar}
-            name="yurri_2506"
             isInViewport={isInViewport}
             isInMobile={isInMobile}
             className={styles.profiles}
@@ -194,7 +193,7 @@ const MyOrderPage = () => {
                 return false;
               })
               .map((order) => (
-                <Card className={styles.card} key={order.id} onClick={() => handleProductClick(order.id)}>
+                <Card className={styles.card} key={order.id}>
                   <Row className={styles.orderStatus}>
                     <Col span={24}>
                       <Text>
@@ -204,7 +203,7 @@ const MyOrderPage = () => {
                   </Row>
 
                   {order.products.map((product) => (
-                    <div>
+                    <div onClick={() => handleProductClick(order.id)} style={{cursor: "pointer"}}>
                       <OrderCart
                         key={product.id}
                         {...product}
