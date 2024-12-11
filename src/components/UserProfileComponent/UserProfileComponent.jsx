@@ -117,14 +117,15 @@ const UserProfileComponent = ({ full_name, src_img, name, className, user_name }
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  color: selectedKey.startsWith("/account")
-                    ? "orange"
-                    : "inherit",
+                  // color: selectedKey.startsWith("/account")
+                  //   ? "orange"
+                  //   : "inherit",
                 }}
               />
             }
             title="Thông tin cá nhân"
             onTitleClick={() => handleSubMenuToggle("/account")}
+            className={styles.subMenu}
           >
             <Menu.Item
               key="/account/profile"

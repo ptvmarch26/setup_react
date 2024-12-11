@@ -1,0 +1,31 @@
+@media screen and (max-width: 46.1875em) {
+  .NotificationPage_main__gXcUW {
+      :where(.css-dev-only-do-not-override-49qm).ant-col-18 {
+          flex: 1;
+          max-width: 100%;
+      }
+  }
+}
+
+@media screen and (min-width: 46.25em) and (max-width: 63.9375em) {
+  .NotificationPage_main__gXcUW {
+      :where(.css-dev-only-do-not-override-49qm).ant-col-18 {
+          flex: 1;
+          max-width: 100%;
+      }
+  }
+}
+
+:where(.css-dev-only-do-not-override-49qm).ant-card-bordered {
+  border: 1px solid #ccc;
+}
+
+.NotificationPage_wrapBtn__LMKLV {
+  :where(.css-dev-only-do-not-override-49qm).ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-dev-only-do-not-override-49qm).ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover {
+    border: 1px solid #E87428;
+  }
+
+  :where(.css-dev-only-do-not-override-49qm).ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover, :where(.css-dev-only-do-not-override-49qm).ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover {
+    color: #E87428;
+  }
+}

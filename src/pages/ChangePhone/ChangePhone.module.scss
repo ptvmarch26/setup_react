@@ -1,0 +1,68 @@
+.main {
+  padding: 20px 0;
+}
+
+.wrapMain {
+  display: flex;
+}
+
+.wrapInfo {
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0;
+  }
+
+  .change {
+    margin-bottom: 20px;
+  }
+}
+
+.form {
+  width: 100%;
+  padding: 0 10px;
+
+  .inputSDT {
+    display: block;
+  }
+}
+
+.btn {
+  display: flex;
+  // justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+
+  .cancelBtn{
+    background-color: rgb(247, 37, 37);
+    color: #fff;
+    border: 1px solid transparent;
+  }
+
+  .submitBtn {
+    background-color: #E87428;
+    border: 1px solid transparent;
+  }
+}
+
+@media screen and (max-width: 46.1875em) {
+  .wrapInfo {
+    margin: 0 4px;
+  }
+
+  .user {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 46.25em) and (max-width: 63.9375em) {
+  .user {
+    display: none;
+  }
+}

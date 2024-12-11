@@ -110,23 +110,19 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import classNames from 'classnames/bind';
-import styles from './ChangeEmail.css';
-import ProfileUser from "../MyOrderPage/UserProfile.jsx";
-import myAvatar from "../../assets/images/avatar.jpg";
-
+import styles from './ChangeEmail.module.scss'
+import './ChangeEmail.scss'
+import UserProfileComponent from '../../components/UserProfileComponent/UserProfileComponent'
 import { Button, Form, Input } from 'antd';
 import { useSelector } from 'react-redux';
 import { sendOtp } from '../../services/Email.service.js';
-
-const cx = classNames.bind(styles);
 
 function ChangeEmail() {
   const navigate = useNavigate();
   const [form] = Form.useForm();
 
   const [isFormFilled, setIsFormFilled] = useState(false);
-  const { _id, isAuthenticated,user_email, user_name, full_name, user_avt_img} = useSelector((state) => state.user); // Lấy email từ Redux
+  const { _id, isAuthenticated, user_email, user_name, full_name, user_avt_img } = useSelector((state) => state.user); // Lấy email từ Redux
   const [error, setError] = useState('');
   const initialData = {
     currentEmail: user_email,
@@ -151,9 +147,9 @@ function ChangeEmail() {
   };
 
   const handleSave = (values) => {
-    const{currentEmail, newEmail} = values
+    const { newEmail } = values
     handlesendOtp(newEmail);
-    navigate('/verification', { state: { newEmail }});
+    navigate('/verification', { state: { newEmail } });
   };
 
   const handleCancel = () => {
@@ -161,23 +157,24 @@ function ChangeEmail() {
   };
 
   return (
-    <div className='grid wide'>
-      <div style={{ margin: "0 auto", padding: "20px" }} className={cx('container')}>
-        <div className="profile-container">
-          <ProfileUser
+    <div className={styles.main}>
+      <div className='grid wide'>
+        <div className={styles.wrapMain}>
+          <UserProfileComponent
             full_name={full_name}
             src_img={user_avt_img}
-            name={user_name}
+            user_name={user_name}
+            className={styles.user}
           />
 
-          <div className={cx('content')}>
-            <span className={cx('header')}>{user_email ? 'Đổi email' : 'Thêm email mới'}</span>
+          <div className={styles.wrapInfo}>
+            <h2 className={styles.change}>{user_email ? 'Đổi email' : 'Thêm email mới'}</h2>
 
             <Form
               layout="horizontal"
               labelCol={{ span: 6 }}
               wrapperCol={{ span: 18 }}
-              className={cx('form')}
+              className={styles.form}
               form={form}
               initialValues={{ currentEmail: user_email || '' }}
               onFinish={handleSave}
@@ -206,25 +203,27 @@ function ChangeEmail() {
               </Form.Item>
 
               <Form.Item wrapperCol={{ offset: 6, span: 18 }}>
-                <Button
-                  htmlType="reset"
-                  className={cx('cancel-button')}
-                  onClick={handleCancel}
-                >
-                  Hủy
-                </Button>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  className={cx('confirm-button')}
-                  disabled={!isFormFilled}
-                  style={{
-                    backgroundColor: isFormFilled ? '#E87428' : '#d9d9d9',
-                    borderColor: isFormFilled ? '#E87428' : '#d9d9d9',
-                  }}
-                >
-                  {user_email ? 'Xác nhận' : 'Thêm email mới'}
-                </Button>
+                <div className={styles.btn}>
+                  <Button
+                    htmlType="reset"
+                    className={styles.cancelBtn}
+                    onClick={handleCancel}
+                  >
+                    Hủy
+                  </Button>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    className={styles.submitBtn}
+                    disabled={!isFormFilled}
+                    style={{
+                      backgroundColor: isFormFilled ? '#E87428' : '#d9d9d9',
+                      borderColor: isFormFilled ? '#E87428' : '#d9d9d9',
+                    }}
+                  >
+                    {user_email ? 'Xác nhận' : 'Thêm email mới'}
+                  </Button>
+                </div>
               </Form.Item>
             </Form>
           </div>
