@@ -377,13 +377,13 @@ const ProductDetailsPage = () => {
                     <span className={styles.currentPrice}>
                       {selectedVariant
                         ? (
-                            selectedVariant?.product_price *
-                            (1 - productDetails?.product_percent_discount / 100)
-                          ).toLocaleString()
+                          selectedVariant?.product_price *
+                          (1 - productDetails?.product_percent_discount / 100)
+                        ).toLocaleString()
                         : (
-                            productDetails?.product_price *
-                            (1 - productDetails?.product_percent_discount / 100)
-                          ).toLocaleString()}
+                          productDetails?.product_price *
+                          (1 - productDetails?.product_percent_discount / 100)
+                        ).toLocaleString()}
                       đ
                     </span>
                     <span className={styles.oldPrice}>
@@ -404,13 +404,13 @@ const ProductDetailsPage = () => {
                     <span className={styles.currentPrice}>
                       {selectedVariant
                         ? (
-                            selectedVariant?.product_price *
-                            (1 - productDetails?.product_percent_discount / 100)
-                          ).toLocaleString()
+                          selectedVariant?.product_price *
+                          (1 - productDetails?.product_percent_discount / 100)
+                        ).toLocaleString()
                         : (
-                            productDetails?.product_price *
-                            (1 - productDetails?.product_percent_discount / 100)
-                          ).toLocaleString()}
+                          productDetails?.product_price *
+                          (1 - productDetails?.product_percent_discount / 100)
+                        ).toLocaleString()}
                       đ
                     </span>
                   </div>
@@ -434,9 +434,8 @@ const ProductDetailsPage = () => {
                           width="170px"
                           widthDiv="none"
                           margin="0 0 10px 0"
-                          className={`${styles.btnChoice} ${
-                            selectedVariant === variant ? styles.selected : ""
-                          }`}
+                          className={`${styles.btnChoice} ${selectedVariant === variant ? styles.selected : ""
+                            }`}
                           onClick={() => handleVariantClick(variant)}
                         />
                       </div>
@@ -459,9 +458,8 @@ const ProductDetailsPage = () => {
                     onChange={(e) => handleInputChange(e.target.value)}
                     min={1}
                     max={selectedVariant?.product_countInStock || 1}
-                    className={`${styles.quantityInput} ${
-                      !selectedVariant ? styles.disabled : ""
-                    }`}
+                    className={`${styles.quantityInput} ${!selectedVariant ? styles.disabled : ""
+                      }`}
                     disabled={!selectedVariant}
                   />
                   <button
@@ -618,9 +616,8 @@ const ProductDetailsPage = () => {
             {feedbackList.map((data, index) => (
               <div key={index}>
                 <ProductFeedBackComponent
-                  img={`data:image/png;base64,${
-                    data.user_id.user_avt_img || ""
-                  }`}
+                  img={`data:image/png;base64,${data.user_id.user_avt_img || ""
+                    }`}
                   name={data.user_id.user_name || "ẩn danh"}
                   star={data.rating || "ẩn danh"}
                   date={
@@ -631,8 +628,8 @@ const ProductDetailsPage = () => {
                   imgFeedback={
                     Array.isArray(data.feedback_img)
                       ? data.feedback_img.map(
-                          (img) => `data:image/png;base64,${img}`
-                        )
+                        (img) => `data:image/png;base64,${img}`
+                      )
                       : []
                   }
                 />
@@ -649,9 +646,20 @@ const ProductDetailsPage = () => {
             ))}
           </div>
         </div>
-        <div className={styles.panigation}>
-          <Pagination defaultCurrent={1} total={50} />
+        {feedbackList?.length === 0 ? (
+          <div className={styles.noFeedback}>
+          <img
+            src="https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/shoprating/7d900d4dc402db5304b2.png"
+            alt="No Feedback"
+            className={styles.img}
+          />
+          <p>Hiện không có đánh giá nào</p>
         </div>
+        ) : (
+          <div className={styles.panigation}>
+            <Pagination defaultCurrent={1} total={50} />
+          </div>
+        )}
         {/* Related Products */}
         <div className={styles.otherProduct}>
           <div className={styles.title}>
@@ -663,12 +671,11 @@ const ProductDetailsPage = () => {
                 <div key={index} className="col l-2-4 m-4 c-6">
                   <Link
                     to={`/product-details/${product._id}`}
-                    style={{textDecoration: "none"}}
+                    style={{ textDecoration: "none" }}
                   >
                     <CardComponent
-                      src={`data:image/png;base64,${
-                        product.product_images[0] || ""
-                      }`}
+                      src={`data:image/png;base64,${product.product_images[0] || ""
+                        }`}
                       alt="ảnh sản phẩm"
                       name={product.product_title}
                       oldPrice={product.product_price}
