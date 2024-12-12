@@ -18,7 +18,7 @@ import { getDetailStore } from '../../services/Store.service'
 
 const FooterComponent = () => {
   const [isTabletView, setIsTabletView] = useState(false);
-  const [storeInfo, setStoreInfo] = useState(null); 
+  const [storeInfo, setStoreInfo] = useState(null);
 
   useEffect(() => {
     const fetchStoreInfo = async () => {
@@ -29,7 +29,7 @@ const FooterComponent = () => {
         //   console.log(data)
         //   setStoreInfo(data);
         // }
-        console.log("DATA",response)
+        console.log("DATA", response)
         setStoreInfo(response); // Lưu dữ liệu vào state
         console.log('storeInfo', storeInfo)
       } catch (error) {
@@ -37,7 +37,7 @@ const FooterComponent = () => {
       }
     };
     fetchStoreInfo();
-    
+
   }, []);
 
   useEffect(() => {
@@ -56,99 +56,99 @@ const FooterComponent = () => {
   }, []);
   return (
     <div className={styles.header}>
-        <div className="grid wide">
-            <div className={clsx('row', styles.wrapper)}>
-              <div className={clsx('col l-4 m-5 c-12')}>
-                <TitleComponent 
-                  title="Pawfect petcare center"
-                  textAlign="left"
-                  textTransform="uppercase"
-                  fontSize="3rem"
-                  color="#fff"
-                  margin="20px 0"
-                  className={styles.title}
-                />
-                <div className={styles.info}>
-                  <h3>Liên hệ</h3>
-                  <p>{storeInfo?.store_name}</p>
-                  <p>MST: {storeInfo?.store_mst}</p>
-                  <p>
-                  {storeInfo?.store_address[0]}
-                  </p>
-                  <a href="tel:+843828688383">
-                    <MdPhonePaused className={styles.icon}/>
-                    Hotline: {storeInfo?.phone}
-                  </a>
-                  <a href="mailto:contact@pawfect.vn">
-                    <MdOutlineMailOutline className={styles.icon}/>
-                    Email: {storeInfo?.store_email}
-                  </a>
-                </div>
-                <div className={styles.contact}>
-                  <Link to={"/"}>
-                    <img src={facebook} alt="" />
-                  </Link>
-                  <Link to={"/"}>
-                    <img src={instagram} alt="" />
-                  </Link>
-                  <Link to={"/"}>
-                    <img src={tiktok} alt="" />
-                  </Link>
-                  <Link to={"/"}>
-                    <img src={zalo} alt="" />
-                  </Link>
+      <div className="grid wide">
+        <div className={clsx('row', styles.wrapper)}>
+          <div className={clsx('col l-4 m-5 c-12')}>
+            <TitleComponent
+              title="Pawfect petcare center"
+              textAlign="left"
+              textTransform="uppercase"
+              fontSize="3rem"
+              color="#fff"
+              margin="20px 0"
+              className={styles.title}
+            />
+            <div className={styles.info}>
+              <h3>Liên hệ</h3>
+              <p>{storeInfo?.store_name}</p>
+              <p>MST: {storeInfo?.store_mst}</p>
+              <p>
+                {storeInfo?.store_address[0]}
+              </p>
+              <a href="tel:+843828688383">
+                <MdPhonePaused className={styles.icon} />
+                Hotline: {storeInfo?.phone}
+              </a>
+              <a href="mailto:contact@pawfect.vn">
+                <MdOutlineMailOutline className={styles.icon} />
+                Email: {storeInfo?.store_email}
+              </a>
+            </div>
+            <div className={styles.contact}>
+              <Link to={"/"}>
+                <img src={facebook} alt="" />
+              </Link>
+              <Link to={"/"}>
+                <img src={instagram} alt="" />
+              </Link>
+              <Link to={"/"}>
+                <img src={tiktok} alt="" />
+              </Link>
+              <Link to={"/"}>
+                <img src={zalo} alt="" />
+              </Link>
+            </div>
+          </div>
+          {
+            isTabletView ? (
+              <div className='col l-3 m-3'>
+                <div className={styles.about}>
+                  <TitleComponent
+                    title="Về PAWFECT"
+                    textAlign="left"
+                    textTransform="none"
+                    fontSize="3rem"
+                    color="#fff"
+                    margin='20px 0 10px'
+                    className={styles.title2}
+                  />
+                  <UnderLineComponent
+                    width="150px"
+                    height="3px"
+                    background="#fff"
+                    borderRadisus="2px"
+                  />
+                  <div className={styles.more}>
+                    <Link to={"/about"}>
+                      Giới thiệu về PAWFECT
+                    </Link>
+                    <Link to={"/general-terms"}>
+                      Điều khoản chung
+                    </Link>
+                    <Link to={"/privacy-policy"}>
+                      Chính sách bảo mật
+                    </Link>
+                    <Link to={"/help-center"}>
+                      Trung tâm trợ giúp
+                    </Link>
+                    <Link to={"/guarantee"}>
+                      Chính sách bảo hành
+                    </Link>
+                    <Link to={"/return-policy"}>
+                      Chính sách trả hàng và hoàn tiền
+                    </Link>
+                    <Link to={"/faq"}>
+                      FAQ+
+                    </Link>
+                  </div>
                 </div>
               </div>
-              {
-                isTabletView ? (
-                  <div className='col l-3 m-3'>
-                    <div className={styles.about}>
-                      <TitleComponent 
-                        title="Về PAWFECT"
-                        textAlign="left"
-                        textTransform="none"
-                        fontSize="3rem"
-                        color="#fff"
-                        margin='20px 0 10px'
-                        className={styles.title2}
-                      />
-                      <UnderLineComponent 
-                        width="150px"
-                        height="3px"
-                        background="#fff"
-                        borderRadisus="2px"
-                      />
-                      <div className={styles.more}>
-                        <Link to={"/about"}>
-                          Giới thiệu về PAWFECT
-                        </Link>
-                        <Link to={"/general-terms"}>
-                          Điều khoản chung
-                        </Link>
-                        <Link to={"/privacy-policy"}>
-                          Chính sách bảo mật
-                        </Link>
-                        <Link to={"/help-center"}>
-                          Trung tâm trợ giúp
-                        </Link>
-                        <Link to={"/guarantee"}>
-                          Chính sách bảo hành
-                        </Link>
-                        <Link to={"/return-policy"}>
-                          Chính sách trả hàng và hoàn tiền
-                        </Link>
-                        <Link to={"/faq"}>
-                          FAQ+
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                ) :
-                (
-                  <>
+            ) :
+              (
+                <>
                   <div className='col l-2-5 c-12'>
                     <div className={styles.about}>
-                      <TitleComponent 
+                      <TitleComponent
                         title="Về PAWFECT"
                         textAlign="left"
                         textTransform="none"
@@ -157,7 +157,7 @@ const FooterComponent = () => {
                         margin='20px 0 10px'
                         className={styles.title2}
                       />
-                      <UnderLineComponent 
+                      <UnderLineComponent
                         width="150px"
                         height="3px"
                         background="#fff"
@@ -178,7 +178,7 @@ const FooterComponent = () => {
                   </div>
                   <div className='col l-2-5 c-12'>
                     <div className={styles.support}>
-                      <TitleComponent 
+                      <TitleComponent
                         title="Hỗ trợ"
                         textAlign="left"
                         textTransform="none"
@@ -187,7 +187,7 @@ const FooterComponent = () => {
                         margin='20px 0 10px'
                         className={styles.title2}
                       />
-                      <UnderLineComponent 
+                      <UnderLineComponent
                         width="150px"
                         height="3px"
                         background="#fff"
@@ -209,41 +209,49 @@ const FooterComponent = () => {
                       </div>
                     </div>
                   </div>
-                  </>
-                )
-              }
-              <div className={clsx('col l-3 m-4 c-12')}>
-                <div className={styles.location}>
-                  <TitleComponent 
-                    title="Địa chỉ cửa hàng"
-                    textAlign="left"
-                    textTransform="none"
-                    fontSize="3rem"
-                    color="#fff"
-                    margin='20px 0 10px'
-                    className={styles.title2}
-                  />
-                  <UnderLineComponent 
-                    width="150px"
-                    height="3px"
-                    background="#fff" 
-                    borderRadisus="2px"
-                  />
-                  <div className={styles.more}>
-                    {/* <p>CS1: 313 Xô Viết Nghệ Tĩnh, Phường 24, Quận Bình Thạnh, TP.HCM</p>
+                </>
+              )
+          }
+          <div className={clsx('col l-3 m-4 c-12')}>
+            <div className={styles.location}>
+              <TitleComponent
+                title="Địa chỉ cửa hàng"
+                textAlign="left"
+                textTransform="none"
+                fontSize="3rem"
+                color="#fff"
+                margin='20px 0 10px'
+                className={styles.title2}
+              />
+              <UnderLineComponent
+                width="150px"
+                height="3px"
+                background="#fff"
+                borderRadisus="2px"
+              />
+              <div className={styles.more}>
+                {/* <p>CS1: 313 Xô Viết Nghệ Tĩnh, Phường 24, Quận Bình Thạnh, TP.HCM</p>
                     <p>CS2: 12 Lê Văn Việt, Phường Tăng Nhơn Phú, TP. Thủ  Đức, TP.HCM</p>
                     <p>CS3: 165 Võ Thị Sáu, Phường Võ Thị Sáu, Quận 3, TP.HCM </p> */}
-                    {storeInfo?.store_address.map((addr, index) => (
-                    <p key={index}>{`CS${index + 1}: ${addr}`}</p>
-                     ))}
-                  </div>
-                </div>
+                {storeInfo?.store_address.map((addr, index) => (
+                  <p key={index}>
+                    <a
+                      href={`https://www.google.com/maps?q=${encodeURIComponent(addr)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {`CS${index + 1}: ${addr}`}
+                    </a>
+                  </p>
+                ))}
               </div>
             </div>
+          </div>
         </div>
-        <div className={styles.copyRight}>
-          <p>2024 - Bản quyền thuộc {storeInfo?.store_name}</p>
-        </div>
+      </div>
+      <div className={styles.copyRight}>
+        <p>2024 - Bản quyền thuộc {storeInfo?.store_name}</p>
+      </div>
     </div>
   )
 }

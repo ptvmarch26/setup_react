@@ -28,11 +28,14 @@ import cart from "../../assets/images/cart.svg";
 import { FaHeart } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 import { updateCart, updateFavor } from "../../services/Order.service";
+import PopupComponent from "../../components/PopupComponent/PopupComponent";
 
 const ProductDetailsPage = () => {
   const { id } = useParams();
   const [numProduct, setNumProduct] = useState(1);
   const [selectedVariant, setSelectedVariant] = useState(null);
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [message, setMessage] = useState("");
   const [selectedImage, setSelectedImage] = useState(null); // State cho hình ảnh chính
   const [like, setLike] = useState(false);
   const navigate = useNavigate();
@@ -126,7 +129,8 @@ const ProductDetailsPage = () => {
     if (!user?.isAuthenticated) {
       navigate("/sign-in", { state: location?.pathname });
     } else if (!selectedVariant) {
-      alert("Vui lòng chọn một biến thể trước khi thêm vào giỏ hàng!");
+      setMessage("Vui lòng chọn một biến thể trước khi thêm vào giỏ hàng")
+      setIsPopupVisible(true);
     } else {
       // Gửi API cập nhật giỏ hàng vào DB (lấy ID của người dùng và dữ liệu giỏ hàng)
       const cartData = {
@@ -146,12 +150,14 @@ const ProductDetailsPage = () => {
         const userId = user._id; // Lấy ID người dùng từ thông tin người dùng đã đăng nhập
         const updatedCart = await updateCart(userId, cartData, accessToken); // Gửi API để cập nhật giỏ hàng
         if (updatedCart) {
-          alert("Thêm sản phẩm thành công vào giỏ hàng");
+          setMessage("Thêm sản phẩm vào giỏ hàng thành công")
+          setIsPopupVisible(true);
         }
       } catch (error) {
         // Xử lý lỗi nếu có
         console.error("Lỗi khi cập nhật giỏ hàng:", error);
-        alert("Có lỗi xảy ra khi cập nhật giỏ hàng. Vui lòng thử lại.");
+        setMessage("Có lỗi xảy ra khi cập nhật giỏ hàng. Vui lòng thử lại.")
+        setIsPopupVisible(true);
       }
     }
   };
@@ -268,12 +274,14 @@ const ProductDetailsPage = () => {
         const userId = user._id; // Lấy ID người dùng từ thông tin người dùng đã đăng nhập
         const updatedCart = await updateFavor(userId, cartData2, accessToken); // Gửi API để cập nhật giỏ hàng
         if (updatedCart) {
-          alert("Thêm sản phẩm thành công vào giỏ hàng");
+          setMessage("Thêm sản phẩm vào yêu thích thành công")
+          setIsPopupVisible(true);
         }
       } catch (error) {
         // Xử lý lỗi nếu có
         console.error("Lỗi khi cập nhật giỏ hàng:", error);
-        alert("Có lỗi xảy ra khi cập nhật giỏ hàng. Vui lòng thử lại.");
+        setMessage("Có lỗi xảy ra khi cập nhật giỏ hàng. Vui lòng thử lại.")
+        setIsPopupVisible(true);
       }
     }
   };
@@ -648,13 +656,13 @@ const ProductDetailsPage = () => {
         </div>
         {feedbackList?.length === 0 ? (
           <div className={styles.noFeedback}>
-          <img
-            src="https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/shoprating/7d900d4dc402db5304b2.png"
-            alt="No Feedback"
-            className={styles.img}
-          />
-          <p>Hiện không có đánh giá nào</p>
-        </div>
+            <img
+              src="https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/shoprating/7d900d4dc402db5304b2.png"
+              alt="No Feedback"
+              className={styles.img}
+            />
+            <p>Hiện không có đánh giá nào</p>
+          </div>
         ) : (
           <div className={styles.panigation}>
             <Pagination defaultCurrent={1} total={50} />
@@ -703,6 +711,13 @@ const ProductDetailsPage = () => {
             showIcon={false}
           />
         </div>
+        {isPopupVisible && (
+          <PopupComponent
+            message={message}
+            onClose={() => setIsPopupVisible(false)}
+            wantClose={false}
+          />
+        )}
       </div>
     </div>
   );

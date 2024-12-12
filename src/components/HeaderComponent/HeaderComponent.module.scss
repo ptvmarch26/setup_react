@@ -211,9 +211,11 @@
 .navbar {
   background: #fff;
   position: absolute;
-  top: -70px;
-  left: -20px;
-  z-index: 3;
+  // top: -70px;
+  // left: -20px;
+  top: 0;
+  left: 0;
+  z-index: 5;
   width: 80%;
   height: 100vh;
   overflow-y: auto;
@@ -401,8 +403,8 @@
     display: none;
   }
   .navbar {
-    top: 0;
-    left: 0;
+    // top: 0;
+    // left: 0;
 
 
     ul {
