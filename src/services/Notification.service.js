@@ -50,3 +50,28 @@ export const readNotify = async (_id, accessToken, notifyId, readNotify) => {
     throw error; // Ném lỗi để component sử dụng tiếp tục xử lý
   }
 };
+
+// Voucher nằm tạm luôn ở đây
+export const getAllVoucher = async () => {
+  try {
+    const response = await fetch(`${API_URL}/discount/get-all-discount`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Failed to fetch getAllVoucher");
+    }
+
+    const data = await response.json();
+    console.log(data);
+    return data; // Trả về dữ liệu nếu thành công
+  } catch (error) {
+    console.error("Error in get all getAllVoucher:", error.message || error);
+    throw error; // Ném lỗi để component sử dụng tiếp tục xử lý
+  }
+};
+

@@ -1,0 +1,53 @@
+.AccountPage_wrapBtn__DZmIT {
+    :where(.css-dev-only-do-not-override-49qm).ant-btn-variant-solid {
+        background: #E87428;
+    }
+
+    :where(.css-dev-only-do-not-override-49qm).ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover {
+        background-color: #E87428;
+        opacity: 0.8;
+    }
+}
+
+.AccountPage_form__NByn5 {
+    :where(.css-dev-only-do-not-override-49qm).ant-form-item .ant-form-item-label {
+        text-align: start;
+    }
+
+    :where(.css-dev-only-do-not-override-49qm).ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover,
+    :where(.css-dev-only-do-not-override-49qm).ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover {
+        color: #fff;
+        background-color: red;
+        border: 1px solid red;
+        opacity: 0.8;
+    }
+
+    :where(.css-dev-only-do-not-override-49qm).ant-btn-color-default {
+        box-shadow: unset;
+    }
+
+    :where(.css-dev-only-do-not-override-49qm).ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover {
+        opacity: 0.9;
+    }
+
+    .AccountPage_filed__9Lfm3 {
+
+        :where(.css-dev-only-do-not-override-49qm).ant-input-outlined:hover,
+        :where(.css-dev-only-do-not-override-49qm).ant-input-outlined:focus,
+        :where(.css-dev-only-do-not-override-49qm).ant-input-outlined:focus-within,
+        :where(.css-dev-only-do-not-override-49qm).ant-picker-outlined:hover,
+        :where(.css-dev-only-do-not-override-49qm).ant-picker-outlined:focus,
+        :where(.css-dev-only-do-not-override-49qm).ant-picker-outlined:focus-within,
+        :where(.css-dev-only-do-not-override-49qm).ant-select-outlined:not(.ant-select-disabled):not(.ant-select-customize-input):not(.ant-pagination-size-changer):hover .ant-select-selector,
+        :where(.css-dev-only-do-not-override-49qm).ant-select-outlined:not(.ant-select-disabled):not(.ant-select-customize-input):not(.ant-pagination-size-changer):hover .ant-select-selector,
+        :where(.css-dev-only-do-not-override-49qm).ant-picker-outlined:focus-within,
+        .ant-select-focused:where(.css-dev-only-do-not-override-49qm).ant-select-outlined:not(.ant-select-disabled):not(.ant-select-customize-input):not(.ant-pagination-size-changer) .ant-select-selector {
+            border: 1px solid #E87428;
+            box-shadow: unset;
+        }
+    }
+
+    :where(.css-dev-only-do-not-override-49qm).ant-col-offset-6 {
+        margin: 0;
+    }
+}

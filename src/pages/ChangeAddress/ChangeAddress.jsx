@@ -596,13 +596,15 @@
 
 import React, { useState, useEffect } from "react";
 import { Input, Button, Typography, List, Modal, Select, Form } from "antd";
-import ProfileUser from "../MyOrderPage/UserProfile.jsx";
 import { EditOutlined, DeleteOutlined, SettingOutlined, PlusOutlined } from "@ant-design/icons";
 import { apiGetProvinces, apiGetDistricts, apiGetWards } from "./getAddress.js";
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../../redux/slices/userSlice.js';
 import { addAddress, deleteAddress, setAddressDefault, updateAddress } from "../../services/User.service.js";
 import { useNavigate } from "react-router-dom";
+import styles from './ChangeAddress.module.scss'
+import './ChangeAddress.scss'
+import UserProfileComponent from "../../components/UserProfileComponent/UserProfileComponent.jsx";
 
 const { Text } = Typography;
 
@@ -634,9 +636,9 @@ const ChangeAddress = () => {
     fetchProvinces();
   }, []);
 
-  const handleSetDefault = async(id) => {
+  const handleSetDefault = async (id) => {
     try {
-      const res = await setAddressDefault(_id ,access_token, id);
+      const res = await setAddressDefault(_id, access_token, id);
       console.log(res)
       if (res && res.status === 'Successfully') {
         dispatch(updateUser({ user_address: res.data }));
@@ -693,7 +695,7 @@ const ChangeAddress = () => {
   const handleNewAddress = async (newAddress) => {
     try {
       const response = await addAddress(_id, access_token, newAddress);
-      console.log("kq",response)
+      console.log("kq", response)
       if (response && response.status === "Successfully") {
         return response;
       } else {
@@ -705,6 +707,7 @@ const ChangeAddress = () => {
     }
   };
   
+
 
   const handleUpdateAddress = async (newAddress, adr_id) => {
     try {
@@ -731,7 +734,7 @@ const ChangeAddress = () => {
     };
     try {
       if (adr_id === "") {
-        console.log("adr",adr_id)
+        console.log("adr", adr_id)
         const res = await handleNewAddress(newAddress);
         console.log("res", res)
         if (res && res.status === "Successfully") {
@@ -772,118 +775,123 @@ const ChangeAddress = () => {
   };
 
   return (
-    <div className="grid wide">
-      <div className="container" style={{ margin: "0 auto", padding: "20px" }}>
-        <div className="profile-container">
-          <ProfileUser full_name={full_name} src_img={user_avt_img} name={user_name} />
-          <div className="content">
-            <span className="header">Địa chỉ của tôi</span>
-            <Button
-              type="primary"
-              icon={<PlusOutlined />}
-              onClick={handleAddNew}
-              style={{ position: "relative", left: "450px", color: "white", backgroundColor: "#E87428" }}
-            >
-              Thêm địa chỉ mới
-            </Button>
-            <List
-              itemLayout="vertical"
-              dataSource={user_address}
-              renderItem={(item) => (
-                <List.Item
-                  actions={[
-                    <Button type="link" icon={<EditOutlined />} onClick={() => handleEdit(item._id)} key="edit">
-                      Cập nhật
-                    </Button>,
-                    <Button
-                      type="link"
-                      icon={<DeleteOutlined />}
-                      danger
-                      onClick={() => {
-                        setDeleteAddressId(item._id);
-                        setIsConfirmDeleteVisible(true);
-                      }}
-                      key="delete"
-                    >
-                      Xóa
-                    </Button>,
-                    !item.isDefault && (
-                      <Button
-                        type="link"
-                        icon={<SettingOutlined />}
-                        onClick={() => handleSetDefault(item._id)}
-                        key="setDefault"
-                      >
-                        Thiết lập mặc định
-                      </Button>
-                    ),
-                  ]}
-                  key={item._id}
-                >
-                  <List.Item.Meta
-                    title={
-                      <>
-                        <Text strong>{item.name}</Text>{" "}
-                        <Text type="secondary">({item.phone})</Text>
-                      </>
-                    }
-                    description={
-                      <Text>
-                        {item.home_address}, {item.commune}, {item.district}, {item.province}
-                      </Text>
-                    }
-                  />
-                  {item.isDefault && (
-                    <Button
-                      type="primary"
-                      disabled
-                      style={{ backgroundColor: "white", color: "#E87428" }}
-                    >
-                      Mặc định
-                    </Button>
-                  )}
-                </List.Item>
-              )}
-            />
-          </div>
-        </div>
-        <Modal
-          title={home_address ? "Cập nhật địa chỉ" : "Thêm địa chỉ mới"}
-          open={isModalVisible}
-          onCancel={() => setIsModalVisible(false)}
-          footer={null}
-          centered
-        >
-          <AddressForm
-            addressID={addressID}
-            name={name}
-            phone={phone}
-            home_address={home_address}
-            onSubmit={handleSave}
-            provinces={provinces}
-            districts={districts}
-            wards={wards}
-            onProvinceChange={handleProvinceChange}
-            onDistrictChange={handleDistrictChange}
+    <div className={styles.main}>
+      <div className="grid wide">
+        <div className={styles.wrapMain}>
+        <UserProfileComponent
+            full_name={full_name}
+            src_img={user_avt_img}
+            user_name={user_name}
+            className={styles.user}
           />
-        </Modal>
+            <div className={styles.wrapInfo}>
+              <div className={styles.head}>
+                <h2 className={styles.change}>Địa chỉ của tôi</h2>
+                <Button
+                  type="primary"
+                  icon={<PlusOutlined />}
+                  onClick={handleAddNew}
+                  className={styles.addBtn}
+                >
+                  Thêm địa chỉ mới
+                </Button>
+              </div>
+              <div className={styles.list}>
+                <List
+                  itemLayout="vertical"
+                  dataSource={user_address}
+                  renderItem={(item) => (
+                    <List.Item
+                      actions={[
+                        <Button type="link" icon={<EditOutlined />} onClick={() => handleEdit(item._id)} key="edit">
+                          Cập nhật
+                        </Button>,
+                        <Button
+                          type="link"
+                          icon={<DeleteOutlined />}
+                          danger
+                          onClick={() => {
+                            setDeleteAddressId(item._id);
+                            setIsConfirmDeleteVisible(true);
+                          }}
+                          key="delete"
+                        >
+                          Xóa
+                        </Button>,
+                        !item.isDefault && (
+                          <Button
+                            type="link"
+                            icon={<SettingOutlined />}
+                            onClick={() => handleSetDefault(item._id)}
+                            key="setDefault"
+                          >
+                            Thiết lập mặc định
+                          </Button>
+                        ),
+                      ]}
+                      key={item._id}
+                    >
+                      <List.Item.Meta
+                        title={
+                          <>
+                            <Text strong>{item.name}</Text>{" "}
+                            <Text type="secondary">({item.phone})</Text>
+                          </>
+                        }
+                        description={
+                          <Text>
+                            {item.home_address}, {item.commune}, {item.district}, {item.province}
+                          </Text>
+                        }
+                      />
+                      {item.isDefault && (
+                        <Button
+                          type="primary"
+                          disabled
+                          style={{ backgroundColor: "white", color: "#E87428" }}
+                        >
+                          Mặc định
+                        </Button>
+                      )}
+                    </List.Item>
+                  )}
+                />
+              </div>
+            </div>
+          <Modal
+            title={home_address ? "Cập nhật địa chỉ" : "Thêm địa chỉ mới"}
+            open={isModalVisible}
+            onCancel={() => setIsModalVisible(false)}
+            footer={null}
+            centered
+            className={styles.address}
+          >
+            <AddressForm
+              addressID={addressID}
+              name={name}
+              phone={phone}
+              home_address={home_address}
+              onSubmit={handleSave}
+              provinces={provinces}
+              districts={districts}
+              wards={wards}
+              onProvinceChange={handleProvinceChange}
+              onDistrictChange={handleDistrictChange}
+            />
+          </Modal>
 
-        <Modal
-          title="Xác nhận xóa"
-          visible={isConfirmDeleteVisible}
-          onCancel={() => setIsConfirmDeleteVisible(false)}
-          onOk={handleDelete}
-          okText="Xóa"
-          cancelText="Hủy"
-          okButtonProps={{
-            style: { backgroundColor: 'red', color: 'white', borderColor: 'red' },
-          }}
-          cancelButtonProps={{
-            style: { backgroundColor: '#f0f0f0', color: '#000' },
-          }}
-        >
-          <p>Bạn có chắc chắn muốn xóa địa chỉ này không?</p>
-        </Modal>
+          <Modal
+            title="Xác nhận xóa"
+            visible={isConfirmDeleteVisible}
+            onCancel={() => setIsConfirmDeleteVisible(false)}
+            onOk={handleDelete}
+            okText="Xóa"
+            cancelText="Hủy"
+            className={styles.delete}
+          >
+            <p>Bạn có chắc chắn muốn xóa địa chỉ này không?</p>
+          </Modal>
+        </div>
       </div>
     </div>
   );
@@ -905,7 +913,8 @@ const AddressForm = ({
   // useEffect để thiết lập giá trị mặc định cho form từ home_address
   useEffect(() => {
     form.setFieldsValue({
-      name: name || '', 
+
+      name: name || '',
       phone: phone || '',
       home_address: home_address || '',
     });
@@ -979,7 +988,7 @@ const AddressForm = ({
         <Input />
       </Form.Item>
       <Form.Item>
-        <Button type="primary" htmlType="submit" style={{ backgroundColor: "#E87428", color: "white" }}>
+        <Button type="primary" htmlType="submit">
           Lưu
         </Button>
       </Form.Item>

@@ -196,10 +196,10 @@ const MyCartPage = () => {
         oldPrice: item?.product_price || 0,
         price:
           item.product_price *
-            (
-              1 -
-              item.product_id?.product_percent_discount / 100
-            ).toLocaleString() || 0,
+          (
+            1 -
+            item.product_id?.product_percent_discount / 100
+          ).toLocaleString() || 0,
         quantity: item.quantity || 1,
         img:
           item.product_id?.product_images && item.product_id?.product_images[0]
@@ -391,6 +391,10 @@ const MyCartPage = () => {
       alert("Có lỗi xảy ra khi xóa sản phẩm. Vui lòng thử lại.");
     }
   };
+  const navigateProduct = (id) => {
+    navigate(`/product-details/${id}`)
+  }
+
 
   return (
     <div className={styles.main}>
@@ -437,14 +441,14 @@ const MyCartPage = () => {
               //     isInMobile={isInMobile}
               //   />
               // </Link>
-              <CartItemComponent
-                  key={item.id}
+                <CartItemComponent
                   item={item}
                   onQuantityChange={handleQuantityChange}
                   onRemove={handleRemoveItem}
                   onCheck={handleCheckItem}
                   isChecked={checkedItems.includes(item.id)}
                   isInMobile={isInMobile}
+                  onClick={() => navigateProduct(item.product_id)}
                 />
             ))}
           </div>

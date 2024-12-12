@@ -19,4 +19,8 @@
     :where(.css-dev-only-do-not-override-49qm).ant-tabs .ant-tabs-tab:hover {
         color: #E87428;
     }
+
+    :where(.css-dev-only-do-not-override-49qm).ant-menu-light .ant-menu-submenu-selected >.ant-menu-submenu-title, :where(.css-dev-only-do-not-override-49qm).ant-menu-light>.ant-menu .ant-menu-submenu-selected >.ant-menu-submenu-title {
+        color: orange;
+    }
 }
