@@ -1,4 +1,3 @@
-// Account Info
 .main {
   padding: 20px 0;
 }
@@ -13,12 +12,12 @@
   flex-direction: column;
   flex: 1;
 
-  .wrapBtn {
+  .head {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
-
+    margin-bottom: 10px;
+    flex-wrap: wrap;
   }
 
   h2 {
@@ -27,36 +26,21 @@
     margin-bottom: 0;
   }
 
-  .change {
-    margin-bottom: 20px;
+  .addBtn {
+    background-color: #E87428;
   }
 }
 
-.form {
-  width: 100%;
+.list {
   padding: 0 10px;
 }
 
-.filed {
-  display: flex;
-  flex-direction: column;
+.address {
+  display: block;
 }
 
-.btn {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-
-  .cancelBtn{
-    background-color: rgb(247, 37, 37);
-    color: #fff;
-    border: 1px solid transparent;
-  }
-
-  .submitBtn {
-    background-color: #E87428;
-    border: 1px solid transparent;
-  }
+.delete {
+  display: block;
 }
 
 @media screen and (max-width: 46.1875em) {

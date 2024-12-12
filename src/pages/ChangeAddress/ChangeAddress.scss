@@ -1,0 +1,87 @@
+.ChangeAddress_wrapInfo__aVZER {
+    :where(.css-dev-only-do-not-override-49qm).ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover {
+        background-color: #E87428;
+        opacity: 0.8;
+    }
+}
+
+@media screen and (max-width: 46.1875em) {
+    .ChangeAddress_list__\+PHWQ {
+        :where(.css-dev-only-do-not-override-49qm).ant-list .ant-list-item .ant-list-item-action {
+            margin-inline-start: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        :where(.css-dev-only-do-not-override-49qm).ant-list-vertical .ant-list-item .ant-list-item-action>li {
+            padding: 0;
+        }
+
+        :where(.css-dev-only-do-not-override-49qm).ant-list .ant-list-item .ant-list-item-action .ant-list-item-action-split {
+            display: none;
+        }
+    }
+}
+
+.ChangeAddress_delete__MPypr {
+
+    :where(.css-dev-only-do-not-override-49qm).ant-btn-variant-outlined,
+    :where(.css-dev-only-do-not-override-49qm).ant-btn-variant-dashed {
+        background-color: rgb(240, 240, 240);
+        color: #000;
+        border: 1px solid #d9d9d9;
+    }
+
+    :where(.css-dev-only-do-not-override-49qm).ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):hover,
+    :where(.css-dev-only-do-not-override-49qm).ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):hover,
+    :where(.css-dev-only-do-not-override-49qm).ant-btn-variant-outlined:not(:disabled):not(.ant-btn-disabled):active,
+    :where(.css-dev-only-do-not-override-49qm).ant-btn-variant-dashed:not(:disabled):not(.ant-btn-disabled):active {
+        opacity: 0.8;
+        background-color: rgb(240, 240, 240);
+        color: #000;
+        border: 1px solid #d9d9d9;
+    }
+
+    :where(.css-dev-only-do-not-override-49qm).ant-btn-variant-solid {
+        background-color: red;
+    }
+
+    :where(.css-dev-only-do-not-override-49qm).ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover,
+    :where(.css-dev-only-do-not-override-49qm).ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):active {
+        background-color: red;
+        opacity: 0.7;
+    }
+}
+
+.ChangeAddress_address__rQV-8 {
+    :where(.css-dev-only-do-not-override-49qm).ant-input-outlined:hover {
+        border: 1px solid #E87428;
+    }
+
+    :where(.css-dev-only-do-not-override-49qm).ant-input-outlined:focus,
+    :where(.css-dev-only-do-not-override-49qm).ant-input-outlined:focus-within {
+        border: 1px solid #E87428;
+        box-shadow: unset;
+    }
+
+    .ant-select-focused:where(.css-dev-only-do-not-override-49qm).ant-select-outlined:not(.ant-select-disabled):not(.ant-select-customize-input):not(.ant-pagination-size-changer) .ant-select-selector {
+        border: 1px solid #E87428;
+        box-shadow: unset;
+    }
+
+    :where(.css-dev-only-do-not-override-49qm).ant-select-outlined:not(.ant-select-disabled):not(.ant-select-customize-input):not(.ant-pagination-size-changer):hover .ant-select-selector {
+        border: 1px solid #E87428;
+    }
+
+    :where(.css-dev-only-do-not-override-49qm).ant-btn-variant-solid {
+        background-color: #E87428;
+        box-shadow: unset;
+    }
+
+    :where(.css-dev-only-do-not-override-49qm).ant-btn-variant-solid:not(:disabled):not(.ant-btn-disabled):hover {
+        background-color: #E87428;
+        opacity: 0.8;
+    }
+
+}
