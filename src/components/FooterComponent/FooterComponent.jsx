@@ -85,16 +85,16 @@ const FooterComponent = () => {
               </a>
             </div>
             <div className={styles.contact}>
-              <Link to={"/"}>
+              <Link to={"https://student.uit.edu.vn/"}>
                 <img src={facebook} alt="" />
               </Link>
-              <Link to={"/"}>
+              <Link to={"https://student.uit.edu.vn/"}>
                 <img src={instagram} alt="" />
               </Link>
-              <Link to={"/"}>
+              <Link to={"https://student.uit.edu.vn/"}>
                 <img src={tiktok} alt="" />
               </Link>
-              <Link to={"/"}>
+              <Link to={"https://student.uit.edu.vn/"}>
                 <img src={zalo} alt="" />
               </Link>
             </div>

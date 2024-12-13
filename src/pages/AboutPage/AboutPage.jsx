@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles from './AboutPage.module.scss'
 import about1 from '../../assets/images/about1.svg'
 import about2 from '../../assets/images/about2.svg'
@@ -7,6 +7,9 @@ import AboutMeComponent from '../../components/AboutMeComponent/AboutMeComponent
 import UnderLineComponent from '../../components/UnderLineComponent/UnderLineComponent'
 
 const AboutPage = () => {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
     return (
         <div className={styles.main}>
             <div className='grid wide'>
@@ -22,7 +25,7 @@ const AboutPage = () => {
                     aboutTitle="Về chúng tôi"
                     aboutPara={`Chào mừng đến với Pawfect Petcare Center, nơi chúng tôi mang đến những sản phẩm chất lượng và dịch vụ tốt nhất cho những người bạn bốn chân yêu quý của bạn! Được thành lập vào năm 2022 với mục tiêu chăm sóc sức khỏe và mang lại niềm vui cho chó và mèo, chúng tôi cung cấp các sản phẩm chăm sóc, dinh dưỡng, đồ chơi, và phụ kiện dành cho thú cưng. Tại Pawfect, mỗi sản phẩm đều được chúng tôi lựa chọn kỹ lưỡng từ những thương hiệu nổi tiếng, đảm bảo an toàn và chất lượng cao nhất cho thú cưng của bạn.
                         Chúng tôi hiểu rằng thú cưng không chỉ là vật nuôi mà còn là một phần quan trọng trong gia đình, và chúng tôi cam kết giúp bạn mang đến cho chúng một cuộc sống khỏe mạnh, vui vẻ và đầy đủ yêu thương.`}
-                        linear="linear-gradient(#FFD482, #FFD482)"
+                    linear="linear-gradient(#FFD482, #FFD482)"
                 />
                 <AboutMeComponent
                     avt={about4}
@@ -41,7 +44,7 @@ const AboutPage = () => {
                         <strong>Xây dựng cộng đồng yêu thú cưng:</strong> Tạo ra một môi trường nơi những người yêu thú cưng có thể chia sẻ kinh nghiệm và gắn kết hơn với những người bạn bốn chân của mình.
                         Chúng tôi tin rằng, khi thú cưng của bạn khỏe mạnh và hạnh phúc, cả gia đình bạn cũng sẽ cảm thấy vui vẻ hơn. Và đó chính là sứ mệnh mà Pawfect Petcare Center luôn hướng tới!`
                     }
-                        linear="linear-gradient(#ECC9BD, #EFCBB4)"
+                    linear="linear-gradient(#ECC9BD, #EFCBB4)"
                 />
             </div>
         </div>

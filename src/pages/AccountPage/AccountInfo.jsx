@@ -7,6 +7,7 @@ import './AccountPage.scss'
 import UserProfileComponent from '../../components/UserProfileComponent/UserProfileComponent'
 import moment from 'moment';
 import { useDispatch, useSelector } from "react-redux";
+import clsx from 'clsx';
 
 const AccountInfo = () => {
   const navigate = useNavigate();
@@ -60,7 +61,7 @@ const AccountInfo = () => {
           />
 
           <div className={styles.wrapInfo}>
-            <div className={styles.wrapBtn}>
+            <div className={clsx('AccountPage_wrapBtn__DZmIT', styles.wrapBtn)}>
               <h2>Hồ sơ tài khoản</h2>
               <Button
                 type="primary"
@@ -74,7 +75,7 @@ const AccountInfo = () => {
               layout="horizontal"
               labelCol={{ span: 6 }}
               wrapperCol={{ span: 18 }}
-              className={styles.form}
+              className={clsx('AccountPage_form__NByn5', styles.form)}
               form={form}
               initialValues={initialData}
               disabled={true}

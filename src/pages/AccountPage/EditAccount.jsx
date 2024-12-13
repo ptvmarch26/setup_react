@@ -140,6 +140,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { editUser } from '../../services/User.service.js';
 import { updateUser } from '../../redux/slices/userSlice.js';
 import UserProfileComponent from '../../components/UserProfileComponent/UserProfileComponent.jsx';
+import clsx from 'clsx';
 
 
 function EditAccount() {
@@ -219,13 +220,13 @@ function EditAccount() {
               layout="horizontal"
               labelCol={{ span: 6 }}
               wrapperCol={{ span: 18 }}
-              className={styles.form}
+              className={clsx('AccountPage_form__NByn5', styles.form)}
               form={form}
               initialValues={initialData}
               onFinish={handleSave}
               onValuesChange={handleValuesChange}
             >
-              <div className={styles.filed}>
+              <div className={clsx('AccountPage_filed__9Lfm3', styles.filed)}>
               <Form.Item
                 label="Tên người dùng"
                 name="user_name"

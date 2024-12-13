@@ -6,8 +6,11 @@ import UserProfileComponent from "../../components/UserProfileComponent/UserProf
 import { FaLocationDot } from "react-icons/fa6";
 import { MdOutlinePayment } from "react-icons/md";
 import { IoBagHandle } from "react-icons/io5";
+import { useSelector } from "react-redux";
 
 const OrderDetailsPage = () => {
+    const { isAuthenticated, user_name, user_avt_img, _id, full_name } =
+        useSelector((state) => state.user);
     const location = useLocation();
     const params = new URLSearchParams(location.search);
     const orderId = params.get("product");
@@ -27,9 +30,10 @@ const OrderDetailsPage = () => {
             <div className="grid wide">
                 <div className={styles.wrap}>
                     <UserProfileComponent
-                        full_name="Nguyễn Lê Thanh Huyền"
-                        src_img={myAvatar}
-                        name="yurri_2506"
+                        full_name={full_name}
+                        src_img={user_avt_img}
+                        user_name={user_name}
+                        className={styles.user}
                     />
                     <div className={styles.details}>
                         <div className={styles.status}>

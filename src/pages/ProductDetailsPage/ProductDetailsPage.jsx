@@ -333,16 +333,16 @@ const ProductDetailsPage = () => {
               className={clsx(styles.contact, "m-0", "l-12", "m-12", "c-12")}
             >
               <span>Chia sẻ sản phẩm qua:</span>
-              <Link to={"/"}>
+              <Link to={"https://student.uit.edu.vn/"}>
                 <img src={facebook} alt="" />
               </Link>
-              <Link to={"/"}>
+              <Link to={"https://student.uit.edu.vn/"}>
                 <img src={instagram} alt="" />
               </Link>
-              <Link to={"/"}>
+              <Link to={"https://student.uit.edu.vn/"}>
                 <img src={tiktok} alt="" />
               </Link>
-              <Link to={"/"}>
+              <Link to={"https://student.uit.edu.vn/"}>
                 <img src={zalo} alt="" />
               </Link>
             </div>

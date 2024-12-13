@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import styles from './ChangePassword.module.scss'
 import './ChangePassword.scss'
 import UserProfileComponent from '../../components/UserProfileComponent/UserProfileComponent'
+import clsx from 'clsx';
 
 
 const initialData = {
@@ -60,7 +61,7 @@ function CurrentPassword() {
               layout="horizontal"
               labelCol={{ span: 6 }}
               wrapperCol={{ span: 18 }}
-              className={styles.form}
+              className={clsx('ChangePassword_form__vyqPT', styles.form)}
               form={form}
               onFinish={handleCheckPassword}
               onValuesChange={handleValuesChange}

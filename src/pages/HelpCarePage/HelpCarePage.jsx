@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./HelpCarePage.module.scss";
 import { Link } from "react-router-dom";
 import clsx from "clsx";
 
 const HelpCarePage = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className={styles.main}>
       <div className="grid wide">
@@ -179,7 +182,7 @@ const HelpCarePage = () => {
           </div>
           <div className="col l-4 m-6 c-6">
             <div className={styles.section}>
-                {/* <img
+              {/* <img
                   src="/images/cat-care.jpg"
                   alt="Sức khỏe và dinh dưỡng cho chó"
                   className={styles.articleImage}

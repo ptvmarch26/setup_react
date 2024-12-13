@@ -6,6 +6,7 @@ import styles from './ChangePassword.module.scss'
 import UserProfileComponent from '../../components/UserProfileComponent/UserProfileComponent'
 import { useSelector } from 'react-redux';
 import { changePassword } from '../../services/User.service.js';
+import clsx from 'clsx';
 
 const cx = classNames.bind(styles);
 
@@ -71,7 +72,7 @@ function NewPassword() {
                 layout="horizontal"
                 labelCol={{ span: 6 }}
                 wrapperCol={{ span: 18 }}
-                className={styles.form}
+                className={clsx('ChangePassword_form__vyqPT', styles.form)}
                 form={form}
                 onFinish={handleSaveNewPassword}
                 onValuesChange={handleValuesChange}
