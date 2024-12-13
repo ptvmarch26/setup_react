@@ -48,6 +48,8 @@
     justify-content: space-between;
     gap: 4px;
     flex-wrap: wrap;
+    flex-direction: column;
+    
     span {
       font-size: 1.6rem;
       font-weight: bold;

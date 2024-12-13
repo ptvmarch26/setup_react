@@ -605,6 +605,7 @@ import { useNavigate } from "react-router-dom";
 import styles from './ChangeAddress.module.scss'
 import './ChangeAddress.scss'
 import UserProfileComponent from "../../components/UserProfileComponent/UserProfileComponent.jsx";
+import clsx from "clsx";
 
 const { Text } = Typography;
 
@@ -784,7 +785,7 @@ const ChangeAddress = () => {
             user_name={user_name}
             className={styles.user}
           />
-            <div className={styles.wrapInfo}>
+            <div className={clsx('ChangeAddress_wrapInfo__aVZER', styles.wrapInfo)}>
               <div className={styles.head}>
                 <h2 className={styles.change}>Địa chỉ của tôi</h2>
                 <Button
@@ -796,7 +797,7 @@ const ChangeAddress = () => {
                   Thêm địa chỉ mới
                 </Button>
               </div>
-              <div className={styles.list}>
+              <div className={clsx('ChangeAddress_list__+PHWQ', styles.list)}>
                 <List
                   itemLayout="vertical"
                   dataSource={user_address}
@@ -864,7 +865,7 @@ const ChangeAddress = () => {
             onCancel={() => setIsModalVisible(false)}
             footer={null}
             centered
-            className={styles.address}
+            className={clsx('ChangeAddress_address__rQV-8', styles.address)}
           >
             <AddressForm
               addressID={addressID}
@@ -887,7 +888,7 @@ const ChangeAddress = () => {
             onOk={handleDelete}
             okText="Xóa"
             cancelText="Hủy"
-            className={styles.delete}
+            className={clsx('ChangeAddress_delete__MPypr', styles.delete)}
           >
             <p>Bạn có chắc chắn muốn xóa địa chỉ này không?</p>
           </Modal>

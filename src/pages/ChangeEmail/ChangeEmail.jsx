@@ -116,6 +116,7 @@ import UserProfileComponent from '../../components/UserProfileComponent/UserProf
 import { Button, Form, Input } from 'antd';
 import { useSelector } from 'react-redux';
 import { sendOtp } from '../../services/Email.service.js';
+import clsx from 'clsx';
 
 function ChangeEmail() {
   const navigate = useNavigate();
@@ -174,7 +175,7 @@ function ChangeEmail() {
               layout="horizontal"
               labelCol={{ span: 6 }}
               wrapperCol={{ span: 18 }}
-              className={styles.form}
+              className={clsx('ChangeEmail_form__EgdcD', styles.form)}
               form={form}
               initialValues={{ currentEmail: user_email || '' }}
               onFinish={handleSave}

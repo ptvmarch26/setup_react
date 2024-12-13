@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom';
 import styles from './CheckOutPage.module.scss'
 import { FaLocationDot } from "react-icons/fa6";
@@ -11,14 +11,15 @@ import SelectAddressComponent from '../../components/SelectAddressComponent/Sele
 import VoucherComponent from '../../components/VoucherComponent/VoucherComponent';
 import clsx from 'clsx';
 
-
 const CheckOutPage = () => {
   const location = useLocation();
   const { cartItems = [], checkedItems = [], discount = 0, shippingFee = 0, selectedAddress = {} } = location.state || {};
   const selectedItems = cartItems.filter(item => checkedItems.includes(item.id));
   const totalItemsPrice = selectedItems.reduce((total, item) => total + item.price * item.quantity, 0);
   const totalAmount = Math.max(0, totalItemsPrice + shippingFee - discount);
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = (event) => {

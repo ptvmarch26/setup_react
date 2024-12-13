@@ -1,15 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles from './GuaranteePage.module.scss'
 
 const GuaranteePage = () => {
-  return (
-    <div className='grid wide'>
-        <div className={styles.guarantee}>
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+    
+    return (
+        <div className='grid wide'>
+            <div className={styles.guarantee}>
                 <h2>CHÍNH SÁCH BẢO HÀNH - PAWFECT PETCARE CENTER</h2>
                 <p>
-                    Chào mừng quý khách đến với Pawfect Petcare Center! 
-                    Chúng tôi cam kết mang đến những sản phẩm và dịch vụ 
-                    chất lượng cao nhất dành cho thú cưng của bạn. Chính sách bảo hành của chúng tôi 
+                    Chào mừng quý khách đến với Pawfect Petcare Center!
+                    Chúng tôi cam kết mang đến những sản phẩm và dịch vụ
+                    chất lượng cao nhất dành cho thú cưng của bạn. Chính sách bảo hành của chúng tôi
                     được thiết lập để đảm bảo quyền lợi của khách hàng khi mua sắm tại website.
                 </p>
                 <ul>
@@ -49,9 +53,9 @@ const GuaranteePage = () => {
                     </li>
                 </ul>
                 <span>Cảm ơn quý khách đã tin tưởng và sử dụng dịch vụ của Pawfect Petcare Center!</span>
+            </div>
         </div>
-    </div>
-  )
+    )
 }
 
 export default GuaranteePage

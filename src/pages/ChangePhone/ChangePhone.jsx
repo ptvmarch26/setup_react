@@ -118,6 +118,7 @@ import { Button, Form, Input } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { editUser } from '../../services/User.service.js';
 import { updateUser } from '../../redux/slices/userSlice.js';
+import clsx from 'clsx';
 
 function ChangePhone() {
   const navigate = useNavigate();
@@ -187,7 +188,7 @@ function ChangePhone() {
                 layout="horizontal"
                 labelCol={{ span: 6 }}
                 wrapperCol={{ span: 18 }}
-                className={styles.form}
+                className={clsx('ChangePhone_form__3+NEI', styles.form)}
                 form={form}
                 initialValues={{ currentPhone: user_phone || '' }}
                 onFinish={handleSave}
@@ -213,7 +214,7 @@ function ChangePhone() {
                     { required: true, message: 'Nhập số điện thoại mới!' },
                     { pattern: /^[0-9]{10,11}$/, message: 'Số điện thoại không hợp lệ!' },
                   ]}
-                  className={styles.inputSDT}
+                  className={clsx('ChangePhone_inputSDT__rWEVm', styles.inputSDT)}
                 >
                   <Input
                     onChange={(e) => {

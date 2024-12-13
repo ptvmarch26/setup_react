@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './FAQPage.module.scss';
 
 const FAQPage = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
-    <div className="grid wide" style={{padding: "20px 0"}}>
+    <div className="grid wide">
       <div className={styles.fqa}>
         <h2 className={styles.header}>CÂU HỎI THƯỜNG GẶP</h2>
         <p className={styles.intro}>

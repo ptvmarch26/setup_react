@@ -697,6 +697,60 @@ const HeaderComponent = () => {
             </ul>
           </Col>
         </Row>
+        {/* {showNavbar && (isInViewport || isInMobile) && (
+          <div>
+            <div onClick={handleNavbar} className={styles.overlay}>
+              <div className={styles.navbar}>
+                <ul>
+                  <li>
+                    <Link to={"/"}>
+                      <div className={styles.iconNav}>
+                        <FaHome className={styles.iconForNav} />
+                        Trang chủ
+                      </div>
+                    </Link>
+                  </li>
+                  <li className={styles.forDog}>
+                    <Link to={"/get-all-product?category_level_1=Chó"}>
+                      <div className={styles.iconNav}>
+                        <FaDog className={styles.iconForNav} />
+                        Sản phẩm cho chó
+                      </div>
+                      <MdNavigateNext className={styles.icon} />
+                    </Link>
+                    <MoreComponent className={styles.moreDog} parent="Chó" />
+                  </li>
+                  <li className={styles.forCat}>
+                    <Link to={"/get-all-product?category_level_1=Mèo"}>
+                      <div className={styles.iconNav}>
+                        <FaCat className={styles.iconForNav} />
+                        Sản phẩm cho mèo
+                      </div>
+                      <MdNavigateNext className={styles.icon} />
+                    </Link>
+                    <MoreComponent className={styles.moreCat} parent="Mèo" />
+                  </li>
+                  <li>
+                    <Link to={"/about"}>
+                      <div className={styles.iconNav}>
+                        <FaBookOpen className={styles.iconForNav} />
+                        Về chúng tôi
+                      </div>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to={`/favorite-products/${_id}`}>
+                      <div className={styles.iconNav}>
+                        <FaHeart className={styles.iconForNav} />
+                        Sản phẩm yêu thích
+                      </div>
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        )} */}
         {showNavbar && (isInViewport || isInMobile) && (
           <div>
             <div onClick={handleNavbar} className={styles.overlay}></div>

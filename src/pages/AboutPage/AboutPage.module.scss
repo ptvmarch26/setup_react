@@ -1,6 +1,5 @@
 .main {
     background: #FFF9E3;
-    margin: 0 4px;
 }
 
 .aboutImg {
@@ -37,6 +36,10 @@
 }
 
 @media screen and (max-width: 46.1875em) {
+    .main {
+        padding: 0 4px;
+    }
+
     .aboutImg {
         min-height: 500px;
     }

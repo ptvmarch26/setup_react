@@ -219,7 +219,7 @@ const MyCartPage = () => {
     if (checkedItems.length === 0) {
       alert("Bạn chưa chọn sản phẩm nào");
     } else {
-      navigate("/check-out", {
+      navigate(`/check-out/${id}`, {
         state: { cartItems, checkedItems, discount, shippingFee },
       });
     }

@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import HeaderComponent from '../HeaderComponent/HeaderComponent'
 import Header2Component from '../Header2Component/Header2Component'
 import FooterComponent from '../FooterComponent/FooterComponent'
+import BreadcrumbComponent from '../BreadcrumbComponent/BreadcrumbComponent';
 
 const DefaultComponent = ({ children }) => {
   const location = useLocation();
@@ -13,6 +14,7 @@ const DefaultComponent = ({ children }) => {
   return (
     <div>
        {useHeader2 ? <Header2Component title={headerTitle}/> : <HeaderComponent />}
+       <BreadcrumbComponent />
       {children}
       <FooterComponent />
     </div>

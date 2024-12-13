@@ -121,7 +121,7 @@ export const routes = [
         role: "user"
     },
     {
-        path: '/check-out',
+        path: '/check-out/:id',
         page: CheckOutPage,
         isShowHeader: true,
         role: "user"

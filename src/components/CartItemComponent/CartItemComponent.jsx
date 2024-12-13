@@ -8,11 +8,13 @@ import cart from '../../assets/images/cart.svg'
 const CartItemComponent = ({ item, onQuantityChange, onRemove, onCheck, isChecked, isLike = false, isInMobile, onClick }) => {
   return (
     <div className={styles.carts}>
-      <input
-        type="checkbox"
-        onChange={() => onCheck(item.id)}
-        checked={isChecked}
-      />
+      <div>
+        <input
+          type="checkbox"
+          onChange={() => onCheck(item.id)}
+          checked={isChecked}
+        />
+      </div>
       <div className={styles.img} onClick={onClick}>
         <img src={item.img} alt={item.name} />
       </div>
