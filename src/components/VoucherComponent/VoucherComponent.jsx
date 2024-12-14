@@ -189,6 +189,8 @@ const VoucherComponent = ({
     keepPreviousData: true,
   });
 
+  console.log("dudu", data)
+
   const vouchers = {
     shipping: [
       {

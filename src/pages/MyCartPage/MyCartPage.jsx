@@ -183,7 +183,7 @@ const MyCartPage = () => {
     queryKey: ["product-data", id, accessToken],
     queryFn: fetchCartData,
     enabled: !!id && !!accessToken, // Chỉ chạy khi cả id và accessToken có giá trị
-    refetchOnWindowFocus: true,
+    refetchOnWindowFocus: false,
     keepPreviousData: true,
   });
 

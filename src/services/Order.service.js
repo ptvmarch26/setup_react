@@ -16,6 +16,7 @@ export const getAllProductByUserId = async (id, token) => {
     }
 
     const data = await response.json();
+    console.log("data", data)
     return data;
   } catch (error) {
     console.error("Error in cart getAllProductByUserId:", error);

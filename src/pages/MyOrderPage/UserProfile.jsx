@@ -284,7 +284,7 @@ const ProfileUser = ({ full_name, src_img, name, isInViewport, isInMobile }) => 
 
   const handleLogout = () => {
     navigate("/logout");
-    // window.location.reload();
+    window.location.reload();
   };
 
   const handleSubMenuToggle = (key) => {
