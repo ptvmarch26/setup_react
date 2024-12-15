@@ -4,11 +4,11 @@ import styles from './AddressPage.module.scss';
 import UnderLineComponent from '../../components/UnderLineComponent/UnderLineComponent'
 import { useNavigate } from 'react-router-dom';
 
-const AddressPage = ({closeModal}) => {
+const AddressPage = ({closeModal, _id}) => {
   const navigate = useNavigate();
   const [addresses, setAddresses] = useState([
-    { id: 1, name: 'Võ Văn', phone: '0382868383', address: '324 Xô Viết Nghệ Tĩnh Phường 24, Quận Bình Thạnh, TP. Hồ Chí Minh' },
-    { id: 2, name: 'Phi Thông', phone: '0987654321', address: '324 Xô Viết Nghệ Tĩnh Phường 24, Quận Bình Thạnh, TP. Hồ Chí Minh' },
+    { id: 1, name: 'Võ Văn', phone: '0382868383', address: {home_address: "324 Xô Viết Nghệ Tĩnh ", commune: "Phường 24", district: "Quận Bình Thạnh", province: "TP. Hồ Chí Minh"}},
+    { id: 2, name: 'Phi Thông', phone: '0987654321', address: {home_address: "324 Xô Viết Nghệ Tĩnh ", commune: "Phường 24", district: "Quận Bình Thạnh", province: "TP. Hồ Chí Minh"}},
   ]);
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -50,12 +50,12 @@ const AddressPage = ({closeModal}) => {
   const handleConfirmAddress = () => {
     if (selectedAddress) {
       const address = addresses.find((addr) => addr.id === selectedAddress);
-      navigate('/check-out', { state: { selectedAddress: address } }); 
+      navigate(`/check-out/${_id}`, { state: { selectedAddress: address } }); 
     } else {
       alert('Vui lòng chọn địa chỉ.');
     }
   };
-
+  
   return (
     <div className={styles.addressPage}>
       <ul>
@@ -78,7 +78,7 @@ const AddressPage = ({closeModal}) => {
                     {address.phone}
                   </p>
                   <p>
-                    {address.address}
+                  <p>Đia chỉ: {address.address.home_address}, {address.address.commune}, {address.address.district}, {address.address.province}</p>
                   </p>
                 </div>
               </div>

@@ -84,7 +84,7 @@ function App() {
 
   return (
     <div style={{ overflow: "hidden" }}>
-      <LoadingComponent isLoading={isLoading}>
+      {/* <LoadingComponent isLoading={isLoading}> */}
         <Router>
           <Routes>
             {routes.map((route) => {
@@ -105,7 +105,7 @@ function App() {
             })}
           </Routes>
         </Router>
-      </LoadingComponent>
+      {/* </LoadingComponent> */}
     </div>
   );
 }

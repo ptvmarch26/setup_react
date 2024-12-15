@@ -1,35 +1,87 @@
-import React, { useEffect, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom';
-import styles from './CheckOutPage.module.scss'
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import styles from "./CheckOutPage.module.scss";
 import { FaLocationDot } from "react-icons/fa6";
-import ButtonComponent from '../../components/ButtonComponent/ButtonComponent';
-import UnderLineComponent from '../../components/UnderLineComponent/UnderLineComponent';
-import momo from '../../assets/images/momo.svg'
-import visa from '../../assets/images/visa.svg'
-import applePay from '../../assets/images/applePay.svg'
-import SelectAddressComponent from '../../components/SelectAddressComponent/SelectAddressComponent';
-import VoucherComponent from '../../components/VoucherComponent/VoucherComponent';
-import clsx from 'clsx';
+import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
+import UnderLineComponent from "../../components/UnderLineComponent/UnderLineComponent";
+import momo from "../../assets/images/momo.svg";
+import visa from "../../assets/images/visa.svg";
+import applePay from "../../assets/images/applePay.svg";
+import SelectAddressComponent from "../../components/SelectAddressComponent/SelectAddressComponent";
+import VoucherComponent from "../../components/VoucherComponent/VoucherComponent";
+import clsx from "clsx";
+import { useSelector } from "react-redux";
+import { getAllDiscounts } from "../../services/Order.service";
 
 const CheckOutPage = () => {
+  const { user_address, _id } = useSelector((state) => state.user);
+
+  const initAddress = {
+    name: user_address[0].name,
+    phone: user_address[0].phone,
+    address: {
+      home_address: user_address[0].home_address,
+      district: user_address[0].district,
+      commune: user_address[0].commune,
+      province: user_address[0].province,
+    },
+  };
+
+  console.log(initAddress)
+
+  // // Hàm fetch dữ liệu từ API
+  // const fetchAddressData = async () => {
+  //   try {
+  //     const voucherData = await getAllDiscounts(products);
+  //     if (!voucherData || !voucherData.data) {
+  //       throw new Error("No voucherData returned from API");
+  //     }
+  //     return voucherData; // React Query tự động xử lý Promise này
+  //   } catch (error) {
+  //     console.error("Error fetching cart data:", error.message);
+  //     throw new Error("Failed to fetch cart data");
+  //   }
+  // };
+
+  // const { data, isLoading, error } = useQuery({
+  //   queryFn: fetchAddressData,
+  //   enabled: !!products,
+  //   refetchOnWindowFocus: false,
+  //   keepPreviousData: true,
+  // });
+
   const location = useLocation();
-  const { cartItems = [], checkedItems = [], discount = 0, shippingFee = 0, selectedAddress = {} } = location.state || {};
-  const selectedItems = cartItems.filter(item => checkedItems.includes(item.id));
-  const totalItemsPrice = selectedItems.reduce((total, item) => total + item.price * item.quantity, 0);
+  const {
+    cartItems = [],
+    checkedItems = [],
+    discount = 0,
+    selectedAddress = {},
+    shippingFee = 0,
+  } = location.state || {};
+  const selectedItems = cartItems.filter((item) =>
+    checkedItems.includes(item.id)
+  );
+  const totalItemsPrice = selectedItems.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
   const totalAmount = Math.max(0, totalItemsPrice + shippingFee - discount);
+  const [selectAddress, setSelectAddress] = useState(initAddress);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const openModal = (event) => {
     event.preventDefault();
     setIsModalOpen(true);
-    window.history.pushState(null, "", "/check-out");
+    window.history.pushState(null, "", `/check-out/${_id}`);
+    setSelectAddress(selectedAddress);
   };
 
   const closeModal = () => setIsModalOpen(false);
-
 
   // const [isVoucherModalOpen, setIsVoucherModalOpen] = useState(false);
 
@@ -38,7 +90,6 @@ const CheckOutPage = () => {
   //   setIsVoucherModalOpen(true);
   // };
   // const closeVoucherModal = () => setIsVoucherModalOpen(false);
-
 
   const [selectedVouchers, setSelectedVouchers] = useState({
     shipping: null,
@@ -68,27 +119,37 @@ const CheckOutPage = () => {
 
         <div className={styles.address}>
           <div className={styles.title}>
-            <FaLocationDot style={{ color: "#E87428", fontSize: "1.5rem", marginBottom: "4px" }} />
-            <h3>Địa chỉ nhận hàng</h3>
+            <FaLocationDot
+              style={{
+                color: "#E87428",
+                fontSize: "1.5rem",
+                marginBottom: "4px",
+              }}
+            />
+            <h3>Thông tin nhận hàng</h3>
           </div>
           <div className={styles.infoAddress}>
-            <p>{selectedAddress.name}</p>
-            <p>{selectedAddress.phone}</p>
+            <p>Tên: {selectAddress.name}</p>
+            <p>Số điện thoại: {selectAddress.phone}</p>
             <div className={styles.info}>
-              <p>{selectedAddress.address}</p>
+              <p>
+                Đia chỉ: {selectAddress.address?.home_address},{" "}
+                {selectAddress.address?.commune},{" "}
+                {selectAddress.address?.district},{" "}
+                {selectAddress.address?.province}
+              </p>
               <div className={styles.change}>
                 <span>Mặc định</span>
-                <Link to={"/check-out"} onClick={openModal}>Thay đổi</Link>
+                <Link to={`/check-out/${_id}`} onClick={openModal}>
+                  Thay đổi
+                </Link>
               </div>
             </div>
           </div>
         </div>
-        {
-          isModalOpen &&
-          <SelectAddressComponent
-            closeModal={closeModal}
-          />
-        }
+        {isModalOpen && (
+          <SelectAddressComponent closeModal={closeModal} _id={_id} />
+        )}
 
         <div className={styles.productCheckOut}>
           <table className={styles.productTable}>
@@ -101,15 +162,17 @@ const CheckOutPage = () => {
               </tr>
             </thead>
             <tbody>
-              {selectedItems.map(item => (
+              {selectedItems.map((item) => (
                 <tr key={item.id}>
                   <td>
                     <img src={item.img} alt="" />
                     <span>{item.name}</span>
                   </td>
-                  <td>{item.price.toLocaleString('vi-VN')}₫</td>
+                  <td>{item.price.toLocaleString("vi-VN")}₫</td>
                   <td>{item.quantity}</td>
-                  <td>{(item.price * item.quantity).toLocaleString('vi-VN')}₫</td>
+                  <td>
+                    {(item.price * item.quantity).toLocaleString("vi-VN")}₫
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -144,8 +207,8 @@ const CheckOutPage = () => {
         </div>
         <div className={styles.payment}>
           <h3>Phương thức thanh toán</h3>
-          <div className={clsx(styles.method, 'row')}>
-            <div className='col l-3 m-6 c-6'>
+          <div className={clsx(styles.method, "row")}>
+            <div className="col l-3 m-6 c-6">
               <ButtonComponent
                 title="Momo"
                 iconSmall
@@ -156,7 +219,7 @@ const CheckOutPage = () => {
                 className={styles.methodBtn}
               />
             </div>
-            <div className='col l-3 m-6 c-6'>
+            <div className="col l-3 m-6 c-6">
               <ButtonComponent
                 title="Thẻ tín dụng/ghi nợ"
                 iconSmall
@@ -167,7 +230,7 @@ const CheckOutPage = () => {
                 className={styles.methodBtn}
               />
             </div>
-            <div className='col l-3 m-6 c-6'>
+            <div className="col l-3 m-6 c-6">
               <ButtonComponent
                 title="ApplePay"
                 iconSmall
@@ -178,7 +241,7 @@ const CheckOutPage = () => {
                 className={styles.methodBtn}
               />
             </div>
-            <div className='col l-3 m-6 c-6'>
+            <div className="col l-3 m-6 c-6">
               <ButtonComponent
                 title="Thanh toán khi nhận hàng"
                 iconSmall
@@ -229,26 +292,26 @@ const CheckOutPage = () => {
           <div className={styles.total}>
             <p className={styles.normal}>
               Tổng tiền hàng:
-              <span>{totalItemsPrice.toLocaleString('vi-VN')}₫</span>
+              <span>{totalItemsPrice.toLocaleString("vi-VN")}₫</span>
             </p>
             <p className={styles.normal}>
               Tổng tiền phí vận chuyển:
-              <span>{shippingFee.toLocaleString('vi-VN')}₫</span>
+              <span>{shippingFee.toLocaleString("vi-VN")}₫</span>
             </p>
             <p className={styles.normal}>
               Tổng cộng mã giảm giá:
-              <span>-{discount.toLocaleString('vi-VN')}₫</span>
+              <span>-{discount.toLocaleString("vi-VN")}₫</span>
             </p>
             <p className={styles.final}>
               Tổng thanh toán:
-              <span>{totalAmount.toLocaleString('vi-VN')}₫</span>
+              <span>{totalAmount.toLocaleString("vi-VN")}₫</span>
             </p>
           </div>
           <UnderLineComponent
             width="100%"
             height="1px"
             background="rgba(0, 0, 0, 0.1"
-            margin='20px 0'
+            margin="20px 0"
           />
           <ButtonComponent
             title="Đặt hàng"
@@ -261,6 +324,6 @@ const CheckOutPage = () => {
       </div>
     </div>
   );
-}
+};
 
-export default CheckOutPage
+export default CheckOutPage;
