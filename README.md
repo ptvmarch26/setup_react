@@ -15,12 +15,12 @@
 |3. 	| Nguyễn Ngọc Thanh Tuyền		|	22521631 | Thành viên |
 |4.  | Võ Thị Phương Uyên | 22521645 | Thành viên |
 |5. 	| Phạm Quang Vũ | 22521696 | Thành viên |
-# [IE104.O12.Group1] - ĐỒ ÁN XÂY DỰNG WEBSITE KINH DOANH SẢN PHẨM DÀNH CHO THÚ CƯNG.
+# [IE104.O12.Group1] - ĐỒ ÁN XÂY DỰNG WEBSITE KINH DOANH SẢN PHẨM DÀNH CHO THÚ CƯNG PAWFECT.
 
 ## Giới thiệu
-Trong thời đại hiện đại, sự tiện lợi và linh hoạt trong việc mua sắm trực tuyến ngày càng trở thành một xu hướng phổ biến. Đối với lĩnh vực điện máy, việc tạo ra một website bán hàng chuyên nghiệp không chỉ là một cơ hội kinh doanh mà còn là cách để đáp ứng nhu cầu ngày càng cao của khách hàng.
+Trong thời đại hiện đại, sự tiện lợi và linh hoạt trong việc mua sắm trực tuyến ngày càng trở thành một xu hướng phổ biến. Đặc biệt, trong lĩnh vực kinh doanh sản phẩm dành cho thú cưng, việc xây dựng một website chuyên nghiệp không chỉ là cơ hội để phát triển kinh doanh mà còn là cách hiệu quả để đáp ứng nhu cầu ngày càng cao của những người yêu thú cưng.  
 
-Vì vậy, nhóm quyết định chọn đề tài "Xây dựng website cửa hàng điện máy TECHTWO.".
+Vì vậy, nhóm đã quyết định chọn đề tài "Xây dựng website kinh doanh sản phẩm dành cho thú cưng PAWFECT", nhằm mang đến một nền tảng mua sắm trực tuyến hiện đại, dễ sử dụng và đáp ứng tốt nhu cầu của khách hàng trong lĩnh vực này.
 
 ## Tính năng
 |ID	|Tên tác nhân |	Mô tả tác nhân|
@@ -30,8 +30,6 @@ Vì vậy, nhóm quyết định chọn đề tài "Xây dựng website cửa h�
 |A3	|Customer (Khách hàng)|	Đây là người dùng cuối sử dụng các chức năng của hệ thống như đặt hàng, tìm sản phẩm, xem sản phẩm...|
 |A4 |Staff | Nhân viên có tài khoản trong hệ thống. Tài khoản của họ được tạo bởi Quản trị viên. Họ sử dụng hệ thống để xác nhận và xử lý các đơn hàng, cập nhật trạng thái,...|
 |A5 |Admin | Là người dùng có quyền hạn cao nhất trong hệ thống. Quản trị viên có thể quản lý người dùng, quản lý thông tin sản phẩm, xem và cập nhật đơn hàng, cấu hình hệ thống và xem các báo cáo. Quản trị viên đảm bảo hoạt động chung của hệ thống, bảo mật, và có quyền cấp phép và phân quyền cho các tài khoản khác trong hệ thống.|
-
-
 
 |Mã chức năng	|	Tên chức năng	|	Tác nhân	| Hoàn thành |
 |:---:|:-------------:|:-----:|:-----:|
@@ -73,7 +71,7 @@ Vì vậy, nhóm quyết định chọn đề tài "Xây dựng website cửa h�
 * [Express] - Framework nằm trên chức năng máy chủ web của NodeJS
 * [EJS] - Hỗ trợ phát triển các trang web bằng cách cho phép tạo ra các mẫu HTML được kết hợp với mã JavaScript
 * [Xampp] - Cung cấp các môi trường phát triển cục bộ cho các ứng dụng web
-* [MySQL] - Hệ quản trị cơ sở dữ liệu quan hệ sử dụng để lưu trữ dữ liệu cho trang web
+* [MongoDB] - Hệ quản trị cơ sở dữ liệu quan hệ sử dụng để lưu trữ dữ liệu cho trang web
 * [HTML-CSS-JS] - Bộ ba công nghệ web, hiện thức hóa giao diện
 
 ## Hướng dẫn và Cài đặt
