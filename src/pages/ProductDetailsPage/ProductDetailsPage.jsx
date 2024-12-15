@@ -27,7 +27,12 @@ import clsx from "clsx";
 import cart from "../../assets/images/cart.svg";
 import { FaHeart } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
-import { updateCart, updateFavor } from "../../services/Order.service";
+import {
+  deleteProductFavor,
+  getAllFavoriteByUserId,
+  updateCart,
+  updateFavor,
+} from "../../services/Order.service";
 import PopupComponent from "../../components/PopupComponent/PopupComponent";
 
 const ProductDetailsPage = () => {
@@ -73,31 +78,41 @@ const ProductDetailsPage = () => {
     };
   }, []);
 
-  const fetchProductData = async ({ queryKey }) => {
+  const fetchProductData1 = async ({ queryKey }) => {
     const id = queryKey[1]; // Lấy id từ queryKey
-    const [details, related, feedback] = await Promise.all([
-      getDetailsProduct(id),
-      getRelatedProducts(id),
-      getProductFeedback(id),
-    ]);
+    if (user?.isAuthenticated) {
+      const [details, favors] = await Promise.all([
+        getDetailsProduct(id),
+        getAllFavoriteByUserId(user._id, accessToken),
+      ]);
+
+      const isFavor = favors.data.products.some(
+        (favor) => favor.product_id.id === id
+      );
+      setLike(isFavor);
+      return {
+        details: details.data,
+        isFavor: isFavor,
+      };
+    }
+
+    const details = await getDetailsProduct(id);
     return {
       details: details.data,
-      related: related.data,
-      feedback: feedback.data,
+      isFavor: false, // Mặc định không yêu thích nếu không có token
     };
   };
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["product-data", id], // queryKey chứa id
-    queryFn: fetchProductData, // Cấu trúc queryFn mới
+  const { data: details, isLoading: loadingDetails } = useQuery({
+    queryKey: ["product-dataa", id], // queryKey chứa id
+    queryFn: fetchProductData1, // Cấu trúc queryFn mới
     enabled: !!id, // Chỉ fetch khi id tồn tại
     refetchOnWindowFocus: false, // Không fetch lại khi chuyển tab
     keepPreviousData: true, // Giữ dữ liệu cũ khi id thay đổi
   });
 
-  const productDetails = data?.details || {};
-  const relatedProducts = data?.related || [];
-  const productFeedback = data?.feedback || [];
+  const productDetails = details?.details || {};
+
   // Set hình ảnh mặc định là hình ảnh đầu tiên
   useEffect(() => {
     if (productDetails?.product_images?.length) {
@@ -129,7 +144,7 @@ const ProductDetailsPage = () => {
     if (!user?.isAuthenticated) {
       navigate("/sign-in", { state: location?.pathname });
     } else if (!selectedVariant) {
-      setMessage("Vui lòng chọn một biến thể trước khi thêm vào giỏ hàng")
+      setMessage("Vui lòng chọn một biến thể trước khi thêm vào giỏ hàng");
       setIsPopupVisible(true);
     } else {
       // Gửi API cập nhật giỏ hàng vào DB (lấy ID của người dùng và dữ liệu giỏ hàng)
@@ -150,13 +165,13 @@ const ProductDetailsPage = () => {
         const userId = user._id; // Lấy ID người dùng từ thông tin người dùng đã đăng nhập
         const updatedCart = await updateCart(userId, cartData, accessToken); // Gửi API để cập nhật giỏ hàng
         if (updatedCart) {
-          setMessage("Thêm sản phẩm vào giỏ hàng thành công")
+          setMessage("Thêm sản phẩm vào giỏ hàng thành công");
           setIsPopupVisible(true);
         }
       } catch (error) {
         // Xử lý lỗi nếu có
         console.error("Lỗi khi cập nhật giỏ hàng:", error);
-        setMessage("Có lỗi xảy ra khi cập nhật giỏ hàng. Vui lòng thử lại.")
+        setMessage("Có lỗi xảy ra khi cập nhật giỏ hàng. Vui lòng thử lại.");
         setIsPopupVisible(true);
       }
     }
@@ -221,10 +236,6 @@ const ProductDetailsPage = () => {
     ),
   };
 
-  if (isLoading) {
-    return <div>Loading product details...</div>;
-  }
-
   // const thumbnails = [productDetails?.product_images || []];
   const thumbnails = [];
 
@@ -243,8 +254,6 @@ const ProductDetailsPage = () => {
     });
   }
   const doubledThumbnails = [...thumbnails, ...thumbnails];
-  const feedbackList = productFeedback || [];
-  const products = relatedProducts || [];
 
   const settings2 = {
     dots: true,
@@ -259,7 +268,7 @@ const ProductDetailsPage = () => {
     setLike(!like);
     if (!user?.isAuthenticated) {
       navigate("/sign-in", { state: location?.pathname });
-    } else {
+    } else if (!like) {
       // Gửi API cập nhật giỏ hàng vào DB (lấy ID của người dùng và dữ liệu giỏ hàng)
       const cartData2 = {
         products: [
@@ -268,24 +277,72 @@ const ProductDetailsPage = () => {
           },
         ],
       };
-      console.log(cartData2);
-      dispatch(addToCart(cartData2));
       try {
         const userId = user._id; // Lấy ID người dùng từ thông tin người dùng đã đăng nhập
         const updatedCart = await updateFavor(userId, cartData2, accessToken); // Gửi API để cập nhật giỏ hàng
         if (updatedCart) {
-          setMessage("Thêm sản phẩm vào yêu thích thành công")
+          setMessage("Thêm sản phẩm vào yêu thích thành công");
           setIsPopupVisible(true);
         }
       } catch (error) {
         // Xử lý lỗi nếu có
         console.error("Lỗi khi cập nhật giỏ hàng:", error);
-        setMessage("Có lỗi xảy ra khi cập nhật giỏ hàng. Vui lòng thử lại.")
+        setMessage("Có lỗi xảy ra khi cập nhật giỏ hàng. Vui lòng thử lại.");
+        setIsPopupVisible(true);
+      }
+    } else {
+      const cartData2 = {
+        products: [
+          {
+            product_id: productDetails?._id,
+          },
+        ],
+      };
+      try {
+        const userId = user._id; // Lấy ID người dùng từ thông tin người dùng đã đăng nhập
+        const updatedCart = await deleteProductFavor(userId, cartData2, accessToken); // Gửi API để cập nhật giỏ hàng
+        if (updatedCart) {
+          setMessage("Xóa sản phẩm vào yêu thích thành công");
+          setIsPopupVisible(true);
+        }
+      } catch (error) {
+        // Xử lý lỗi nếu có
+        console.error("Lỗi khi cập nhật giỏ hàng:", error);
+        setMessage("Có lỗi xảy ra khi cập nhật giỏ hàng. Vui lòng thử lại.");
         setIsPopupVisible(true);
       }
     }
   };
+  const fetchProductData = async ({ queryKey }) => {
+    const product_category = queryKey[1]; // Lấy id từ queryKey
+    console.log(product_category);
+    const [related, feedback] = await Promise.all([
+      getRelatedProducts(product_category),
+      getProductFeedback(id),
+    ]);
+    return {
+      related: related.data,
+      feedback: feedback.data,
+    };
+  };
 
+  const { data, isLoading: loadingRelated } = useQuery({
+    queryKey: ["product-data", details?.details.product_category._id], // queryKey chứa id
+    queryFn: fetchProductData, // Cấu trúc queryFn mới
+    enabled: !!details?.details.product_category, // Chỉ fetch khi id tồn tại
+    refetchOnWindowFocus: false, // Không fetch lại khi chuyển tab
+    keepPreviousData: true, // Giữ dữ liệu cũ khi id thay đổi
+  });
+
+  const relatedProducts = data?.related || [];
+  const productFeedback = data?.feedback || [];
+
+  const feedbackList = productFeedback || [];
+  const products = relatedProducts || [];
+
+  if (loadingDetails) {
+    return <div>Loading product details...</div>;
+  }
   return (
     <div className={styles.main}>
       <div className="grid wide">
@@ -385,13 +442,13 @@ const ProductDetailsPage = () => {
                     <span className={styles.currentPrice}>
                       {selectedVariant
                         ? (
-                          selectedVariant?.product_price *
-                          (1 - productDetails?.product_percent_discount / 100)
-                        ).toLocaleString()
+                            selectedVariant?.product_price *
+                            (1 - productDetails?.product_percent_discount / 100)
+                          ).toLocaleString()
                         : (
-                          productDetails?.product_price *
-                          (1 - productDetails?.product_percent_discount / 100)
-                        ).toLocaleString()}
+                            productDetails?.product_price *
+                            (1 - productDetails?.product_percent_discount / 100)
+                          ).toLocaleString()}
                       đ
                     </span>
                     <span className={styles.oldPrice}>
@@ -406,19 +463,19 @@ const ProductDetailsPage = () => {
                     <span className={styles.oldPrice}>
                       {selectedVariant
                         ? selectedVariant?.product_price?.toLocaleString()
-                        : productDetails?.product_price.toLocaleString()}
+                        : productDetails?.product_price?.toLocaleString()}
                       đ
                     </span>
                     <span className={styles.currentPrice}>
                       {selectedVariant
                         ? (
-                          selectedVariant?.product_price *
-                          (1 - productDetails?.product_percent_discount / 100)
-                        ).toLocaleString()
+                            selectedVariant?.product_price *
+                            (1 - productDetails?.product_percent_discount / 100)
+                          ).toLocaleString()
                         : (
-                          productDetails?.product_price *
-                          (1 - productDetails?.product_percent_discount / 100)
-                        ).toLocaleString()}
+                            productDetails?.product_price *
+                            (1 - productDetails?.product_percent_discount / 100)
+                          ).toLocaleString()}
                       đ
                     </span>
                   </div>
@@ -442,8 +499,9 @@ const ProductDetailsPage = () => {
                           width="170px"
                           widthDiv="none"
                           margin="0 0 10px 0"
-                          className={`${styles.btnChoice} ${selectedVariant === variant ? styles.selected : ""
-                            }`}
+                          className={`${styles.btnChoice} ${
+                            selectedVariant === variant ? styles.selected : ""
+                          }`}
                           onClick={() => handleVariantClick(variant)}
                         />
                       </div>
@@ -466,8 +524,9 @@ const ProductDetailsPage = () => {
                     onChange={(e) => handleInputChange(e.target.value)}
                     min={1}
                     max={selectedVariant?.product_countInStock || 1}
-                    className={`${styles.quantityInput} ${!selectedVariant ? styles.disabled : ""
-                      }`}
+                    className={`${styles.quantityInput} ${
+                      !selectedVariant ? styles.disabled : ""
+                    }`}
                     disabled={!selectedVariant}
                   />
                   <button
@@ -624,8 +683,9 @@ const ProductDetailsPage = () => {
             {feedbackList.map((data, index) => (
               <div key={index}>
                 <ProductFeedBackComponent
-                  img={`data:image/png;base64,${data.user_id.user_avt_img || ""
-                    }`}
+                  img={`data:image/png;base64,${
+                    data.user_id.user_avt_img || ""
+                  }`}
                   name={data.user_id.user_name || "ẩn danh"}
                   star={data.rating || "ẩn danh"}
                   date={
@@ -636,8 +696,8 @@ const ProductDetailsPage = () => {
                   imgFeedback={
                     Array.isArray(data.feedback_img)
                       ? data.feedback_img.map(
-                        (img) => `data:image/png;base64,${img}`
-                      )
+                          (img) => `data:image/png;base64,${img}`
+                        )
                       : []
                   }
                 />
@@ -682,8 +742,9 @@ const ProductDetailsPage = () => {
                     style={{ textDecoration: "none" }}
                   >
                     <CardComponent
-                      src={`data:image/png;base64,${product.product_images[0] || ""
-                        }`}
+                      src={`data:image/png;base64,${
+                        product.product_images[0] || ""
+                      }`}
                       alt="ảnh sản phẩm"
                       name={product.product_title}
                       oldPrice={product.product_price}

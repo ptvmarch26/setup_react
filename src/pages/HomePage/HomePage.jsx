@@ -337,9 +337,9 @@ const HomePage = () => {
     { src: brand15, alt: 'ROYAL CANIN' },
   ];
   
-  if (isLoading) {
-    return <div>Loading product details...</div>;
-  }
+  // if (isLoading) {
+  //   return <div>Loading product details...</div>;
+  // }
 
   return (
       <div className={clsx('grid wide')}> 
@@ -365,6 +365,7 @@ const HomePage = () => {
           products={Array.isArray(famousProduct) ? famousProduct : []}
           title="Sản phẩm nổi bật"
           onClick={handleFamousProduct}
+          isLoading={isLoading}
         />
         <div className={styles.underLine}>
           <UnderLineComponent

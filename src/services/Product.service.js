@@ -24,13 +24,8 @@ export const getDetailsProduct = async (id) => {
 };
 
 // Lấy sản phẩm liên quan
-export const getRelatedProducts = async (id) => {
+export const getRelatedProducts = async (product_category) => {
   try {
-    // Sử dụng hàm getDetailsProduct để lấy thông tin chi tiết sản phẩm
-    const productData = await getDetailsProduct(id);
-    const product_category = String(productData.data.product_category); // Đảm bảo là chuỗi
-    console.log("Product Data for Related Products:", product_category);
-
     // Tạo query string với filter
     const params = new URLSearchParams({
       product_category: product_category, // Bộ lọc theo danh mục
