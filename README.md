@@ -1,7 +1,7 @@
 # [IE104.P11.Group1] - ĐỒ ÁN XÂY DỰNG WEBSITE KINH DOANH SẢN PHẨM DÀNH CHO THÚ CƯNG PAWFECT.
 
 * Trường Đại học Công nghệ Thông tin, Đại học Quốc gia Thành phố Hồ Chí Minh (ĐHQG-HCM)
-* Khoa: Khoa học và Kỹ thuật thông tin (KH&KTTT)
+* Khoa: Khoa học và Kỹ thuật Thông tin (KH&KTTT)
 * GVHD: ThS. Võ Tấn Khoa
 * Nhóm sinh viên thực hiện: Nhóm 1
 
@@ -15,7 +15,7 @@
 |3. 	| Nguyễn Ngọc Thanh Tuyền		|	22521631 | Thành viên |
 |4.  | Võ Thị Phương Uyên | 22521645 | Thành viên |
 |5. 	| Phạm Quang Vũ | 22521696 | Thành viên |
-# [IE104.O12.Group1] - ĐỒ ÁN XÂY DỰNG WEBSITE KINH DOANH SẢN PHẨM DÀNH CHO THÚ CƯNG PAWFECT.
+# [IE104.P11.Group1] - ĐỒ ÁN XÂY DỰNG WEBSITE KINH DOANH SẢN PHẨM DÀNH CHO THÚ CƯNG PAWFECT.
 
 ## Giới thiệu
 Trong thời đại hiện đại, sự tiện lợi và linh hoạt trong việc mua sắm trực tuyến ngày càng trở thành một xu hướng phổ biến. Đặc biệt, trong lĩnh vực kinh doanh sản phẩm dành cho thú cưng, việc xây dựng một website chuyên nghiệp không chỉ là cơ hội để phát triển kinh doanh mà còn là cách hiệu quả để đáp ứng nhu cầu ngày càng cao của những người yêu thú cưng.  
