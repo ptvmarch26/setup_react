@@ -1,7 +1,7 @@
 # [IE104.P11.Group1] - ĐỒ ÁN XÂY DỰNG WEBSITE KINH DOANH SẢN PHẨM DÀNH CHO THÚ CƯNG PAWFECT.
 
 * Trường Đại học Công nghệ Thông tin, Đại học Quốc gia Thành phố Hồ Chí Minh (ĐHQG-HCM)
-* Khoa: Khoa học và Kỹ thuật thông tin (KH&KTTT)
+* Khoa: Khoa học và Kỹ thuật Thông tin (KH&KTTT)
 * GVHD: ThS. Võ Tấn Khoa
 * Nhóm sinh viên thực hiện: Nhóm 1
 
@@ -15,4 +15,3 @@
 |3. 	| Nguyễn Ngọc Thanh Tuyền		|	22521631 | Thành viên |
 |4.  | Võ Thị Phương Uyên | 22521645 | Thành viên |
 |5. 	| Phạm Quang Vũ | 22521696 | Thành viên |
- 
