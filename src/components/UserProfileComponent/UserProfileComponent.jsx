@@ -15,6 +15,7 @@ import {
 } from "@ant-design/icons";
 import { Avatar, Menu, Card, Col, Typography } from "antd";
 import myAvatarFalse from "../../assets/images/avatar-false.jpg";
+import clsx from "clsx";
 
 const { Title, Text } = Typography;
 
@@ -79,7 +80,7 @@ const UserProfileComponent = ({ full_name, src_img, name, className, user_name }
 
   return (
     <Col span={6} className={className}>
-      <Card className={styles.profile}>
+      <Card className={clsx('UserProfileComponent_profile__FcqYr', styles.profile)}>
         <div className={styles.info}>
           <div>
             <Avatar

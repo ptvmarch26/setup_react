@@ -78,7 +78,7 @@ const CheckOutPage = () => {
               <p>{selectedAddress.address}</p>
               <div className={styles.change}>
                 <span>Mặc định</span>
-                <Link to={"/check-out"} onClick={openModal}>Thay đổi</Link>
+                <Link onClick={openModal}>Thay đổi</Link>
               </div>
             </div>
           </div>

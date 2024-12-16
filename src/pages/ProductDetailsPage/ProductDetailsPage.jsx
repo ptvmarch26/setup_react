@@ -664,7 +664,7 @@ const ProductDetailsPage = () => {
             <p>Hiện không có đánh giá nào</p>
           </div>
         ) : (
-          <div className={styles.panigation}>
+          <div className={clsx('ProductDetailsPage_panigation__ZYBEy', styles.panigation)}>
             <Pagination defaultCurrent={1} total={50} />
           </div>
         )}

@@ -609,7 +609,7 @@ const HeaderComponent = () => {
             </ul>
           </Col>
         </Row>
-        <Row className={styles.search}>
+        <Row className={clsx('HeaderComponent_search__Aw328', styles.search)}>
           <Col span={13} offset={5}>
             <AutoComplete
               value={searchQuery}
