@@ -3,8 +3,15 @@ import ButtonComponent from "../ButtonComponent/ButtonComponent";
 import CardComponent from "../CardComponent/CardComponent";
 import TitleComponent from "../TitleComponent/TitleComponent";
 import { Link } from "react-router-dom";
+import LoadingComponent from "../LoadingComponent/LoadingComponent";
 
-const NewProductComponent = ({ products, isInMobile, title, onClick }) => {
+const NewProductComponent = ({
+  products,
+  isInMobile,
+  title,
+  onClick,
+  isLoading,
+}) => {
   return (
     <div>
       <TitleComponent
@@ -18,7 +25,7 @@ const NewProductComponent = ({ products, isInMobile, title, onClick }) => {
           <div key={index} className="col l-3 m-4 c-6">
             <Link
               to={`/product-details/${product._id}`}
-              style={{textDecoration: "none"}}
+              style={{ textDecoration: "none" }}
             >
               <CardComponent
                 src={`data:image/png;base64,${product.product_images[0] || ""}`}

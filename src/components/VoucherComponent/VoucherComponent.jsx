@@ -143,7 +143,7 @@
 // };
 
 // export default VoucherComponent;
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./VoucherComponent.module.scss";
 import clsx from "clsx";
 import { RiCoupon3Line } from "react-icons/ri";
@@ -163,6 +163,7 @@ const VoucherComponent = ({
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("shipping");
+  const [vouchers, setVouchers] = useState({ shipping: [], product: [] }); // Khởi tạo state vouchers
   // const [selectedVouchers, setSelectedVouchers] = useState({
   //     shipping: null,
   //     product: null,
@@ -171,7 +172,7 @@ const VoucherComponent = ({
   // Hàm fetch dữ liệu từ API
   const fetchVoucherData = async () => {
     try {
-      const voucherData = await getAllDiscounts(products);
+      const voucherData = await getAllDiscounts();
       if (!voucherData || !voucherData.data) {
         throw new Error("No voucherData returned from API");
       }
@@ -184,49 +185,37 @@ const VoucherComponent = ({
 
   const { data, isLoading, error } = useQuery({
     queryFn: fetchVoucherData,
-    enabled: !!products, 
+    enabled: !!isModalOpen, 
     refetchOnWindowFocus: false,
     keepPreviousData: true,
   });
 
-  const vouchers = {
-    shipping: [
-      {
-        id: 1,
-        code: "SHIPFREE20",
-        description: "Miễn phí vận chuyển cho đơn trên 100k",
-        expiration: "2024-12-31",
-        minOrder: 100000,
-        productRequirement: null,
-      },
-      {
-        id: 2,
-        code: "SHIP30K",
-        description: "Giảm 30k phí vận chuyển",
-        expiration: "2024-12-25",
-        minOrder: 200000,
-        productRequirement: null,
-      },
-    ],
-    product: [
-      {
-        id: 3,
-        code: "SAVE10",
-        description: "Giảm 10% giá trị đơn hàng",
-        expiration: "2024-12-20",
-        minOrder: 150000,
-        productRequirement: "Áp dụng cho sản phẩm điện tử",
-      },
-      {
-        id: 4,
-        code: "DISCOUNT50",
-        description: "Giảm 50k cho đơn hàng trên 300k",
-        expiration: "2024-12-15",
-        minOrder: 300000,
-        productRequirement: "Áp dụng cho sản phẩm thời trang",
-      },
-    ],
-  };
+  useEffect(() => {
+    if (data) {
+      const vouchers = {
+        shipping: data.data.shippingDiscounts?.map((item) => ({
+          id: item._id,
+          code: item.discount_code,
+          description: item.discount_description,
+          expiration: item.discount_end_day,
+          minOrder: item.discount_condition.price_total_order,
+          number: item.discount_number,
+          amount: item.discount_amount
+        })),
+        product: data.data.productDiscounts?.map((item) => ({
+          id: item._id,
+          code: item.discount_code,
+          description: item.discount_description,
+          expiration: item.discount_end_day,
+          minOrder: item.discount_condition.price_total_order,
+          number: item.discount_number,
+          amount: item.discount_amount
+        })),
+      };
+      setVouchers(vouchers);
+      console.log("abc", vouchers);
+    }
+  }, [data]);
 
   const toggleVoucherSelection = (voucher, type) => {
     onVoucherSelect(voucher, type);
@@ -307,7 +296,7 @@ const VoucherComponent = ({
                   <h3>{voucher.code}</h3>
                   <p>{voucher.description}</p>
                   <p>{voucher.expiration}</p>
-                  <p>Đơn tối thiểu {voucher.minOrder.toLocaleString()} VNĐ</p>
+                  <p>Đơn tối thiểu {voucher.minOrder?.toLocaleString()} VNĐ</p>
                   <p>{voucher.productRequirement}</p>
                 </div>
               ))}

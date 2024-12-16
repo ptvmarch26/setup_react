@@ -1,22 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import clsx from 'clsx'
 import styles from './AddressPage.module.scss';
 import UnderLineComponent from '../../components/UnderLineComponent/UnderLineComponent'
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateUser } from '../../redux/slices/userSlice';
 
-const AddressPage = ({closeModal}) => {
+const AddressPage = ({closeModal, onAddressChange}) => {
+  const { user_address, _id } = useSelector((state) => state.user);
   const navigate = useNavigate();
-  const [addresses, setAddresses] = useState([
-    { id: 1, name: 'Võ Văn', phone: '0382868383', address: '324 Xô Viết Nghệ Tĩnh Phường 24, Quận Bình Thạnh, TP. Hồ Chí Minh' },
-    { id: 2, name: 'Phi Thông', phone: '0987654321', address: '324 Xô Viết Nghệ Tĩnh Phường 24, Quận Bình Thạnh, TP. Hồ Chí Minh' },
-  ]);
-  const [selectedAddress, setSelectedAddress] = useState(null);
+  // const [addresses, setAddresses] = useState([
+  //   // { _id: 1, name: 'Võ Văn', phone: '0382868383', address: {home_address: "324 Xô Viết Nghệ Tĩnh ", commune: "Phường 24", district: "Quận Bình Thạnh", province: "TP. Hồ Chí Minh"}},
+  //   // { _id: 2, name: 'Phi Thông', phone: '0987654321', address: {home_address: "324 Xô Viết Nghệ Tĩnh ", commune: "Phường 24", district: "Quận Bình Thạnh", province: "TP. Hồ Chí Minh"}},
+  // ]);
+  
   const [isEditing, setIsEditing] = useState(false);
   const [newAddress, setNewAddress] = useState({ name: '', phone: '', address: '' });
   const [isAddingNew, setIsAddingNew] = useState(false);
+  
+  const defaultAddress = user_address.find((addr) => addr.isDefault) || user_address[0];
+  
+  const [selectedAddress, setSelectedAddress] = useState(defaultAddress?._id);
+
+  useEffect(() => {
+    if (defaultAddress) {
+      setSelectedAddress(defaultAddress._id); // Đặt giá trị mặc định khi render
+    }
+  }, [defaultAddress]);
 
   const handleSelectAddress = (addressId) => {
-    setSelectedAddress(addressId);
+    setSelectedAddress(addressId); 
   };
 
   const handleEditAddress = (address) => {
@@ -25,11 +38,11 @@ const AddressPage = ({closeModal}) => {
   };
 
   const handleSaveEditAddress = () => {
-    setAddresses(
-      addresses.map((addr) => (addr.id === newAddress.id ? newAddress : addr))
-    );
-    setIsEditing(false);
-    setNewAddress({ name: '', phone: '', address: '' });
+    // setAddresses(
+    //   addresses.map((addr) => (addr.id === newAddress.id ? newAddress : addr))
+    // );
+    // setIsEditing(false);
+    // setNewAddress({ name: '', phone: '', address: '' });
   };
 
   const handleAddNewAddress = () => {
@@ -38,36 +51,75 @@ const AddressPage = ({closeModal}) => {
   };
 
   const handleSaveNewAddress = () => {
-    setAddresses([...addresses, newAddress]);
-    setIsAddingNew(false);
-    setNewAddress({ name: '', phone: '', address: '' });
+    // setAddresses([...addresses, newAddress]);
+    // setIsAddingNew(false);
+    // setNewAddress({ name: '', phone: '', address: '' });
   };
 
   const handleDeleteAddress = (addressId) => {
-    setAddresses(addresses.filter((addr) => addr.id !== addressId));
+    // setAddresses(addresses.filter((addr) => addr.id !== addressId));
   };
 
   const handleConfirmAddress = () => {
     if (selectedAddress) {
-      const address = addresses.find((addr) => addr.id === selectedAddress);
-      navigate('/check-out', { state: { selectedAddress: address } }); 
+      const address = user_address.find((addr) => addr._id === selectedAddress);
+      onAddressChange(address); // Gọi callback để gửi địa chỉ lên CheckOutPage
+      closeModal(); // Đóng modal
+      console.log("addressPage", address)
     } else {
       alert('Vui lòng chọn địa chỉ.');
     }
   };
 
+  // const handleConfirmAddress = async () => {
+  //   if (selectedAddress) {
+  //     const address = user_address.find((addr) => addr._id === selectedAddress);
+  //     if (address) {
+  //       try {
+  //         // Gửi yêu cầu cập nhật đến API
+  //         const response = await axios.post('/api/update-address', {
+  //           userId: _id, // ID người dùng
+  //           newAddress: address, // Địa chỉ mới
+  //         });
+  
+  //         if (response.status === 200) {
+  //           console.log("Cập nhật địa chỉ thành công:", response.data);
+  
+  //           // Gọi callback để gửi địa chỉ lên CheckOutPage
+  //           onAddressChange(address);
+  
+  //           // Đóng modal
+  //           closeModal();
+  
+  //           // (Tuỳ chọn) Hiển thị thông báo thành công
+  //           alert('Địa chỉ đã được cập nhật thành công.');
+  //         } else {
+  //           throw new Error('Cập nhật địa chỉ thất bại.');
+  //         }
+  //       } catch (error) {
+  //         console.error('Lỗi khi cập nhật địa chỉ:', error);
+  //         alert('Đã xảy ra lỗi khi cập nhật địa chỉ. Vui lòng thử lại.');
+  //       }
+  //     } else {
+  //       alert('Không tìm thấy địa chỉ.');
+  //     }
+  //   } else {
+  //     alert('Vui lòng chọn địa chỉ.');
+  //   }
+  // };
+
   return (
     <div className={styles.addressPage}>
       <ul>
-        {addresses.map((address) => (
-          <li key={address.id} className={styles.addressItem}>
+        {user_address.map((address) => (
+          <li key={address._id} className={styles.addressItem}>
             <div className={styles.all}>
               <div className={styles.checkAndInfo}>
                 <div>
                   <input
                     type="checkbox"
-                    checked={selectedAddress === address.id}
-                    onChange={() => handleSelectAddress(address.id)}
+                    checked={selectedAddress === address._id}
+                    onChange={() => handleSelectAddress(address._id)}
                   />
                 </div>
                 <div className={styles.info}>
@@ -78,7 +130,7 @@ const AddressPage = ({closeModal}) => {
                     {address.phone}
                   </p>
                   <p>
-                    {address.address}
+                  <p>Đia chỉ: {address?.home_address}, {address?.commune}, {address?.district}, {address?.province}</p>
                   </p>
                 </div>
               </div>

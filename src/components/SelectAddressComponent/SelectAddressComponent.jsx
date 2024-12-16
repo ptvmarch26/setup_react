@@ -142,31 +142,32 @@
 
 // export default SelectAddressComponent;
 
-
-import React, { useState } from 'react';
-import  styles from './SelectAddressComponent.module.scss'
-import UnderLineComponent from '../UnderLineComponent/UnderLineComponent'
-import AddressPage from '../../pages/AddressPage/AddressPage';
-
-function SelectAddressComponent({closeModal}) {
+import React, { useState } from "react";
+import styles from "./SelectAddressComponent.module.scss";
+import UnderLineComponent from "../UnderLineComponent/UnderLineComponent";
+import AddressPage from "../../pages/AddressPage/AddressPage";
+import { useSelector } from 'react-redux';
+function SelectAddressComponent({ closeModal, onAddressChange }) {
   return (
     <div className={styles.main}>
-          <div className={styles.overlay} onClick={closeModal}></div>
+      <div className={styles.overlay} onClick={closeModal}></div>
 
-          <div className={styles.modal}>
-            <span className={styles.close} onClick={closeModal}>
-              &times;
-            </span>
-            <h3>Địa chỉ của bạn</h3>
-            <UnderLineComponent 
-                width="100%"
-                height="1px"
-                background="rgba(0, 0, 0, 0.2)"
-            />
-            <AddressPage
-              closeModal={closeModal}
-            />
-          </div>    
+      <div className={styles.modal}>
+        <span className={styles.close} onClick={closeModal}>
+          &times;
+        </span>
+        <h3>Địa chỉ của bạn</h3>
+        <UnderLineComponent
+          width="100%"
+          height="1px"
+          background="rgba(0, 0, 0, 0.2)"
+        />
+        {/* <AddressPage closeModal={closeModal} _id={_id} /> */}
+        <AddressPage
+          closeModal={closeModal}
+          onAddressChange={onAddressChange} // Truyền callback xuống AddressPage
+        />
+      </div>
     </div>
   );
 }
