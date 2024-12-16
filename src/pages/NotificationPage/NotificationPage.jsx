@@ -209,7 +209,7 @@ const NotificationPage = () => {
 
   return (
     <div className="grid wide">
-      <div className={styles.main}>
+      <div className={clsx('NotificationPage_main__gXcUW', styles.main)}>
         <Row gutter={16}>
           <UserProfileComponent
             full_name={full_name}
@@ -218,7 +218,7 @@ const NotificationPage = () => {
             className={styles.user}
           />
           <Col span={18} className={styles.noti}>
-            <div className={styles.wrapBtn}>
+            <div className={clsx('NotificationPage_wrapBtn__LMKLV', styles.wrapBtn)}>
               <Button
                 onClick={markAllAsRead}
                 disabled={notifications.every((n) => n.isRead)}

@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import myAvatar from "../../assets/images/avatar.jpg";
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent.jsx";
 import UserProfileComponent from "../../components/UserProfileComponent/UserProfileComponent.jsx";
+import clsx from "clsx";
 
 const { TabPane } = Tabs;
 const { Text } = Typography;
@@ -160,7 +161,7 @@ const MyOrderPage = () => {
   ];
 
   return (
-    <div style={{ padding: "20px 0" }} className={styles.main}>
+    <div style={{ padding: "20px 0" }} className={clsx('MyOrderPage_main__Rrmsc', styles.main)}>
       <div className="grid wide">
         <Row gutter={24}>
           <UserProfileComponent
@@ -203,7 +204,7 @@ const MyOrderPage = () => {
                 return false;
               })
               .map((order) => (
-                <Card className={styles.card} key={order.id}>
+                <Card className={clsx('MyOrderPage_card__5Ni41', styles.card)} key={order.id}>
                   <Row className={styles.orderStatus}>
                     <Col span={24}>
                       <Text>
@@ -221,7 +222,7 @@ const MyOrderPage = () => {
                     </div>
                   ))}
 
-                  <Row className={styles.total}>
+                  <Row className={clsx('MyOrderPage_total__EhPp1', styles.total)}>
                     <Col span={21}>
                       <p>Thành tiền:</p>
                     </Col>

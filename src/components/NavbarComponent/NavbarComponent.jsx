@@ -149,6 +149,7 @@ import styles from "./NavbarComponent.module.scss";
 import './NavbarComponent.scss'
 import ButtonComponent from "../ButtonComponent/ButtonComponent";
 import { Link } from "react-router-dom";
+import clsx from "clsx";
 
 const NavbarComponent = ({ isInViewport, isInMobile, handleFilterChange }) => {
   const [showAllBrands, setShowAllBrands] = useState(false);
@@ -313,7 +314,7 @@ const NavbarComponent = ({ isInViewport, isInMobile, handleFilterChange }) => {
       </div> */}
       <div className={styles.filter}>
         <h2>Thương hiệu</h2>
-        <div className={styles.choice}>
+        <div className={clsx('NavbarComponent_choice__wI4q+', styles.choice)}>
           {renderContent("brand", [
             { value: "Paddy", label: "Paddy" },
             { value: "Neovia", label: "Neovia" },

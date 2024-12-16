@@ -132,7 +132,7 @@ const VoucherPage = () => {
   };
 
   return (
-    <div className={styles.main}>
+    <div className={clsx('VoucherPage_main__OLpu8', styles.main)}>
       <div className="grid wide">
         <Row gutter={16}>
           <UserProfileComponent
