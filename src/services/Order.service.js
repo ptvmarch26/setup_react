@@ -245,3 +245,84 @@ export const previewOrder = async (orderData) => {
     throw new Error(error.message || "Lỗi kết nối đến server");
   }
 };
+
+export const getOrdersByStatus = async (orderStatus, userId) => {
+  try {
+    // Xây dựng URL với query parameters
+    const queryParams = new URLSearchParams();
+
+    // Kiểm tra nếu trạng thái là "Tất cả"
+    if (orderStatus === "Tất cả") {
+      queryParams.append("orderStatus", "all"); // Gán "all" vào query
+    } else if (orderStatus) {
+      queryParams.append("orderStatus", orderStatus); // Thêm trạng thái cụ thể
+    }
+
+    if (userId) {
+      queryParams.append("userId", userId); // Thêm userId vào query
+    }
+
+    const url = `${API_URL}/order/filter-status?${queryParams.toString()}`;
+    console.log("Request URL:", url); // In URL đã tạo để kiểm tra
+
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch orders. Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log("Response Data:", data); // In dữ liệu trả về từ API
+    return data;
+  } catch (error) {
+    console.error("Error fetching orders:", error.message);
+    throw error;
+  }
+};
+
+export const submitFeedback = async (feedbackData) => {
+  try {
+    const formData = new FormData();
+
+    // Append fields to the FormData
+    formData.append("product_id", feedbackData.product_id);
+    formData.append("order_id", feedbackData.order_id);
+    formData.append("content", feedbackData.content);
+    formData.append("rating", feedbackData.rating);
+
+    // Append images (if any)
+    if (feedbackData.images && feedbackData.images.length > 0) {
+      feedbackData.images.forEach((image, index) => {
+        formData.append(`feedback_img[${index}]`, image);
+      });
+    }
+
+    // Append videos (if any)
+    if (feedbackData.videos && feedbackData.videos.length > 0) {
+      feedbackData.videos.forEach((video, index) => {
+        formData.append(`feedback_video[${index}]`, video);
+      });
+    }
+
+    // Call the API
+    const response = await fetch(`${API_URL}/feedback/create`, {
+      method: "POST",
+      body: formData, // Send as multipart/form-data
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to submit feedback");
+    }
+
+    const data = await response.json();
+    return data; // Return response data
+  } catch (error) {
+    console.error("Error submitting feedback:", error.message);
+    throw error;
+  }
+};

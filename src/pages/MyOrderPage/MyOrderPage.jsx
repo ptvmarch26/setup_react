@@ -9,6 +9,7 @@ import myAvatar from "../../assets/images/avatar.jpg";
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent.jsx";
 import UserProfileComponent from "../../components/UserProfileComponent/UserProfileComponent.jsx";
 import clsx from "clsx";
+import { getOrdersByStatus } from "../../services/Order.service.js";
 
 const { TabPane } = Tabs;
 const { Text } = Typography;
@@ -17,6 +18,8 @@ const MyOrderPage = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const currentTab = searchParams.get("tab") || "1";
+  const [orders, setOrders] = useState([]); // Định dạng kiểu { id: data }
+  const [loading, setLoading] = useState(true);
 
   const menuTab = {
     1: "Tất cả",
@@ -65,101 +68,69 @@ const MyOrderPage = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const fetchOrders = async () => {
+      setLoading(true);
+      try {
+        const orderStatus = menuTab[currentTab];
+        const response = await getOrdersByStatus(orderStatus, _id); 
+        console.log("du lieu tra ve",response )
+        // Map dữ liệu trả về và gán lại các trường
+        const processedOrders = response.data.map((order) => ({
+          id: order?._id, // ID của đơn hàng
+          order_status: order?.order_status,
+          total_price: order?.order_total_after,// Tính tổng tiền
+          shipping_address: order?.shipping_address,
+          order_payment: order?.order_payment,
+          is_feedback: order?.is_feedback,
+          products: order?.products?.map((product) => ({
+            id: product?.product_id?._id,
+            product_title: product?.product_id?.product_title,
+            product_description: product?.product_order_type,
+            number: product?.quantity,
+            src_img: `data:image/jpeg;base64,${product?.product_id?.product_images[0]}`|| "",
+            price_old: product?.product_price || 0,
+            price_new: (product?.product_price*(1-product?.product_id?.product_percent_discount/100)).toLocaleString() || 0,
+          })),
+        }));
+
+        setOrders(processedOrders); // Lưu dữ liệu đã xử lý vào state
+      } catch (error) {
+        console.error("Error fetching orders:", error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOrders();
+  }, [currentTab, _id]);
+
   const handleProductClick = (orderId) => {
-    navigate(`/order-details?tab=${currentTab}&product=${orderId}`, {
-      state: { orders }, // Truyền orders qua state
-    });
+    const selectedOrder = orders.find((order) => order.id === orderId);
+    
+    if (selectedOrder) {
+      navigate(`/order-details?tab=${currentTab}&product=${orderId}`, {
+        state: { order: selectedOrder }, // Chỉ truyền đơn hàng có id = orderId
+      });
+    } else {
+      console.error(`Order with ID ${orderId} not found.`);
+      alert("Không tìm thấy đơn hàng!");
+    }
   };
 
   const handleFeedBackClick = (orderId) => {
-    navigate(`/product-feedback?tab=${currentTab}&product=${orderId}`, {
-      state: { orders }, // Truyền orders qua state
-    });
-  }
+    const selectedOrder = orders.find((order) => order.id === orderId);
   
-  const orders = [
-    {
-      id: 1,
-      order_status: "Hoàn thành",
-      products: [
-        {
-          id: 101,
-          product_title: "Thức ăn dạng hạt cho chó",
-          product_description: "Phân loại hàng: Thức ăn",
-          number: "1",
-          src_img: myAvatar,
-          price_old: "400.000",
-          price_new: "320.000",
-        },
-        {
-          id: 102,
-          product_title: "Sữa tắm cho chó",
-          product_description: "Phân loại hàng: Sữa tắm",
-          number: "2",
-          src_img: myAvatar,
-          price_old: "150.000",
-          price_new: "120.000",
-        },
-      ],
-    },
-    {
-      id: 2,
-      order_status: "Đang vận chuyển",
-      products: [
-        {
-          id: 201,
-          product_title: "Dầu xả cho chó",
-          product_description: "Phân loại hàng: Dầu xả",
-          number: "1",
-          price_old: "200.000",
-          price_new: "180.000",
-        },
-      ],
-    },
-    {
-      id: 3,
-      order_status: "Đã hủy",
-      products: [
-        {
-          id: 201,
-          product_title: "Dầu xả cho chó",
-          product_description: "Phân loại hàng: Dầu xả",
-          number: "1",
-          price_old: "200.000",
-          price_new: "180.000",
-        },
-      ],
-    },
-    {
-      id: 4,
-      order_status: "Trả hàng/Hoàn tiền",
-      products: [
-        {
-          id: 201,
-          product_title: "Dầu xả cho chó",
-          product_description: "Phân loại hàng: Dầu xả",
-          number: "1",
-          price_old: "200.000",
-          price_new: "180.000",
-        },
-      ],
-    },
-    {
-      id: 5,
-      order_status: "Đã hủy",
-      products: [
-        {
-          id: 201,
-          product_title: "Dầu xả cho chó",
-          product_description: "Phân loại hàng: Dầu xả",
-          number: "1",
-          price_old: "200.000",
-          price_new: "180.000",
-        },
-      ],
-    },
-  ];
-
+    if (selectedOrder) {
+      navigate(`/product-feedback?tab=${currentTab}&product=${orderId}`, {
+        state: { order: selectedOrder }, // Chỉ truyền đơn hàng có id = orderId
+      });
+    } else {
+      console.error(`Order with ID ${orderId} not found.`);
+      alert("Không tìm thấy đơn hàng!");
+    }
+  };
+  
   return (
     <div style={{ padding: "20px 0" }} className={clsx('MyOrderPage_main__Rrmsc', styles.main)}>
       <div className="grid wide">
@@ -208,7 +179,7 @@ const MyOrderPage = () => {
                   <Row className={styles.orderStatus}>
                     <Col span={24}>
                       <Text>
-                        {order.order_status}
+                        {order?.order_status}
                       </Text>
                     </Col>
                   </Row>
@@ -228,21 +199,13 @@ const MyOrderPage = () => {
                     </Col>
                     <Col span={3}>
                       <p className={styles.price}>
-                        {order.products
-                          .reduce(
-                            (total, product) =>
-                              total +
-                              parseInt(product.price_new.replace(".", "")) *
-                              parseInt(product.number),
-                            0
-                          )
-                          .toLocaleString()}
+                        {order.total_price.toLocaleString()}
                         đ
                       </p>
                     </Col>
 
                     <Col span={24} className={styles.allBtn}>
-                      {order.order_status === "Hoàn thành" && (
+                      {order?.order_status === "Hoàn thành" && (
                         <div className={styles.btnDetails}>
                           <ButtonComponent
                             title="Đánh giá"
@@ -260,8 +223,8 @@ const MyOrderPage = () => {
                           />
                         </div>
                       )}
-                      {(order.order_status === "Đã hủy" ||
-                        order.order_status === "Trả hàng/Hoàn tiền") && (
+                      {(order?.order_status === "Đã hủy" ||
+                        order?.order_status === "Trả hàng/Hoàn tiền") && (
                           <ButtonComponent
                             title="Mua lại"
                             primary
@@ -270,7 +233,7 @@ const MyOrderPage = () => {
                             showIcon={false}
                           />
                         )}
-                      {order.order_status === "Chờ xác nhận" && (
+                      {order?.order_status === "Chờ xác nhận" && (
                         <ButtonComponent
                           title="Hủy"
                           primary
