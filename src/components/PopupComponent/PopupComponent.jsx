@@ -1,16 +1,28 @@
-import React from 'react';
-import styles from './PopupComponent.module.scss'; // CSS riêng cho component này
+import React, { useEffect } from "react";
+import styles from "./PopupComponent.module.scss";
+import success from '../../assets/images/success.png'
+import fail from '../../assets/images/fail.png'
+import { IoMdClose } from "react-icons/io";
 
-const PopupComponent = ({ message, onClose }) => {
+const PopupComponent = ({ message, timeout, onClose, isSuccess = true }) => {
+  // Tự động đóng popup sau thời gian timeout
+  useEffect(() => {
+    if (timeout) {
+      const timer = setTimeout(onClose, timeout);
+      return () => clearTimeout(timer);
+    }
+  }, [timeout, onClose]);
+
   return (
-    <div className={styles.popupOverlay}>
-      <div className={styles.popupContent}>
-        <h2 className={styles.popupTitle}>Thông Báo</h2>
-        <p className={styles.popupMessage}>
-          {typeof message === 'string' ? message : 'Đã xảy ra lỗi, vui lòng thử lại.'}
-        </p>
-        <button onClick={onClose} className={styles.closeButton}>
-          Đóng
+    <div>
+      <div onClick={onClose} className={styles.popupOverlay}></div>
+      <div className={styles.popup}>
+        <img src={isSuccess ? success : fail} />
+        <div className={styles.content}>
+          <p>{message || "Đã xảy ra lỗi, vui lòng thử lại."}</p>
+        </div>
+        <button className={styles.close} onClick={onClose}>
+          <IoMdClose />
         </button>
       </div>
     </div>

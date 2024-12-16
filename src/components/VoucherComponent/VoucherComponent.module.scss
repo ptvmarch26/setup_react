@@ -133,6 +133,11 @@
 .tabContent {
     max-height: 300px;
     overflow-y: auto;
+
+    p {
+        text-align: justify;
+        margin: 10px 0;
+    }
 }
 
 .voucherCard {

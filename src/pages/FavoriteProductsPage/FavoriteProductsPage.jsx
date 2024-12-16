@@ -193,10 +193,13 @@ import {
 } from "../../services/Order.service";
 import { useQuery } from "@tanstack/react-query";
 import product4 from "../../assets/images/product4.svg";
-import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
-import cart from "../../assets/images/cart.svg";
+import PopupComponent from "../../components/PopupComponent/PopupComponent";
+import LoadingComponent from "../../components/LoadingComponent/LoadingComponent";
 
 const FavoriteProductsPage = () => {
+  const [isSuccess, setIsSuccess] = useState(true);
+  const [message, setMessage] = useState("");
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [checkedItems, setCheckedItems] = useState([]);
   const [isInMobile, setisInMobile] = useState(false);
@@ -278,12 +281,16 @@ const FavoriteProductsPage = () => {
       const response = await deleteProductFavor(id, removeData, accessToken);
 
       if (response) {
-        alert("Xóa sản phẩm thành công!");
+        setMessage("Xoá sản phẩm thành công");
+        setIsPopupVisible(true);
+        setIsSuccess(true);
       }
     } catch (error) {
       // Xử lý lỗi nếu có
       console.error("Lỗi khi xóa sản phẩm:", error);
-      alert("Có lỗi xảy ra khi xóa sản phẩm. Vui lòng thử lại.");
+      setMessage("Có lỗi xảy ra khi xóa sản phẩm. Vui lòng thử lại");
+      setIsPopupVisible(true);
+      setIsSuccess(false);
 
       // Khôi phục trạng thái nếu API thất bại
       setCartItems((prevItems) => [...prevItems, itemToRemove]);
@@ -319,10 +326,6 @@ const FavoriteProductsPage = () => {
     };
   }, []);
 
-  if (isLoading) {
-    return <div>Đang tải dữ liệu giỏ hàng...</div>;
-  }
-
   const handleRemoveAllItems = async () => {
     // Chuẩn bị dữ liệu gửi lên Backend
     const removeData = {
@@ -335,7 +338,9 @@ const FavoriteProductsPage = () => {
       const response = await deleteProductFavor(id, removeData, accessToken);
 
       if (response) {
-        alert("Xóa nhiều sản phẩm yêu thích thành công!");
+        setMessage("Xoá nhiều sản phẩm yêu thích thành công");
+        setIsPopupVisible(true);
+        setIsSuccess(true);
       }
 
       setCartItems([]);
@@ -343,27 +348,40 @@ const FavoriteProductsPage = () => {
     } catch (error) {
       // Xử lý lỗi nếu có
       console.error("Lỗi khi xóa sản phẩm yêu thích:", error);
-      alert("Có lỗi xảy ra khi xóa sản phẩm yêu thích. Vui lòng thử lại.");
+      setMessage("Có lỗi xảy ra khi xóa sản phẩm. Vui lòng thử lại");
+      setIsPopupVisible(true);
+      setIsSuccess(false);
     }
   };
 
-  const handleAddToCart = () => {
-    const selectedItems = cartItems.filter((item) =>
-      checkedItems.includes(item.id)
-    );
-    if (selectedItems.length === 0) {
-      alert("Vui lòng chọn ít nhất một sản phẩm để thêm vào giỏ!");
-      return;
-    }
+  // const handleAddToCart = () => {
+  //   const selectedItems = cartItems.filter((item) =>
+  //     checkedItems.includes(item.id)
+  //   );
+  //   if (selectedItems.length === 0) {
+  //     alert("Vui lòng chọn ít nhất một sản phẩm để thêm vào giỏ!");
+  //     return;
+  //   }
 
-    // Gửi danh sách sản phẩm đã chọn tới API hoặc xử lý thêm vào giỏ
-    console.log("Sản phẩm được thêm vào giỏ:", selectedItems);
-    // Ví dụ: gọi API thêm sản phẩm vào giỏ
-    // addToCartAPI(selectedItems);
-  };
+  //   // Gửi danh sách sản phẩm đã chọn tới API hoặc xử lý thêm vào giỏ
+  //   console.log("Sản phẩm được thêm vào giỏ:", selectedItems);
+  //   // Ví dụ: gọi API thêm sản phẩm vào giỏ
+  //   // addToCartAPI(selectedItems);
+  // };
 
   const navigateProduct = (id) => {
     navigate(`/product-details/${id}`)
+  }
+
+  if (isLoading) {
+    return (
+      <div className={styles.main}>
+        <div className="grid wide">
+          <h2>SẢN PHẨM YÊU THÍCH</h2>
+          <LoadingComponent isLoading={isLoading} />
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -412,17 +430,25 @@ const FavoriteProductsPage = () => {
         </div>
         <div className={styles.addToCarts}>
           {/* <ButtonComponent
-            title="Thêm các sản phẩm đã chọn vào giỏ"
-            fontSize={isInMobile ? "1rem" : "1.2rem"}
-            width="200px"
-            height="50px"
-            widthDiv="none"
-            icon={cart}
-            onClick={handleAddToCart}
-            className={styles.btnAdd}
-          /> */}
+              title="Thêm các sản phẩm đã chọn vào giỏ"
+              fontSize={isInMobile ? "1rem" : "1.2rem"}
+              width="200px"
+              height="50px"
+              widthDiv="none"
+              icon={cart}
+              onClick={handleAddToCart}
+              className={styles.btnAdd}
+            /> */}
         </div>
       </div>
+      {isPopupVisible && (
+        <PopupComponent
+          message={message}
+          onClose={() => setIsPopupVisible(false)}
+          timeout={2000}
+          isSuccess={isSuccess}
+        />
+      )}
     </div>
   );
 };

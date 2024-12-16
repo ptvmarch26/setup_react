@@ -208,7 +208,7 @@ import { Pagination } from "antd";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getAllProduct } from "../../services/Product.service";
-import { useRef } from "react";
+import CardNonComponent from '../../components/CardNonComponent/CardNonComponent'
 
 const TypeProductPage = () => {
   // const navigate = useNavigate();
@@ -457,8 +457,12 @@ const TypeProductPage = () => {
                     handleFilterChange={handleFilterChange} // Truyền hàm vào SortProductComponent
                   />
                 </div>
-                <div className="col l-12 m-12 c-12">
-                  <div>Đang tải dữ liệu sản phẩm...</div>
+                <div className="row">
+                  {Array.from({ length: 9 }).map((_, index) => (
+                    <div key={index} className="col l-4 m-6 c-12">
+                      <CardNonComponent />
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -527,7 +531,7 @@ const TypeProductPage = () => {
                   <div key={index} className="col l-4 m-4 c-6">
                     <Link
                       to={`/product-details/${product._id}`}
-                      style={{textDecoration: "none"}}
+                      style={{ textDecoration: "none" }}
                     >
                       <CardComponent
                         src={`data:image/png;base64,${product.product_images[0] || ""
@@ -565,7 +569,7 @@ const TypeProductPage = () => {
                   <NavbarComponent
                     isInViewport={isInViewport}
                     isInMobile={isInMobile}
-                    // onClick={handleFilterChange}
+                  // onClick={handleFilterChange}
                   />
                 </div>
               </div>

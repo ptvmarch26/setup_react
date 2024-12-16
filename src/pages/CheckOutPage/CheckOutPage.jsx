@@ -12,22 +12,31 @@ import VoucherComponent from "../../components/VoucherComponent/VoucherComponent
 import clsx from "clsx";
 import { useSelector } from "react-redux";
 import { createOrder, getAllDiscounts, previewOrder } from "../../services/Order.service";
+import PopupComponent from "../../components/PopupComponent/PopupComponent";
 
 const CheckOutPage = () => {
   const { user_address, _id } = useSelector((state) => state.user);
   const defaultAddress =
-  user_address.find((address) => address.isDefault) || user_address[0]; // Fallback về địa chỉ đầu tiên nếu không có `isDefault: true`
+    user_address.find((address) => address.isDefault) || user_address[0]; // Fallback về địa chỉ đầu tiên nếu không có `isDefault: true`
   const [previewData, setPreviewData] = useState(null);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("cod");
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(true);
+  const [message, setMessage] = useState("");
+
+  const handlePaymentMethod = (method) => {
+    setSelectedPaymentMethod((prevMethod) => (prevMethod === method ? null : method));
+  };
 
   const navigate = useNavigate();
   // Tạo địa chỉ mặc định cho state
   const initAddress = {
-    name: defaultAddress.name,
-    phone: defaultAddress.phone,
-    home_address: defaultAddress.home_address,
-    district: defaultAddress.district,
-    commune: defaultAddress.commune,
-    province: defaultAddress.province,
+    name: defaultAddress?.name,
+    phone: defaultAddress?.phone,
+    home_address: defaultAddress?.home_address,
+    district: defaultAddress?.district,
+    commune: defaultAddress?.commune,
+    province: defaultAddress?.province,
   };
 
   const location = useLocation();
@@ -39,20 +48,20 @@ const CheckOutPage = () => {
     shippingFee = 0,
     selectedVouchers = {},
   } = location.state || {};
-  
+
   const selectedItems = cartItems.filter((item) =>
     checkedItems.includes(item.id)
   );
-  
+
   const totalItemsPrice = selectedItems.reduce(
     (total, item) => total + item.price * item.quantity,
     0
   );
 
   const [paymentMethod, setPaymentMethod] = useState("cod")
-  
+
   const totalAmount = Math.max(0, totalItemsPrice + shippingFee);
-  
+
   const [selectAddress, setSelectAddress] = useState(initAddress);
 
   // useEffect(() => {
@@ -69,13 +78,13 @@ const CheckOutPage = () => {
         user_id: _id,
         shipping_fee: shippingFee,
         shipping_address: {
-          full_name: selectAddress.name,
-          phone: selectAddress.phone,
+          full_name: selectAddress?.name,
+          phone: selectAddress?.phone,
           address: {
-            home_address: selectAddress.home_address,
-            province: selectAddress.province,
-            district: selectAddress.district,
-            commune: selectAddress.commune,
+            home_address: selectAddress?.home_address,
+            province: selectAddress?.province,
+            district: selectAddress?.district,
+            commune: selectAddress?.commune,
           },
         },
         products: selectedItems.map((item) => ({
@@ -93,7 +102,6 @@ const CheckOutPage = () => {
         setPreviewData(previewResponse.data);
       } catch (error) {
         console.error("Error previewing order:", error.message);
-        alert("Không thể xem trước đơn hàng. Vui lòng thử lại.");
       }
     };
 
@@ -134,10 +142,6 @@ const CheckOutPage = () => {
     setSelectAddress(newAddress); // Cập nhật địa chỉ mới
   };
 
-  const handlePaymentMethod = (method) => {
-    setPaymentMethod(method);
-  };
-
   const handleCheckOut = async () => {
     const orderData = {
       discount_ids: [
@@ -150,10 +154,10 @@ const CheckOutPage = () => {
         full_name: selectAddress.name,
         phone: selectAddress.phone,
         address: {
-          home_address: selectAddress.home_address,
-          province: selectAddress.province,
-          district: selectAddress.district,
-          commune: selectAddress.commune,
+          home_address: selectAddress?.home_address,
+          province: selectAddress?.province,
+          district: selectAddress?.district,
+          commune: selectAddress?.commune,
         },
       },
       products: selectedItems.map((item) => ({
@@ -169,15 +173,21 @@ const CheckOutPage = () => {
 
     try {
       const orderResponse = await createOrder(orderData);
-      alert("Đặt hàng thành công!");
+      setMessage("Đặt hàng thành công");
+      setIsPopupVisible(true);
+      setIsSuccess(true);
       console.log("Order Response:", orderResponse);
-      navigate(`/my-order`)
+      setTimeout(() => {
+        navigate(`/my-order`);
+      }, 2000);
     } catch (error) {
       console.error("Error creating order:", error.message);
-      alert("Có lỗi xảy ra khi đặt hàng. Vui lòng thử lại!");
+      setMessage("Có lỗi xảy ra khi cập nhật giỏ hàng. Vui lòng thử lại.");
+      setIsPopupVisible(true);
+      setIsSuccess(false);
     }
   };
-  
+
   return (
     <div className={styles.main}>
       <div className="grid wide">
@@ -240,6 +250,7 @@ const CheckOutPage = () => {
                   <td>
                     <img src={item.img} alt="" />
                     <span>{item.name}</span>
+                    <p>Loại: {item.product_order_type}</p>
                   </td>
                   <td>{item.price.toLocaleString("vi-VN")}₫</td>
                   <td>{item.quantity}</td>
@@ -289,7 +300,7 @@ const CheckOutPage = () => {
                 margin="30px 0 0"
                 width="220px"
                 height="80px"
-                className={styles.methodBtn}
+                className={`${styles.methodBtn} ${selectedPaymentMethod === "momo" ? styles.selected : ""}`}
                 onClick={() => handlePaymentMethod("momo")}
               />
             </div>
@@ -301,7 +312,7 @@ const CheckOutPage = () => {
                 margin="30px 0 0"
                 width="220px"
                 height="80px"
-                className={styles.methodBtn}
+                className={`${styles.methodBtn} ${selectedPaymentMethod === "credit_card" ? styles.selected : ""}`}
                 onClick={() => handlePaymentMethod("credit_card")}
               />
             </div>
@@ -313,7 +324,7 @@ const CheckOutPage = () => {
                 margin="30px 0 0"
                 width="220px"
                 height="80px"
-                className={styles.methodBtn}
+                className={`${styles.methodBtn} ${selectedPaymentMethod === "apple_pay" ? styles.selected : ""}`}
                 onClick={() => handlePaymentMethod("apple_pay")}
               />
             </div>
@@ -325,7 +336,7 @@ const CheckOutPage = () => {
                 width="220px"
                 height="80px"
                 showIcon={false}
-                className={styles.methodBtn}
+                className={`${styles.methodBtn} ${selectedPaymentMethod === "cod" ? styles.selected : ""}`}
                 onClick={() => handlePaymentMethod("cod")}
               />
             </div>
@@ -369,7 +380,7 @@ const CheckOutPage = () => {
           <div className={styles.total}>
             <p className={styles.normal}>
               Tổng tiền hàng:
-              <span>{(totalItemsPrice+discount).toLocaleString("vi-VN")}₫</span>
+              <span>{(totalItemsPrice + discount).toLocaleString("vi-VN")}₫</span>
             </p>
             <p className={styles.normal}>
               Tổng tiền phí vận chuyển:
@@ -396,10 +407,18 @@ const CheckOutPage = () => {
             primary
             margin="30px 0"
             showIcon={false}
-            onClick = {handleCheckOut}
+            onClick={handleCheckOut}
           />
         </div>
       </div>
+      {isPopupVisible && (
+        <PopupComponent
+          message={message}
+          onClose={() => setIsPopupVisible(false)}
+          timeout={2000}
+          isSuccess={isSuccess}
+        />
+      )}
     </div>
   );
 };

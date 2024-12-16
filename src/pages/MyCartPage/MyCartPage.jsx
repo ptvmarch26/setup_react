@@ -150,10 +150,14 @@ import {
 } from "../../services/Order.service";
 import { useQuery } from "@tanstack/react-query";
 import product4 from "../../assets/images/product4.svg";
-import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
+import PopupComponent from "../../components/PopupComponent/PopupComponent";
+import LoadingComponent from "../../components/LoadingComponent/LoadingComponent";
 
 const MyCartPage = () => {
   const [cartItems, setCartItems] = useState([]);
+  const [isSuccess, setIsSuccess] = useState(true);
+  const [message, setMessage] = useState("");
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [discount, setDiscount] = useState(0);
   const [checkedItems, setCheckedItems] = useState([]);
   const [shippingFee, setShippingFee] = useState(0);
@@ -221,7 +225,9 @@ const MyCartPage = () => {
   const handleCheckout = () => {
     console.log(checkedItems.length === 0);
     if (checkedItems.length === 0) {
-      alert("Bạn chưa chọn sản phẩm nào");
+      setMessage("Bạn chưa chọn sản phẩm nào");
+      setIsPopupVisible(true);
+      setIsSuccess(false);
     } else {
 
       navigate(`/check-out/${id}`, {
@@ -233,7 +239,7 @@ const MyCartPage = () => {
   const handleApplyVoucher = (vouchers) => {
     const product_voucher = vouchers.product?.number
     const shipping_voucher = vouchers.shipping?.number
-    setDiscount(discount + product_voucher*frontTotal/100 + shipping_voucher*30000/100)
+    setDiscount(discount + product_voucher * frontTotal / 100 + shipping_voucher * 30000 / 100)
     setSelectedVouchers(vouchers);
     console.log("Danh sách mã giảm giá đã chọn:", vouchers);
   };
@@ -267,7 +273,9 @@ const MyCartPage = () => {
     } catch (error) {
       // Xử lý lỗi nếu có
       console.error("Lỗi khi xóa sản phẩm:", error);
-      alert("Có lỗi xảy ra khi xóa sản phẩm. Vui lòng thử lại.");
+      setMessage("Có lỗi xảy ra khi xóa sản phẩm. Vui lòng thử lại");
+      setIsPopupVisible(true);
+      setIsSuccess(false);
     }
   };
 
@@ -297,12 +305,16 @@ const MyCartPage = () => {
       const response = await deleteProductCart(id, removeData, accessToken);
 
       if (response) {
-        alert("Xóa sản phẩm thành công!");
+        setMessage("Xóa sản phẩm thành công");
+        setIsPopupVisible(true);
+        setIsSuccess(true);
       }
     } catch (error) {
       // Xử lý lỗi nếu có
       console.error("Lỗi khi xóa sản phẩm:", error);
-      alert("Có lỗi xảy ra khi xóa sản phẩm. Vui lòng thử lại.");
+      setMessage("Có lỗi xảy ra khi xóa sản phẩm. Vui lòng thử lại.");
+      setIsPopupVisible(true);
+      setIsSuccess(false);
 
       // Khôi phục trạng thái nếu API thất bại
       setCartItems((prevItems) => [...prevItems, itemToRemove]);
@@ -374,9 +386,9 @@ const MyCartPage = () => {
     };
   }, []);
 
-  if (isLoading) {
-    return <div>Đang tải dữ liệu giỏ hàng...</div>;
-  }
+  // if (isLoading) {
+  //   return <div>Đang tải dữ liệu giỏ hàng...</div>;
+  // }
 
   const handleRemoveAllItems = async () => {
     // Chuẩn bị dữ liệu gửi lên Backend
@@ -391,7 +403,9 @@ const MyCartPage = () => {
       const response = await deleteProductCart(id, removeData, accessToken);
 
       if (response) {
-        alert("Xóa nhiều sản phẩm thành công!");
+        setMessage("Xóa nhiều sản phẩm thành công");
+        setIsPopupVisible(true);
+        setIsSuccess(true);
       }
 
       setCartItems([]);
@@ -401,11 +415,24 @@ const MyCartPage = () => {
     } catch (error) {
       // Xử lý lỗi nếu có
       console.error("Lỗi khi xóa sản phẩm:", error);
-      alert("Có lỗi xảy ra khi xóa sản phẩm. Vui lòng thử lại.");
+      setMessage("Có lỗi xảy ra khi xóa sản phẩm. Vui lòng thử lại.");
+      setIsPopupVisible(true);
+      setIsSuccess(false);
     }
   };
   const navigateProduct = (id) => {
     navigate(`/product-details/${id}`)
+  }
+
+  if (isLoading) {
+    return (
+      <div className={styles.main}>
+        <div className="grid wide">
+          <h2>GIỎ HÀNG CỦA BẠN</h2>
+          <LoadingComponent isLoading={isLoading} />
+        </div>
+      </div>
+    )
   }
 
 
@@ -454,15 +481,15 @@ const MyCartPage = () => {
               //     isInMobile={isInMobile}
               //   />
               // </Link>
-                <CartItemComponent
-                  item={item}
-                  onQuantityChange={handleQuantityChange}
-                  onRemove={handleRemoveItem}
-                  onCheck={handleCheckItem}
-                  isChecked={checkedItems.includes(item.id)}
-                  isInMobile={isInMobile}
-                  onClick={() => navigateProduct(item.product_id)}
-                />
+              <CartItemComponent
+                item={item}
+                onQuantityChange={handleQuantityChange}
+                onRemove={handleRemoveItem}
+                onCheck={handleCheckItem}
+                isChecked={checkedItems.includes(item.id)}
+                isInMobile={isInMobile}
+                onClick={() => navigateProduct(item.product_id)}
+              />
             ))}
           </div>
           <OrderSummaryComponent
@@ -477,6 +504,14 @@ const MyCartPage = () => {
           />
         </div>
       </div>
+      {isPopupVisible && (
+        <PopupComponent
+          message={message}
+          onClose={() => setIsPopupVisible(false)}
+          timeout={2000}
+          isSuccess={isSuccess}
+        />
+      )}
     </div>
   );
 };
