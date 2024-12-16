@@ -16,15 +16,9 @@ const OrderDetailsPage = () => {
     const orderId = params.get("product");
 
     // Lấy orders từ state của location
-    const orders = location.state?.orders || [];
+    const order = location.state?.order || [];
 
-    // Tìm đơn hàng dựa trên orderId
-    const order = orders.find(order => order.id.toString() === orderId);
-
-    const totalPrice = order?.products.reduce((total, product) => {
-        return total + parseFloat(product.price_new.replace(/[,.]/g, ""));
-    }, 0);
-
+    const totalPrice = order?.total_price;
     return (
         <div className={styles.main}>
             <div className="grid wide">
@@ -38,7 +32,7 @@ const OrderDetailsPage = () => {
                     <div className={styles.details}>
                         <div className={styles.status}>
                             <h2>Chi tiết Đơn hàng</h2>
-                            <p>{order.order_status}</p>
+                            <p>{order?.order_status}</p>
                         </div>
                         <div className={styles.reviceInfo}>
                             <div className={styles.title}>
@@ -46,9 +40,9 @@ const OrderDetailsPage = () => {
                                 <h3>Thông tin nhận hàng</h3>
                             </div>
                             <div className={styles.infoAddress}>
-                                <p><strong>Người nhận:</strong> <span>Võ Văn Phi Thông</span></p>
-                                <p><strong>Số điện thoại:</strong> <span>0989980956</span></p>
-                                <p><strong>Địa chỉ:</strong> <span>ABCDSED</span></p>
+                                <p><strong>Người nhận:</strong> <span>{order?.shipping_address.full_name}</span></p>
+                                <p><strong>Số điện thoại:</strong> <span>{order?.shipping_address.phone}</span></p>
+                                <p><strong>Địa chỉ:</strong> <span>{order?.shipping_address.address.home_address}, {order?.shipping_address.address.commune}, {order?.shipping_address.address.district}, {order?.shipping_address.address.province}</span></p>
                             </div>
                         </div>
                         <div className={styles.payment}>
@@ -56,7 +50,7 @@ const OrderDetailsPage = () => {
                                 <MdOutlinePayment style={{ color: "#E87428", fontSize: "1.8rem", marginBottom: "4px" }} />
                                 <h3>Phương thức thanh toán</h3>
                             </div>
-                            <p>Thanh toán qua thẻ tín dụng</p>
+                            <p>Thanh toán: {order?.order_payment === "cod"?"khi nhận hàng":"qua thẻ, trả trước"}</p>
                         </div>
                         <div className={styles.product}>
                             <div className={styles.productDetails}>
