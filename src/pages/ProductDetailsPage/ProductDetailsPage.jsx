@@ -40,6 +40,7 @@ const ProductDetailsPage = () => {
   const [numProduct, setNumProduct] = useState(1);
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(true);
   const [message, setMessage] = useState("");
   const [selectedImage, setSelectedImage] = useState(null); // State cho hình ảnh chính
   const [like, setLike] = useState(false);
@@ -146,6 +147,7 @@ const ProductDetailsPage = () => {
     } else if (!selectedVariant) {
       setMessage("Vui lòng chọn một biến thể trước khi thêm vào giỏ hàng");
       setIsPopupVisible(true);
+      setIsSuccess(false);
     } else {
       // Gửi API cập nhật giỏ hàng vào DB (lấy ID của người dùng và dữ liệu giỏ hàng)
       const cartData = {
@@ -167,12 +169,14 @@ const ProductDetailsPage = () => {
         if (updatedCart) {
           setMessage("Thêm sản phẩm vào giỏ hàng thành công");
           setIsPopupVisible(true);
+          setIsSuccess(true);
         }
       } catch (error) {
         // Xử lý lỗi nếu có
         console.error("Lỗi khi cập nhật giỏ hàng:", error);
         setMessage("Có lỗi xảy ra khi cập nhật giỏ hàng. Vui lòng thử lại.");
         setIsPopupVisible(true);
+        setIsSuccess(false);
       }
     }
   };
@@ -339,10 +343,6 @@ const ProductDetailsPage = () => {
 
   const feedbackList = productFeedback || [];
   const products = relatedProducts || [];
-
-  if (loadingDetails) {
-    return <div>Loading product details...</div>;
-  }
   return (
     <div className={styles.main}>
       <div className="grid wide">
@@ -373,17 +373,28 @@ const ProductDetailsPage = () => {
                     alt="Product main"
                   />
                 </div>
-                <Slider {...settings} className={styles.thumbnails}>
-                  {doubledThumbnails.map((thumb, index) => (
-                    <img
-                      key={index}
-                      src={`data:image/png;base64,${thumb}`}
-                      alt={`Thumbnail ${index + 1}`}
-                      onClick={() => setSelectedImage(thumb)}
-                      className={styles.thumbnail}
-                    />
-                  ))}
-                </Slider>
+                {loadingDetails ? (
+                  <Slider {...settings}>
+                    {Array(6).fill(0).map((_, index) => (
+                      <img
+                        key={index}
+                        alt={`Loading placeholder ${index + 1}`}
+                      />
+                    ))}
+                  </Slider>
+                ) : (
+                  <Slider {...settings} className={styles.thumbnails}>
+                    {doubledThumbnails.map((thumb, index) => (
+                      <img
+                        key={index}
+                        src={`data:image/png;base64,${thumb}`}
+                        alt={`Thumbnail ${index + 1}`}
+                        onClick={() => console.log(`Selected: ${thumb}`)} // Thao tác khi click vào thumbnail
+                        className={styles.thumbnail}
+                      />
+                    ))}
+                  </Slider>
+                )}
               </>
             )}
             <div
@@ -442,13 +453,13 @@ const ProductDetailsPage = () => {
                     <span className={styles.currentPrice}>
                       {selectedVariant
                         ? (
-                            selectedVariant?.product_price *
-                            (1 - productDetails?.product_percent_discount / 100)
-                          ).toLocaleString()
+                          selectedVariant?.product_price *
+                          (1 - productDetails?.product_percent_discount / 100)
+                        ).toLocaleString()
                         : (
-                            productDetails?.product_price *
-                            (1 - productDetails?.product_percent_discount / 100)
-                          ).toLocaleString()}
+                          productDetails?.product_price *
+                          (1 - productDetails?.product_percent_discount / 100)
+                        ).toLocaleString()}
                       đ
                     </span>
                     <span className={styles.oldPrice}>
@@ -469,13 +480,13 @@ const ProductDetailsPage = () => {
                     <span className={styles.currentPrice}>
                       {selectedVariant
                         ? (
-                            selectedVariant?.product_price *
-                            (1 - productDetails?.product_percent_discount / 100)
-                          ).toLocaleString()
+                          selectedVariant?.product_price *
+                          (1 - productDetails?.product_percent_discount / 100)
+                        ).toLocaleString()
                         : (
-                            productDetails?.product_price *
-                            (1 - productDetails?.product_percent_discount / 100)
-                          ).toLocaleString()}
+                          productDetails?.product_price *
+                          (1 - productDetails?.product_percent_discount / 100)
+                        ).toLocaleString()}
                       đ
                     </span>
                   </div>
@@ -499,9 +510,8 @@ const ProductDetailsPage = () => {
                           width="170px"
                           widthDiv="none"
                           margin="0 0 10px 0"
-                          className={`${styles.btnChoice} ${
-                            selectedVariant === variant ? styles.selected : ""
-                          }`}
+                          className={`${styles.btnChoice} ${selectedVariant === variant ? styles.selected : ""
+                            }`}
                           onClick={() => handleVariantClick(variant)}
                         />
                       </div>
@@ -524,9 +534,8 @@ const ProductDetailsPage = () => {
                     onChange={(e) => handleInputChange(e.target.value)}
                     min={1}
                     max={selectedVariant?.product_countInStock || 1}
-                    className={`${styles.quantityInput} ${
-                      !selectedVariant ? styles.disabled : ""
-                    }`}
+                    className={`${styles.quantityInput} ${!selectedVariant ? styles.disabled : ""
+                      }`}
                     disabled={!selectedVariant}
                   />
                   <button
@@ -683,9 +692,8 @@ const ProductDetailsPage = () => {
             {feedbackList.map((data, index) => (
               <div key={index}>
                 <ProductFeedBackComponent
-                  img={`data:image/png;base64,${
-                    data.user_id.user_avt_img || ""
-                  }`}
+                  img={`data:image/png;base64,${data.user_id.user_avt_img || ""
+                    }`}
                   name={data.user_id.user_name || "ẩn danh"}
                   star={data.rating || "ẩn danh"}
                   date={
@@ -696,8 +704,8 @@ const ProductDetailsPage = () => {
                   imgFeedback={
                     Array.isArray(data.feedback_img)
                       ? data.feedback_img.map(
-                          (img) => `data:image/png;base64,${img}`
-                        )
+                        (img) => `data:image/png;base64,${img}`
+                      )
                       : []
                   }
                 />
@@ -742,9 +750,8 @@ const ProductDetailsPage = () => {
                     style={{ textDecoration: "none" }}
                   >
                     <CardComponent
-                      src={`data:image/png;base64,${
-                        product.product_images[0] || ""
-                      }`}
+                      src={`data:image/png;base64,${product.product_images[0] || ""
+                        }`}
                       alt="ảnh sản phẩm"
                       name={product.product_title}
                       oldPrice={product.product_price}
@@ -776,7 +783,8 @@ const ProductDetailsPage = () => {
           <PopupComponent
             message={message}
             onClose={() => setIsPopupVisible(false)}
-            wantClose={false}
+            timeout={2000}
+            isSuccess={isSuccess}
           />
         )}
       </div>

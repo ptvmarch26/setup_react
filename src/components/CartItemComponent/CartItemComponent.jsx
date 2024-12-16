@@ -7,7 +7,7 @@ import cart from '../../assets/images/cart.svg'
 
 const CartItemComponent = ({ item, onQuantityChange, onRemove, onCheck, isChecked, isLike = false, isInMobile, onClick }) => {
   return (
-    <div className={styles.carts}>
+    <div className={clsx(styles.carts, isLike ? styles.cartsLike : null)}>
       <div>
         <input
           type="checkbox"
@@ -31,15 +31,7 @@ const CartItemComponent = ({ item, onQuantityChange, onRemove, onCheck, isChecke
           <FaRegTrashAlt />
         </button>
         {isLike ? (
-          <ButtonComponent
-            title="Thêm vào giỏ"
-            fontSize={isInMobile ? "1rem" : "1.2rem"}
-            width="200px"
-            height="50px"
-            widthDiv="none"
-            icon={cart}
-            className={styles.btnAdd}
-          />
+          null
         ) : (
           <div className={styles.quantity}>
             <button onClick={() => onQuantityChange(item.id, -1)} disabled={item.quantity <= 1}>-</button>

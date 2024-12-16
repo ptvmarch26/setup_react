@@ -62,7 +62,7 @@
 //     { src: product3, alt: "ABCD", name: "Bánh thưởng cho mèo CIAO vị cá ngừ & ức gà nướng", oldPrice: "55.000", newPrice: "40.000", start: "4.5/5", percent: "10" },
 //     // Các sản phẩm khác...
 //   ];
-  
+
 //   const [visibleCount, setVisibleCount] = useState(6);
 //   const [isInViewport, setIsInViewport] = useState(false);
 
@@ -220,31 +220,31 @@ const HomePage = () => {
   const [isInViewport, setIsInViewport] = useState(false);
   const [isInMobile, setisInMobile] = useState(false);
   const navigate = useNavigate();
-   // Hàm gọi API
-   const fetchProductData = async (queryKey) => {
+  // Hàm gọi API
+  const fetchProductData = async (queryKey) => {
     queryKey = queryKey.queryKey
     const product_famous = {
       limit: Number(queryKey[4]),
-      product_famous: String(queryKey[1]), 
-      page: 1, 
+      product_famous: String(queryKey[1]),
+      page: 1,
     };
     const best_seller = {
       limit: Number(queryKey[4]),
       sort: String(queryKey[2]),
-      page: 1, 
+      page: 1,
     };
     const product_new = {
       limit: Number(queryKey[4]),
-      sort: String(queryKey[3]), 
-      page: 1, 
+      sort: String(queryKey[3]),
+      page: 1,
     };
     try {
-      const [famousProduct, bestProduct, newProduct ] = await Promise.all([
+      const [famousProduct, bestProduct, newProduct] = await Promise.all([
         getAllProduct(product_famous),
         getAllProduct(best_seller),
         getAllProduct(product_new)
       ]);
-      
+
       if (!newProduct || !bestProduct || !famousProduct) {
         throw new Error('No data returned from API');
       }
@@ -253,7 +253,7 @@ const HomePage = () => {
         bestProduct: bestProduct.data,
         famousProduct: famousProduct.data
       }; // Trả về dữ liệu lấy được từ API
-  
+
     } catch (error) {
       console.error('Error fetching product data:', error.message);
       // Nếu có lỗi, trả về một giá trị mặc định hoặc thông báo lỗi rõ ràng
@@ -292,7 +292,7 @@ const HomePage = () => {
     { src: service3, alt: "Thanh toán tiện lợi", text: "Thanh toán tiện lợi" },
     { src: service4, alt: "Hỗ trợ tận tâm", text: "Hỗ trợ tận tâm", width: "110px" },
   ];
-  
+
   useEffect(() => {
     const viewportQuery = window.matchMedia('(min-width: 740px) and (max-width: 1023px)');
     const mobileQuery = window.matchMedia('(max-width: 739px)');
@@ -317,7 +317,7 @@ const HomePage = () => {
   };
 
   const handleShowLess = () => {
-    setVisibleCount(6); 
+    setVisibleCount(6);
   };
   const brands = [
     { src: brand1, alt: 'ROYAL CANIN' },
@@ -336,84 +336,87 @@ const HomePage = () => {
     { src: brand14, alt: 'ROYAL CANIN' },
     { src: brand15, alt: 'ROYAL CANIN' },
   ];
-  
+
   // if (isLoading) {
   //   return <div>Loading product details...</div>;
   // }
 
   return (
-      <div className={clsx('grid wide')}> 
-        <div className={styles.sliderImg}>
-          <SliderComponent arrImages={[slider1, slider2, slider3, slider4]} defaultArrows={false}/>
-        </div>
-        <div className={clsx('row', styles.service)}>
-          {services.map((service, index) => (
-            <div key={index} className="col l-3 m-0 c-0">
-              <ServiceComponent {...service} />
-            </div>
-          ))}
-        </div>
-        <div className={clsx(styles.underLine, styles.underNew)}>
-          <UnderLineComponent
-            width="100%"
-            height="1px"
-            background="rgba(0, 0, 0, 0.1)"
-          />
-        </div>
-        <NewProductComponent
-          isInMobile={isInMobile}
-          products={Array.isArray(famousProduct) ? famousProduct : []}
-          title="Sản phẩm nổi bật"
-          onClick={handleFamousProduct}
-          isLoading={isLoading}
+    <div className={clsx('grid wide')}>
+      <div className={styles.sliderImg}>
+        <SliderComponent arrImages={[slider1, slider2, slider3, slider4]} defaultArrows={false} />
+      </div>
+      <div className={clsx('row', styles.service)}>
+        {services.map((service, index) => (
+          <div key={index} className="col l-3 m-0 c-0">
+            <ServiceComponent {...service} />
+          </div>
+        ))}
+      </div>
+      <div className={clsx(styles.underLine, styles.underNew)}>
+        <UnderLineComponent
+          width="100%"
+          height="1px"
+          background="rgba(0, 0, 0, 0.1)"
         />
-        <div className={styles.underLine}>
-          <UnderLineComponent
-            width="100%"
-            height="1px"
-            background="rgba(0, 0, 0, 0.1)"
-          />
-        </div>
-        <NewProductComponent
-          isInMobile={isInMobile}
-          products={Array.isArray(newProduct) ? newProduct : []}
-          title="Sản phẩm mới"
-          onClick={handleNewProduct}
+      </div>
+      <NewProductComponent
+        isInMobile={isInMobile}
+        products={Array.isArray(famousProduct) ? famousProduct : []}
+        title="Sản phẩm nổi bật"
+        onClick={handleFamousProduct}
+        isLoading={isLoading}
+      />
+      <div className={styles.underLine}>
+        <UnderLineComponent
+          width="100%"
+          height="1px"
+          background="rgba(0, 0, 0, 0.1)"
         />
-        <div className={styles.underLine}>
-          <UnderLineComponent
-            width="100%"
-            height="1px"
-            background="rgba(0, 0, 0, 0.1)"
-          />
-        </div>
-        <BestSellingComponent 
-          isInMobile={isInMobile}
-          products={Array.isArray(bestProduct) ? bestProduct : []}
-          onClick={handleBestProduct}
+      </div>
+      <NewProductComponent
+        isInMobile={isInMobile}
+        products={Array.isArray(newProduct) ? newProduct : []}
+        title="Sản phẩm mới"
+        onClick={handleNewProduct}
+        isLoading={isLoading}
+      />
+      <div className={styles.underLine}>
+        <UnderLineComponent
+          width="100%"
+          height="1px"
+          background="rgba(0, 0, 0, 0.1)"
         />
-        <div className={styles.underLine}>
-          <UnderLineComponent
-            width="100%"
-            height="1px"
-            background="rgba(0, 0, 0, 0.1)"
-          />
-        </div>
-        {isInMobile ? (null) : (
-          <AllBrandsComponent 
-            isInViewport={isInViewport}
-            brands={brands}
-            visibleCount={visibleCount}
-            handleShowMore={handleShowMore}
-            handleShowLess={handleShowLess}
-          />
-        )}
-        <div style={{marginBottom: "50px"}}>
-          <CustomerReviewsComponent 
-            isInViewport={isInViewport}
-            isInMobile={isInMobile}
-          />
-        </div>
+      </div>
+      <BestSellingComponent
+        isInMobile={isInMobile}
+        products={Array.isArray(bestProduct) ? bestProduct : []}
+        onClick={handleBestProduct}
+        title="Bán chạy"
+        isLoading={isLoading}
+      />
+      <div className={styles.underLine}>
+        <UnderLineComponent
+          width="100%"
+          height="1px"
+          background="rgba(0, 0, 0, 0.1)"
+        />
+      </div>
+      {isInMobile ? (null) : (
+        <AllBrandsComponent
+          isInViewport={isInViewport}
+          brands={brands}
+          visibleCount={visibleCount}
+          handleShowMore={handleShowMore}
+          handleShowLess={handleShowLess}
+        />
+      )}
+      <div style={{ marginBottom: "50px" }}>
+        <CustomerReviewsComponent
+          isInViewport={isInViewport}
+          isInMobile={isInMobile}
+        />
+      </div>
     </div>
   )
 }

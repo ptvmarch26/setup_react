@@ -77,7 +77,7 @@ const SignInPage = () => {
     }
 
     if (isError) {
-      setErrorMessage(error.message || "Đăng nhập thất bại.");
+      setErrorMessage(error.err.message || "Đăng nhập thất bại.");
       setShowPopup(true);
     }
   }, [isSuccess, isError, data, error]);
@@ -293,6 +293,7 @@ const SignInPage = () => {
                   borderRadius={isInMobile ? "10px" : "30px"}
                   className={styles.input}
                 />
+                {errorMessage ? <p className={styles.error}>{errorMessage}</p> : ""}
                 <ButtonComponent
                   title={isLoading ? "Đang đăng nhập..." : "ĐĂNG NHẬP"}
                   primary

@@ -22,7 +22,7 @@
         font-size: 1.3rem;
         transition: color 0.3s;
 
-        &:hover, &:active {
+        &:hover, &:active, :focus {
             color: #E87428;
         }
     }
@@ -30,4 +30,9 @@
     svg {
         font-size: 2rem;
     }
+}
+
+
+.active {
+    color: #E87428 !important; 
 }

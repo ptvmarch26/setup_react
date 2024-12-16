@@ -172,7 +172,7 @@ const BreadcrumbComponent = () => {
             ],
         },
         '/notifications': { label: 'Thông báo' },
-        '/my-order': { label: 'Lịch sử đơn hàng' },
+        '/my-order': { label: 'Đơn hàng của tôi' },
         '/voucher': { label: 'Kho voucher' },
         '/account/profile': { label: 'Trang cá nhân' },
         '/account/edit-email': { label: 'Thông tin cá nhân' },
@@ -180,14 +180,14 @@ const BreadcrumbComponent = () => {
         '/account/edit-address': { label: 'Thông tin cá nhân' },
         '/account/edit-password': { label: 'Thông tin cá nhân' },
         // '/get-all-product': { label: 'Danh mục sản phẩm' },
-        '/my-cart': { label: 'Giỏ hàng' },
+        '/my-cart': { label: 'Giỏ hàng', background: "#FAFAF8" },
         '/check-out': {
             label: [
                 { label: id ? `Giỏ hàng` : null, path: `/my-cart/${id}` },
                 { label: 'Thanh toán', path: '/check-out' },
             ], background: '#FAFAF8'
         },
-        '/favorite-products': { label: 'Sản phẩm yêu thích' },
+        '/favorite-products': { label: 'Sản phẩm yêu thích', background: "#FAFAF8" },
         '/product-details': { label: 'Chi tiết sản phẩm' },
         '/help-center': { label: 'Trung tâm trợ giúp' },
         '/privacy-policy': { label: 'Chính sách bảo mật' },

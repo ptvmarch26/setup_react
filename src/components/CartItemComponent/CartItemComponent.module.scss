@@ -58,14 +58,14 @@
 }
 
 .details {
-    width: 350px;
+    // width: 350px;
     padding: 0 20px;
     height: 125px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     cursor: pointer;
-    // flex: 1;
+    flex: 1;
 
     .type {
         font-size: 1.3rem;
@@ -281,12 +281,12 @@
         }
     }
 
-    .changeItemLike {
-        button {
-            font-size: 1.8rem;
-            margin-top: 11px;
-        }
-    }
+    // .changeItemLike {
+    //     button {
+    //         font-size: 1.8rem;
+    //         margin-top: 11px;
+    //     }
+    // }
 
     .btnAdd {
         width: 100% !important;
@@ -296,6 +296,10 @@
         img {
             display: none;
         }
+    }
+
+    .changeItemLike {
+        all: unset;
     }
 }
 
@@ -367,6 +371,10 @@
     .btnAdd {
         width: 180px !important;
     }
+
+    .changeItemLike {
+        all: unset;
+    }
 }
 
 @media screen and (min-width: 64em) and (max-width: 77.4375em) {
@@ -376,15 +384,12 @@
     }
 
     .changeItemLike {
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-        flex-direction: row-reverse;
+        all: unset
     }
 }
 
 @media screen and (min-width: 77.5em) {
-    .carts {
+    .cartsLike {
         width: 99%;
     }
 
@@ -393,9 +398,10 @@
     }
 
     .changeItemLike {
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        flex-direction: row-reverse;
+        // display: unset;
+        // justify-content: space-around;
+        // align-items: center;
+        // flex-direction: row-reverse;
+        all: unset;
     }
 }

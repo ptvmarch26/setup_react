@@ -141,11 +141,13 @@ import { editUser } from '../../services/User.service.js';
 import { updateUser } from '../../redux/slices/userSlice.js';
 import UserProfileComponent from '../../components/UserProfileComponent/UserProfileComponent.jsx';
 import clsx from 'clsx';
+import PopupComponent from '../../components/PopupComponent/PopupComponent.jsx'
 
 
 function EditAccount() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [form] = Form.useForm();
   const [isFormFilled, setIsFormFilled] = useState(false);
   const access_token = localStorage.getItem("accessToken")
@@ -160,7 +162,7 @@ function EditAccount() {
     user_sex: user_sex,
   };
 
-  const handleSave = (values) => {
+  const handleSave = async (values) => {
     //const{User_name, HoTen, NgaySinh, GioiTinh} = values
     console.log('gia tri', values)
     const res = handleUpdateUser(values)
@@ -171,7 +173,15 @@ function EditAccount() {
     );
     // alert('Cập nhật thông tin thành công!');
     // navigate('/account/profile');
-    navigate('/account/profile')
+
+    setIsPopupVisible(true);
+    setTimeout(() => {
+      navigate('/account/profile');
+    }, 2000);
+  };
+
+  const handlePopupClose = () => {
+    setIsPopupVisible(false);
   };
 
   const handleCancel = () => {
@@ -227,41 +237,41 @@ function EditAccount() {
               onValuesChange={handleValuesChange}
             >
               <div className={clsx('AccountPage_filed__9Lfm3', styles.filed)}>
-              <Form.Item
-                label="Tên người dùng"
-                name="user_name"
-                rules={[{ required: true, message: 'Nhập tên người dùng!' }]}
-              >
-                <Input />
-              </Form.Item>
+                <Form.Item
+                  label="Tên người dùng"
+                  name="user_name"
+                  rules={[{ required: true, message: 'Nhập tên người dùng!' }]}
+                >
+                  <Input />
+                </Form.Item>
 
-              <Form.Item
-                label="Họ và tên"
-                name="full_name"
-                rules={[{ required: true, message: 'Nhập họ và tên!' }]}
-              >
-                <Input />
-              </Form.Item>
+                <Form.Item
+                  label="Họ và tên"
+                  name="full_name"
+                  rules={[{ required: true, message: 'Nhập họ và tên!' }]}
+                >
+                  <Input />
+                </Form.Item>
 
-              <Form.Item
-                label="Ngày sinh"
-                name="user_birth"
-                rules={[{ required: true, message: 'Nhập ngày sinh!' }]}
-              >
-                <DatePicker format="DD/MM/YYYY" />
-              </Form.Item>
+                <Form.Item
+                  label="Ngày sinh"
+                  name="user_birth"
+                  rules={[{ required: true, message: 'Nhập ngày sinh!' }]}
+                >
+                  <DatePicker format="DD/MM/YYYY" />
+                </Form.Item>
 
-              <Form.Item
-                label="Giới tính"
-                name="user_sex"
-                rules={[{ required: true, message: 'Chọn giới tính!' }]}
-              >
-                <Select>
-                  <Select.Option value="Nam" style={{display: "block"}}>Nam</Select.Option>
-                  <Select.Option value="Nữ">Nữ</Select.Option>
-                  <Select.Option value="Khác">Khác</Select.Option>
-                </Select>
-              </Form.Item>
+                <Form.Item
+                  label="Giới tính"
+                  name="user_sex"
+                  rules={[{ required: true, message: 'Chọn giới tính!' }]}
+                >
+                  <Select>
+                    <Select.Option value="Nam" style={{ display: "block" }}>Nam</Select.Option>
+                    <Select.Option value="Nữ">Nữ</Select.Option>
+                    <Select.Option value="Khác">Khác</Select.Option>
+                  </Select>
+                </Form.Item>
               </div>
 
               <Form.Item wrapperCol={{ offset: 6, span: 18 }}>
@@ -291,6 +301,13 @@ function EditAccount() {
           </div>
         </div>
       </div>
+      {isPopupVisible && (
+        <PopupComponent
+          message="Cập nhật thông tin thành công!"
+          onClose={handlePopupClose}
+          timeout={2000}
+        />
+      )}
     </div>
   );
 }
