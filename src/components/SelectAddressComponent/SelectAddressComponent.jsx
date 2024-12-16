@@ -146,8 +146,8 @@ import React, { useState } from "react";
 import styles from "./SelectAddressComponent.module.scss";
 import UnderLineComponent from "../UnderLineComponent/UnderLineComponent";
 import AddressPage from "../../pages/AddressPage/AddressPage";
-
-function SelectAddressComponent({ closeModal, _id }) {
+import { useSelector } from 'react-redux';
+function SelectAddressComponent({ closeModal, onAddressChange }) {
   return (
     <div className={styles.main}>
       <div className={styles.overlay} onClick={closeModal}></div>
@@ -162,7 +162,11 @@ function SelectAddressComponent({ closeModal, _id }) {
           height="1px"
           background="rgba(0, 0, 0, 0.2)"
         />
-        <AddressPage closeModal={closeModal} _id={_id} />
+        {/* <AddressPage closeModal={closeModal} _id={_id} /> */}
+        <AddressPage
+          closeModal={closeModal}
+          onAddressChange={onAddressChange} // Truyền callback xuống AddressPage
+        />
       </div>
     </div>
   );
