@@ -158,6 +158,10 @@ const MyCartPage = () => {
   const [checkedItems, setCheckedItems] = useState([]);
   const [shippingFee, setShippingFee] = useState(0);
   const [isInMobile, setisInMobile] = useState(false);
+  const [selectedVouchers, setSelectedVouchers] = useState({
+    shipping: null,
+    product: null,
+  });
 
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("accessToken");
@@ -219,10 +223,19 @@ const MyCartPage = () => {
     if (checkedItems.length === 0) {
       alert("Bạn chưa chọn sản phẩm nào");
     } else {
+
       navigate(`/check-out/${id}`, {
-        state: { cartItems, checkedItems, discount, shippingFee },
+        state: { cartItems, checkedItems, discount, shippingFee, selectedVouchers },
       });
     }
+  };
+
+  const handleApplyVoucher = (vouchers) => {
+    const product_voucher = vouchers.product?.number
+    const shipping_voucher = vouchers.shipping?.number
+    setDiscount(discount + product_voucher*frontTotal/100 + shipping_voucher*30000/100)
+    setSelectedVouchers(vouchers);
+    console.log("Danh sách mã giảm giá đã chọn:", vouchers);
   };
 
   const handleQuantityChange = async (id1, amount) => {
@@ -306,7 +319,7 @@ const MyCartPage = () => {
         setDiscount(0);
         setShippingFee(0);
       } else {
-        setDiscount(20000);
+        setDiscount(discount + 20000);
         setShippingFee(30000);
       }
 
@@ -317,7 +330,7 @@ const MyCartPage = () => {
   const handleCheckAll = (isChecked) => {
     if (isChecked) {
       setCheckedItems(cartItems.map((item) => item.id));
-      setDiscount(20000);
+      setDiscount(discount + 20000);
       setShippingFee(30000);
     } else {
       setCheckedItems([]);
@@ -460,6 +473,7 @@ const MyCartPage = () => {
             shippingFee={shippingFee}
             safe={safe}
             products={cartItems}
+            onApplyVoucher={handleApplyVoucher}
           />
         </div>
       </div>

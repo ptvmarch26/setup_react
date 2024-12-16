@@ -11,23 +11,22 @@ import SelectAddressComponent from "../../components/SelectAddressComponent/Sele
 import VoucherComponent from "../../components/VoucherComponent/VoucherComponent";
 import clsx from "clsx";
 import { useSelector } from "react-redux";
-import { getAllDiscounts } from "../../services/Order.service";
+import { createOrder, getAllDiscounts } from "../../services/Order.service";
 
 const CheckOutPage = () => {
   const { user_address, _id } = useSelector((state) => state.user);
+  const defaultAddress =
+  user_address.find((address) => address.isDefault) || user_address[0]; // Fallback về địa chỉ đầu tiên nếu không có `isDefault: true`
 
+  // Tạo địa chỉ mặc định cho state
   const initAddress = {
-    name: user_address[0].name,
-    phone: user_address[0].phone,
-    address: {
-      home_address: user_address[0].home_address,
-      district: user_address[0].district,
-      commune: user_address[0].commune,
-      province: user_address[0].province,
-    },
+    name: defaultAddress.name,
+    phone: defaultAddress.phone,
+    home_address: defaultAddress.home_address,
+    district: defaultAddress.district,
+    commune: defaultAddress.commune,
+    province: defaultAddress.province,
   };
-
-  console.log(initAddress)
 
   // // Hàm fetch dữ liệu từ API
   // const fetchAddressData = async () => {
@@ -57,6 +56,7 @@ const CheckOutPage = () => {
     discount = 0,
     selectedAddress = {},
     shippingFee = 0,
+    selectedVouchers = {},
   } = location.state || {};
   const selectedItems = cartItems.filter((item) =>
     checkedItems.includes(item.id)
@@ -74,11 +74,16 @@ const CheckOutPage = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // const openModal = (event) => {
+  //   event.preventDefault();
+  //   setIsModalOpen(true);
+  //   window.history.pushState(null, "", `/check-out/${_id}`);
+  //   setSelectAddress(selectedAddress);
+  // };
+
   const openModal = (event) => {
     event.preventDefault();
-    setIsModalOpen(true);
-    window.history.pushState(null, "", `/check-out/${_id}`);
-    setSelectAddress(selectedAddress);
+    setIsModalOpen(true); // Mở modal
   };
 
   const closeModal = () => setIsModalOpen(false);
@@ -91,9 +96,9 @@ const CheckOutPage = () => {
   // };
   // const closeVoucherModal = () => setIsVoucherModalOpen(false);
 
-  const [selectedVouchers, setSelectedVouchers] = useState({
-    shipping: null,
-    product: null,
+  const [selectedVoucher, setSelectedVoucher] = useState({
+    shipping: selectedVouchers.shipping,
+    product: selectedVouchers.product,
   });
 
   const [appliedVouchers, setAppliedVouchers] = useState({
@@ -102,7 +107,7 @@ const CheckOutPage = () => {
   });
 
   const handleVoucherSelection = (voucher, type) => {
-    setSelectedVouchers((prev) => ({
+    setSelectedVoucher((prev) => ({
       ...prev,
       [type]: prev[type]?.id === voucher.id ? null : voucher,
     }));
@@ -112,6 +117,44 @@ const CheckOutPage = () => {
     setAppliedVouchers(selectedVouchers);
   };
 
+  const handleAddressChange = (newAddress) => {
+    setSelectAddress(newAddress); // Cập nhật địa chỉ mới
+  };
+
+  const handleCheckOut = async () => {
+    // const orderData = {
+    //   discount_ids: [
+    //     selectedVoucher.shipping?.id,
+    //     selectedVoucher.product?.id,
+    //   ].filter(Boolean), // ID các mã giảm giá đã chọn
+    //   user_id: _id, // ID người dùng
+    //   shipping_fee: shippingFee, // Phí vận chuyển
+    //   shipping_address: selectAddress, // Địa chỉ nhận hàng
+    //   products: selectedItems.map((item) => ({
+    //     productId: item.product_id, // ID sản phẩm
+    //     variantId: item.id, // ID biến thể
+    //     quantity: item.quantity, // Số lượng
+    //     price: item.price, // Giá mỗi sản phẩm
+    //   })),
+    //   order_payment: "COD", // Phương thức thanh toán (ví dụ: COD - Thanh toán khi nhận hàng)
+    //   order_delivery_date: new Date(), // Ngày đặt hàng
+    //   estimated_delivery_date: new Date(
+    //     new Date().setDate(new Date().getDate() + 3)
+    //   ), // Ngày giao dự kiến (+3 ngày từ ngày đặt)
+    //   order_note: "", // Ghi chú đặt hàng (nếu có)
+    // };
+
+    // try {
+      // const orderResponse = await createOrder(orderData); // Gọi service để tạo đơn hàng
+    //   alert("Đặt hàng thành công!");
+    //   console.log("Order Response:", orderResponse);
+    //   // Điều hướng đến trang xác nhận hoặc thông báo đặt hàng
+    // } catch (error) {
+    //   console.error("Lỗi khi đặt hàng:", error.message);
+    //   alert("Có lỗi xảy ra khi đặt hàng. Vui lòng thử lại!");
+    // }
+  };
+  
   return (
     <div className={styles.main}>
       <div className="grid wide">
@@ -129,26 +172,33 @@ const CheckOutPage = () => {
             <h3>Thông tin nhận hàng</h3>
           </div>
           <div className={styles.infoAddress}>
-            <p>Tên: {selectAddress.name}</p>
-            <p>Số điện thoại: {selectAddress.phone}</p>
+            <p>Tên: {selectAddress?.name}</p>
+            <p>Số điện thoại: {selectAddress?.phone}</p>
             <div className={styles.info}>
               <p>
-                Đia chỉ: {selectAddress.address?.home_address},{" "}
-                {selectAddress.address?.commune},{" "}
-                {selectAddress.address?.district},{" "}
-                {selectAddress.address?.province}
+                Đia chỉ: {selectAddress?.home_address},{" "}
+                {selectAddress?.commune},{" "}
+                {selectAddress?.district},{" "}
+                {selectAddress?.province}
               </p>
               <div className={styles.change}>
-                <span>Mặc định</span>
-                <Link to={`/check-out/${_id}`} onClick={openModal}>
+                {/* <span>Mặc định</span> */}
+                <Link onClick={openModal}>
                   Thay đổi
                 </Link>
               </div>
             </div>
           </div>
         </div>
-        {isModalOpen && (
+        {/* {isModalOpen && (
           <SelectAddressComponent closeModal={closeModal} _id={_id} />
+        )} */}
+        {isModalOpen && (
+          <SelectAddressComponent
+            closeModal={closeModal}
+            _id={_id}
+            onAddressChange={handleAddressChange} // Truyền callback xuống
+          />
         )}
 
         <div className={styles.productCheckOut}>
@@ -191,16 +241,16 @@ const CheckOutPage = () => {
             />
           </div>
           <ul>
-            {appliedVouchers.shipping && (
+            {selectedVoucher.shipping && (
               <li>
-                {appliedVouchers.shipping.code}
-                <span>- {appliedVouchers.shipping.description}</span>
+                {selectedVoucher.shipping.code}
+                <span>- {selectedVoucher.shipping.number?.toLocaleString()}%</span>
               </li>
             )}
-            {appliedVouchers.product && (
+            {selectedVoucher.product && (
               <li>
-                {appliedVouchers.product.code}
-                <span>- {appliedVouchers.product.description}</span>
+                {selectedVoucher.product.code}
+                <span>- {selectedVoucher.product.number?.toLocaleString()}%</span>
               </li>
             )}
           </ul>
@@ -319,11 +369,11 @@ const CheckOutPage = () => {
             primary
             margin="30px 0"
             showIcon={false}
+            onClick = {handleCheckOut}
           />
         </div>
       </div>
     </div>
   );
 };
-
 export default CheckOutPage;

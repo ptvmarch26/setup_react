@@ -30,7 +30,7 @@ import clsx from 'clsx';
 
 const VoucherDetailComponent = ({ voucher, type }) => {
   if (!voucher) return null;
-
+  console.log('voucher', voucher);
   return (
     <div className={styles.voucherDetail}>
       <div >
@@ -42,7 +42,7 @@ const VoucherDetailComponent = ({ voucher, type }) => {
         >
           {type === 'shipping'
             ? 'Miễn phí vận chuyển'
-            : `- ${voucher.minOrder.toLocaleString()}đ`}
+            : `- ${voucher.number?.toLocaleString()}%`}
         </div>
       </div>
     </div>

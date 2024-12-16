@@ -180,20 +180,13 @@ export const deleteProductFavor = async (id, data, token) => {
 }
 
 //Order
-export const getAllDiscounts = async (products) => {
-  const dataProducts = {
-    "cartItems": [{
-      category_id: products.id
-    }]
-  }
-  console.log("truoc khi call", dataProducts);
+export const getAllDiscounts = async () => {
   try {
     const response = await fetch(`${API_URL}/discount/get-all-discount`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(dataProducts)
     });
 
     if (!response.ok) {
@@ -206,5 +199,49 @@ export const getAllDiscounts = async (products) => {
   } catch (error) {
     console.error("Error in cart getAllProductByUserId:", error);
     throw error;
+  }
+};
+
+export const createOrder = async (orderData) => {
+  try {
+    const response = await fetch(`${API_URL}/order/create`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(orderData),
+    });
+
+    if (!response.ok) {
+      const errorResponse = await response.json();
+      throw new Error(errorResponse.message || "Lỗi khi tạo đơn hàng");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error(error.message || "Lỗi kết nối đến server");
+  }
+};
+
+export const previewOrder = async (orderData) => {
+  try {
+    const response = await fetch(`${API_URL}/order/preview`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(orderData),
+    });
+
+    if (!response.ok) {
+      const errorResponse = await response.json();
+      throw new Error(errorResponse.message || "Lỗi khi xem trước đơn hàng");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error(error.message || "Lỗi kết nối đến server");
   }
 };
