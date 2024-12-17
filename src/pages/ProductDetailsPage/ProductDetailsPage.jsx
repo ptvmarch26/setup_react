@@ -389,7 +389,7 @@ const ProductDetailsPage = () => {
                         key={index}
                         src={`data:image/png;base64,${thumb}`}
                         alt={`Thumbnail ${index + 1}`}
-                        onClick={() => console.log(`Selected: ${thumb}`)} // Thao tác khi click vào thumbnail
+                        onClick={() => setSelectedImage(thumb)} // Thao tác khi click vào thumbnail
                         className={styles.thumbnail}
                       />
                     ))}

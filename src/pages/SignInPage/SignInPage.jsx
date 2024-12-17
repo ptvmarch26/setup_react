@@ -23,12 +23,13 @@ const SignInPage = () => {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [isSuccessPopup, setIsSuccessPopup] = useState(true);
   const [showPopup, setShowPopup] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
   const user = useSelector((state) => state.user);
-
   const mutation = useMutationHooks((data) =>
     loginUser(data.identifier, data.password)
   );
@@ -78,7 +79,8 @@ const SignInPage = () => {
 
     if (isError) {
       setErrorMessage(error.err.message || "Đăng nhập thất bại.");
-      setShowPopup(true);
+      setIsPopupVisible(true);
+      setIsSuccessPopup(false);
     }
   }, [isSuccess, isError, data, error]);
 
@@ -113,11 +115,11 @@ const SignInPage = () => {
   };
 
   const closePopup = () => {
-    setShowPopup(false);
+    setIsPopupVisible(false);
     setErrorMessage("");
   };
 
-  
+
   const handleGoogleLoginSuccess = async (access_token) => {
     console.log("Google token: ", access_token);
     try {
@@ -132,7 +134,7 @@ const SignInPage = () => {
         sameSite: "Strict", // Ngăn chặn CSRF
       });
       //dispatch(updateUser(result));
-      
+
       console.log("Access Token (localStorage):", result.ACCESS_TOKEN);
       console.log("Refresh Token (Cookie):", Cookies.get("refreshToken"));
       // if (result) {
@@ -156,7 +158,7 @@ const SignInPage = () => {
       } else {
         navigate("/");
       }
-    
+
 
     } catch (error) {
       setErrorMessage(error.message || "Đăng nhập Google thất bại.");
@@ -191,7 +193,7 @@ const SignInPage = () => {
 
 
   const isValidIdentifier = /^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,6}$/.test(identifier) || /^\d{10,}$/.test(identifier);
-  
+
   const isValidPassword = password.length > 0;
 
   const isDisabled = !isValidIdentifier || !isValidPassword;
@@ -204,7 +206,7 @@ const SignInPage = () => {
             position: "fixed",
             top: 0,
             left: 0,
-            width: "100%", 
+            width: "100%",
             height: "100%",
             backgroundColor: "rgba(0, 0, 0, 0.5)",
             display: "flex",
@@ -225,7 +227,7 @@ const SignInPage = () => {
           ></div>
         </div>
       )}
-  
+
       <div className="grid wide">
         <div className={styles.signIn}>
           <div className={styles.introduce}>
@@ -330,14 +332,14 @@ const SignInPage = () => {
                   margin="30px 0 0"
                   className={styles.btnOp}
                 />
-                <ButtonComponent 
-                    title="Google"
-                    iconSmall
-                    icon={google}
-                    margin="30px 0 0"
-                    onClick={googleLogin}
-                    className={styles.btnOp}
-                  />
+                <ButtonComponent
+                  title="Google"
+                  iconSmall
+                  icon={google}
+                  margin="30px 0 0"
+                  onClick={googleLogin}
+                  className={styles.btnOp}
+                />
               </div>
               <div className={styles.footer}>
                 <div className={styles.doNotHaveAccount}>
@@ -351,13 +353,18 @@ const SignInPage = () => {
           </div>
         </div>
       </div>
-  
+
       {/* Popup Thông Báo */}
-      {showPopup && (
-        <PopupComponent message={errorMessage} onClose={closePopup} />
+      {isPopupVisible && (
+        <PopupComponent
+          message={errorMessage}
+          onClose={closePopup}
+          timeout={2000}
+          isSuccess={isSuccessPopup}
+        />
       )}
     </div>
-  );  
+  );
 };
 
 export default SignInPage;

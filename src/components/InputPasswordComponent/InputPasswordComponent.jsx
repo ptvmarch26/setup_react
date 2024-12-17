@@ -18,6 +18,9 @@ const InputPasswordComponent = ({ onClick, identifier }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [isInMobile, setisInMobile] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(true);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(max-width: 739px)');
@@ -45,18 +48,23 @@ const InputPasswordComponent = ({ onClick, identifier }) => {
         if (response?.status === 'SUCCESS') {
           onClick();  // Gọi hàm từ component cha khi xác thực thành công
         } else {
-          setErrorMessage('Đặt lại mật khẩu không thành công.');
+          setMessage('Đặt lại mật khẩu không thành công.');
+          setIsPopupVisible(true);
+          setIsSuccess(false);
         }
       } catch (error) {
-        setErrorMessage(error.message || 'Có lỗi xảy ra.');
-        setShowPopup(true);
+        setMessage(error.message || 'Có lỗi xảy ra.');
+        setIsPopupVisible(true);
+        setIsSuccess(false);
+
       }
     }
   };
 
   const closePopup = () => {
-    setShowPopup(false);
+    setIsPopupVisible(false);
     setErrorMessage("");
+
   };
 
   return (
@@ -159,7 +167,14 @@ const InputPasswordComponent = ({ onClick, identifier }) => {
             showIcon={false}
             className={styles.btn}
           />
-          {showPopup && <PopupComponent message={errorMessage} onClose={closePopup} />}
+          {isPopupVisible && (
+            <PopupComponent
+              message={message}
+              onClose={closePopup}
+              timeout={2000}
+              isSuccess={isSuccess}
+            />
+          )}
         </FormComponent>
       </div>
     </div>

@@ -10,9 +10,9 @@ import { IoHomeSharp } from "react-icons/io5";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { IoMdNotifications } from "react-icons/io";
 
-const BottomMenuComponent = ({ favorite }) => {
+const BottomMenuComponent = ({ favorite, isAuthenticated }) => {
     const [hoveredIndex, setHoveredIndex] = useState(null);
-    const location = useLocation(); // Lấy đường dẫn hiện tại
+    const location = useLocation(); 
 
     const handleMouseEnter = (index) => {
         setHoveredIndex(index);
@@ -37,7 +37,7 @@ const BottomMenuComponent = ({ favorite }) => {
                 <span>Trang chủ</span>
             </Link>
             <Link
-                to="/notifications"
+                to={isAuthenticated ? "/notifications" : "/sign-in"}
                 className={`${styles.menuItem} ${isActive(1, "/notifications") ? styles.active : ""}`}
                 onMouseEnter={() => handleMouseEnter(1)}
                 onMouseLeave={handleMouseLeave}
@@ -46,7 +46,7 @@ const BottomMenuComponent = ({ favorite }) => {
                 <span>Thông báo</span>
             </Link>
             <Link
-                to={`/${favorite}`}
+                to={isAuthenticated ? `/${favorite}` : 'sign-in'}
                 className={`${styles.menuItem} ${isActive(2, `/${favorite}`) ? styles.active : ""}`}
                 onMouseEnter={() => handleMouseEnter(2)}
                 onMouseLeave={handleMouseLeave}
@@ -55,7 +55,7 @@ const BottomMenuComponent = ({ favorite }) => {
                 <span>Yêu thích</span>
             </Link>
             <Link
-                to="/user-profile"
+                to={isAuthenticated ? "/user-profile" : 'sign-in'}
                 className={`${styles.menuItem} ${isActive(3, "/user-profile") ? styles.active : ""}`}
                 onMouseEnter={() => handleMouseEnter(3)}
                 onMouseLeave={handleMouseLeave}

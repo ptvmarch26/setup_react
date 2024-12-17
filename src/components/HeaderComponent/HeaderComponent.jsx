@@ -366,6 +366,7 @@ const HeaderComponent = () => {
   const { isAuthenticated, user_name, user_avt_img, _id } = useSelector(
     (state) => state.user
   );
+  const historyKey = `searchHistory_${_id}`;
 
   console.log('username', user_name)
   // Xử lý avatar và tên người dùng
@@ -469,20 +470,24 @@ const HeaderComponent = () => {
   }, [showNavbar]);
 
   useEffect(() => {
-    const history = JSON.parse(localStorage.getItem("searchHistory")) || [];
-    setSearchHistory(history);
-  }, []);
-
+    if (isAuthenticated && _id) {
+      const history = JSON.parse(localStorage.getItem(historyKey)) || []; // Đảm bảo luôn có mảng
+      setSearchHistory(history);
+    }
+  }, [isAuthenticated, _id]);
+  
   // Cập nhật lịch sử tìm kiếm vào localStorage khi có thay đổi
   useEffect(() => {
-    if (searchHistory.length > 0) {
-      localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
+    if (isAuthenticated && _id && searchHistory.length > 0) {
+      localStorage.setItem(historyKey, JSON.stringify(searchHistory));
     }
-  }, [searchHistory]);
+  }, [searchHistory, isAuthenticated, _id]);
 
   // Hiển thị lịch sử khi người dùng bấm vào ô tìm kiếm
   const handleFocus = () => {
-    setShowHistory(true); // Mở lịch sử tìm kiếm khi người dùng bấm vào ô tìm kiếm
+    if (isAuthenticated) {
+      setShowHistory(true); // Mở lịch sử tìm kiếm khi người dùng bấm vào ô tìm kiếm
+    }
   };
 
   const handleBlur = () => {
@@ -495,10 +500,14 @@ const HeaderComponent = () => {
   // Hàm xử lý tìm kiếm khi nhấn Enter hoặc nút tìm kiếm
   const handleSearch = () => {
     if (searchQuery.trim()) {
-      const updatedHistory = [searchQuery, ...searchHistory].slice(0, 5); // Giới hạn tối đa 5 từ khóa
+      // Loại bỏ từ khóa đã có trong lịch sử (nếu có)
+      const updatedHistory = [searchQuery, ...searchHistory.filter(item => item !== searchQuery)]
+        .slice(0, 5); // Giới hạn tối đa 5 từ khóa
+
       setSearchHistory(updatedHistory);
-      // Kiểm tra xem người dùng đã nhập gì chưa
-      navigate(`/get-all-product?search=${searchQuery}`); // Chuyển hướng tới trang tìm kiếm với query params
+
+      // Chuyển hướng tới trang tìm kiếm với query params
+      navigate(`/get-all-product?search=${searchQuery}`);
     }
   };
 
@@ -548,7 +557,12 @@ const HeaderComponent = () => {
   };
 
   // Xác định in gợi ý hay lịch sử
-  const combinedSuggestions = searchQuery.trim() === "" ? searchHistory : suggestions;
+  const combinedSuggestions = searchQuery.trim() === ""
+    ? [...new Set([
+      ...(isAuthenticated && _id ? searchHistory : []), // Chỉ thêm lịch sử nếu đã đăng nhập
+      ...suggestions
+    ])]
+    : suggestions;
 
   return (
     <div className={styles.header}>
@@ -565,7 +579,7 @@ const HeaderComponent = () => {
           <Col span={16} offset={8}>
             <ul>
               <li className={styles.forNotify}>
-                <Link to={"/notifications"} onMouseEnter={handleMouseEnter}>
+                <Link to={isAuthenticated ? "/notifications" : 'sign-in'} onMouseEnter={handleMouseEnter}>
                   <GrNotification />
                   <span>Thông báo</span>
                 </Link>
@@ -638,13 +652,13 @@ const HeaderComponent = () => {
           <Col className={styles.cart} span={6}>
             <ul>
               <li>
-                <Link to={`/favorite-products/${_id}`} >
+                <Link to={isAuthenticated ? `/favorite-products/${_id}` : 'sign-in'} >
                   <FaRegHeart />
                   <span>Yêu thích</span>
                 </Link>
               </li>
               <li>
-                <Link to={`/my-cart/${_id}`}>
+                <Link to={isAuthenticated ? `/my-cart/${_id}` : 'sign-in'}>
                   <PiShoppingCartBold />
                   <span>Giỏ hàng</span>
                 </Link>
@@ -653,7 +667,7 @@ const HeaderComponent = () => {
           </Col>
         </Row>
         <div className={styles.userAndCart}>
-          <div onClick={() => navigate("/my-cart/${_id}")} className={styles.cCart}>
+          <div onClick={() => navigate(isAuthenticated ? "/my-cart/${_id}" : 'sign-in')} className={styles.cCart}>
             <FaShoppingCart />
           </div>
           {isAuthenticated ? (
@@ -793,7 +807,7 @@ const HeaderComponent = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link to={`/favorite-products/${_id}`}>
+                  <Link to={isAuthenticated ? `/favorite-products/${_id}` : 'sign-in'}>
                     <div className={styles.iconNav}>
                       <FaHeart className={styles.iconForNav} />
                       Sản phẩm yêu thích
@@ -808,6 +822,7 @@ const HeaderComponent = () => {
       {(isInViewport || isInMobile) &&
         <BottomMenuComponent
           favorite={`favorite-products/${_id}`}
+          isAuthenticated={isAuthenticated}
         />}
     </div>
   );

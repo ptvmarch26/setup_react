@@ -198,7 +198,7 @@
 //   const [password, setPassword] = useState(''); // State để lưu mật khẩu
 //   const [confirmPassword, setConfirmPassword] = useState(''); // State để xác nhận mật khẩu
 //   const navigate = useNavigate();
-//   const [showPopup, setShowPopup] = useState(false);
+//   const [showPopup, setIsPopupVisible] = useState(false);
 
 //   const handleNameChange = (value) => setName(value);
 //   const handlePasswordChange = (value) => setPassword(value);
@@ -258,13 +258,13 @@
 //     } catch (error) {
 //       console.log(error)
 //       setErrorMessage(error.message.message || "Có lỗi xảy ra khi đăng nhập.");
-//       setShowPopup(true);
+//       setIsPopupVisible(true);
 //     }
 //   }
 
 //    // Đóng popup thông báo lỗi
 //    const closePopup = () => {
-//     setShowPopup(false);
+//     setIsPopupVisible(false);
 //     setErrorMessage("");
 //   };
 
@@ -436,7 +436,7 @@
 //   const [name, setName] = useState('');
 //   const [password, setPassword] = useState('');
 //   const [confirmPassword, setConfirmPassword] = useState('');
-//   const [showPopup, setShowPopup] = useState(false);
+//   const [showPopup, setIsPopupVisible] = useState(false);
 //   const navigate = useNavigate();
 
 //   const handleNextStep = () => setCurrentStep(currentStep + 1);
@@ -460,7 +460,7 @@
 //       }
 //     } catch (error) {
 //       setErrorMessage(error.message || "Có lỗi xảy ra.");
-//       setShowPopup(true);
+//       setIsPopupVisible(true);
 //     }
 //   };
 
@@ -474,7 +474,7 @@
 //       }
 //     } catch (error) {
 //       setErrorMessage(error.message || "Đăng nhập Google thất bại.");
-//       setShowPopup(true);
+//       setIsPopupVisible(true);
 //     }
 //   };
 
@@ -483,7 +483,7 @@
 //   };
 
 //   const closePopup = () => {
-//     setShowPopup(false);
+//     setIsPopupVisible(false);
 //     setErrorMessage("");
 //   };
 
@@ -630,7 +630,7 @@
 //   const [name, setName] = useState('');
 //   const [password, setPassword] = useState('');
 //   const [confirmPassword, setConfirmPassword] = useState('');
-//   const [showPopup, setShowPopup] = useState(false);
+//   const [showPopup, setIsPopupVisible] = useState(false);
 //   const navigate = useNavigate();
 
 //   const handleNameChange = (value) => setName(value);
@@ -688,12 +688,12 @@
 //     } catch (error) {
 //       console.log(error);
 //       setErrorMessage(error.message.message || "Có lỗi xảy ra khi đăng nhập.");
-//       setShowPopup(true);
+//       setIsPopupVisible(true);
 //     }
 //   };
 
 //   const closePopup = () => {
-//     setShowPopup(false);
+//     setIsPopupVisible(false);
 //     setErrorMessage("");
 //   };
 
@@ -706,7 +706,7 @@
 //   const handleGoogleFailure = (error) => {
 //     console.error('Đăng nhập Google thất bại:', error);
 //     setErrorMessage('Đăng nhập Google thất bại. Vui lòng thử lại.');
-//     setShowPopup(true);
+//     setIsPopupVisible(true);
 //   };
 
 //   return (
@@ -888,10 +888,13 @@ const RegisterPage = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(true);
+  // const [message, setErrorMessage] = useState("");
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [showPopup, setShowPopup] = useState(false);
+  // const [showPopup, setIsPopupVisible] = useState(false);
   const location = useLocation();
 
   const navigate = useNavigate();
@@ -920,12 +923,13 @@ const RegisterPage = () => {
       }
     } catch (error) {
       setErrorMessage(error.message.message || "Có lỗi xảy ra.");
-      setShowPopup(true);
+      setIsPopupVisible(true);
+      setIsSuccess(false);
     }
   };
 
   const closePopup = () => {
-    setShowPopup(false);
+    setIsPopupVisible(false);
     setErrorMessage("");
   };
 
@@ -943,7 +947,7 @@ const RegisterPage = () => {
         sameSite: "Strict", // Ngăn chặn CSRF
       });
       //dispatch(updateUser(result));
-      
+
       console.log("Access Token (localStorage):", result.ACCESS_TOKEN);
       console.log("Refresh Token (Cookie):", Cookies.get("refreshToken"));
       // if (result) {
@@ -967,11 +971,12 @@ const RegisterPage = () => {
       } else {
         navigate("/");
       }
-    
+
 
     } catch (error) {
       setErrorMessage(error.message || "Đăng nhập Google thất bại.");
-      setShowPopup(true);
+      setIsPopupVisible(true);
+      setIsSuccess(false);
     }
   };
 
@@ -1001,7 +1006,8 @@ const RegisterPage = () => {
     },
     onError: () => {
       setErrorMessage("Đăng nhập Google thất bại.");
-      setShowPopup(true);
+      setIsPopupVisible(true);
+      setIsSuccess(false);
     },
   });
 
@@ -1017,152 +1023,159 @@ const RegisterPage = () => {
       mediaQuery.removeEventListener('change', handleViewportChange);
     };
   }, []);
-  
+
   return (
     <div>
       {currentStep === 1 && (
-      <div className={styles.main}>
-        <div className='grid wide'>
-          <div className={styles.signUp}>
-            <div className={styles.introduce}>
-              <div className={styles.title}>
-                <TitleComponent 
-                  title="Tạo tài khoản mới"
-                  textTransform="none"
-                  textAlign="left"
-                  fontSize="5rem"
-                  margin="0 0 20px"
-                  fontWeight="800"
-                />
-                <UnderLineComponent 
-                  width="150px"
-                  height="1px"
-                  background="#000"
-                />
-                <div className={styles.paragraph}>
-                  <p>
-                    Hãy Đăng Ký ngay!!! <br />
-                    Trải nghiệm thời gian mua sắm hiện đại và <br />
-                    tiện ích mà chúng tôi mang lại <br />
-                  </p>
+        <div className={styles.main}>
+          <div className='grid wide'>
+            <div className={styles.signUp}>
+              <div className={styles.introduce}>
+                <div className={styles.title}>
+                  <TitleComponent
+                    title="Tạo tài khoản mới"
+                    textTransform="none"
+                    textAlign="left"
+                    fontSize="5rem"
+                    margin="0 0 20px"
+                    fontWeight="800"
+                  />
+                  <UnderLineComponent
+                    width="150px"
+                    height="1px"
+                    background="#000"
+                  />
+                  <div className={styles.paragraph}>
+                    <p>
+                      Hãy Đăng Ký ngay!!! <br />
+                      Trải nghiệm thời gian mua sắm hiện đại và <br />
+                      tiện ích mà chúng tôi mang lại <br />
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className={styles.formRegister}>
-              <FormComponent 
-                width="500px"
-                height="650px"
-                background="#fff"
-                borderRadius="20px"
-                border="1px solid #000"
-                className={styles.form}
-              >
-                <TitleComponent
-                  title="Đăng ký"
-                  textTransform="none"
-                  textAlign="center"
-                  fontSize={isInMobile ? "3rem" : "4.5rem"}
-                  margin="50px 0 30px"
-                />
-                <InputFormComponent 
-                  type="tel"
-                  placeholder="Số điện thoại"
-                  icon={<MdPhonePaused />}
-                  margin="0 0 30px"
-                  positionProps={{
-                    mainSpan: { top: "16px", left: "90px" }
-                  }}
-                  value={phoneNumber}
-                  width={isInMobile ? "70%" : "350px"}
-                  borderRadius={isInMobile ? "10px" : "30px"}
-                  className={styles.input}
-                  onChange={handlePhoneChange}
+              <div className={styles.formRegister}>
+                <FormComponent
+                  width="500px"
+                  height="650px"
+                  background="#fff"
+                  borderRadius="20px"
+                  border="1px solid #000"
+                  className={styles.form}
+                >
+                  <TitleComponent
+                    title="Đăng ký"
+                    textTransform="none"
+                    textAlign="center"
+                    fontSize={isInMobile ? "3rem" : "4.5rem"}
+                    margin="50px 0 30px"
                   />
-                {<p className={styles.error}>{errorMessage}</p>}
-                <ButtonComponent 
-                  title="TIẾP THEO"
-                  primary
-                  className={styles.btn}
-                  showIcon={false}
-                  disabled={isDisabled}
-                  onClick={isDisabled ? null : handleNextStep}
-                />
-                <div className={styles.other}>
-                  <UnderLineComponent 
-                    width="190px"
-                    height="1px"
-                    background="#B7B6B5"
-                    className={styles.under}
+                  <InputFormComponent
+                    type="tel"
+                    placeholder="Số điện thoại"
+                    icon={<MdPhonePaused />}
+                    margin="0 0 30px"
+                    positionProps={{
+                      mainSpan: { top: "16px", left: "90px" }
+                    }}
+                    value={phoneNumber}
+                    width={isInMobile ? "70%" : "350px"}
+                    borderRadius={isInMobile ? "10px" : "30px"}
+                    className={styles.input}
+                    onChange={handlePhoneChange}
                   />
-                  <span>HOẶC</span>
-                  <UnderLineComponent 
-                    width="190px"
-                    height="1px"
-                    background="#B7B6B5"
-                    className={styles.under}
+                  {<p className={styles.error}>{errorMessage}</p>}
+                  <ButtonComponent
+                    title="TIẾP THEO"
+                    primary
+                    className={styles.btn}
+                    showIcon={false}
+                    disabled={isDisabled}
+                    onClick={isDisabled ? null : handleNextStep}
                   />
-                </div>
-                <div className={styles.differentOption}>
-                  <ButtonComponent 
-                    title="Facebook"
-                    iconSmall
-                    icon={facebook_2}
-                    margin="30px 0 0"
-                    className={styles.btnOp}
-                  />
-                  <ButtonComponent 
-                    title="Google"
-                    iconSmall
-                    icon={google}
-                    margin="30px 0 0"
-                    onClick={googleLogin}
-                    className={styles.btnOp}
-                  />
-                </div>
-                <div className={styles.footer}>
-                  <div className={styles.agreeTerms}>
-                    <p>
-                      Bằng việc đăng ký, bạn đã đồng ý với <span>Pawfect </span> về&nbsp;
-                      <a href='/general-terms'>Điều khoản dịch vụ</a> &&nbsp;
-                      <a href='/privacy-policy'>Chính sách bảo mật</a>
-                    </p>
+                  <div className={styles.other}>
+                    <UnderLineComponent
+                      width="190px"
+                      height="1px"
+                      background="#B7B6B5"
+                      className={styles.under}
+                    />
+                    <span>HOẶC</span>
+                    <UnderLineComponent
+                      width="190px"
+                      height="1px"
+                      background="#B7B6B5"
+                      className={styles.under}
+                    />
                   </div>
-                  <div className={styles.haveAccount}>
-                    <p>Bạn đã có tài khoản?&nbsp;
-                      <Link to={"/sign-in"}>
-                        Đăng Nhập
-                      </Link>
-                    </p>
+                  <div className={styles.differentOption}>
+                    <ButtonComponent
+                      title="Facebook"
+                      iconSmall
+                      icon={facebook_2}
+                      margin="30px 0 0"
+                      className={styles.btnOp}
+                    />
+                    <ButtonComponent
+                      title="Google"
+                      iconSmall
+                      icon={google}
+                      margin="30px 0 0"
+                      onClick={googleLogin}
+                      className={styles.btnOp}
+                    />
                   </div>
-                </div>
-              </FormComponent>
+                  <div className={styles.footer}>
+                    <div className={styles.agreeTerms}>
+                      <p>
+                        Bằng việc đăng ký, bạn đã đồng ý với <span>Pawfect </span> về&nbsp;
+                        <a href='/general-terms'>Điều khoản dịch vụ</a> &&nbsp;
+                        <a href='/privacy-policy'>Chính sách bảo mật</a>
+                      </p>
+                    </div>
+                    <div className={styles.haveAccount}>
+                      <p>Bạn đã có tài khoản?&nbsp;
+                        <Link to={"/sign-in"}>
+                          Đăng Nhập
+                        </Link>
+                      </p>
+                    </div>
+                  </div>
+                </FormComponent>
+              </div>
             </div>
           </div>
         </div>
-      </div>
       )}
 
-        {/* Các bước tiếp theo */}
-        {currentStep === 2 && <VerifyMethodComponent onClick={handleNextStep}/>}
-        {currentStep === 3 && (
-          <SetPasswordComponent
-            name={name}
-            password={password}
-            confirmPassword={confirmPassword}
-            onNameChange={setName}
-            onPasswordChange={setPassword}
-            onConfirmPasswordChange={setConfirmPassword}
-            onClick={handleSignUp}
-          />
-        )}
-        {currentStep === 4 && 
-          <SuccessNotifyComponent 
-            title1="Xác minh số điện thoại"
-            notify="Đăng ký thành công"
-          />
-        }
-        {showPopup && <PopupComponent message={errorMessage} onClose={closePopup} />}
-      </div>
+      {/* Các bước tiếp theo */}
+      {currentStep === 2 && <VerifyMethodComponent onClick={handleNextStep} />}
+      {currentStep === 3 && (
+        <SetPasswordComponent
+          name={name}
+          password={password}
+          confirmPassword={confirmPassword}
+          onNameChange={setName}
+          onPasswordChange={setPassword}
+          onConfirmPasswordChange={setConfirmPassword}
+          onClick={handleSignUp}
+        />
+      )}
+      {currentStep === 4 &&
+        <SuccessNotifyComponent
+          title1="Xác minh số điện thoại"
+          notify="Đăng ký thành công"
+        />
+      }
+      {isPopupVisible && (
+        <PopupComponent
+          message={errorMessage}
+          onClose={closePopup}
+          timeout={2000}
+          isSuccess={isSuccess}
+        />
+      )}
+    </div>
   );
 };
 
