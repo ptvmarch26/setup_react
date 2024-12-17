@@ -151,14 +151,14 @@ const ResetPasswordPage = () => {
     };
 
     const validateInput = (value) => {
-        const phoneRegex = /^\d{10,15}$/; // Số điện thoại từ 10 đến 15 chữ số
+        const phoneRegex = /^\d{10}$/; // Số điện thoại từ 10 đến 15 chữ số
         const emailRegex = /^\S+@\S+\.\S+$/; // Email theo định dạng tiêu chuẩn
 
         if (phoneRegex.test(value)) {
             return 'phone'; // Giá trị là số điện thoại hợp lệ
         } else if (emailRegex.test(value)) {
             return 'email'; // Giá trị là email hợp lệ
-        } else if (/^\d+$/.test(value)) {
+        } else if (value && !/^(03|07|08|09)\d{8}$/.test(value)) {
             return 'invalidPhone'; // Là số nhưng không đúng định dạng số điện thoại
         } else {
             return 'invalidEmail'; // Không phải email hợp lệ
@@ -281,7 +281,7 @@ const ResetPasswordPage = () => {
             )}
 
             {currentStep === 2 && (
-                <VerifyOtpComponent onClick={handleNextStep} email={identifier} />
+                <VerifyOtpComponent onClick={handleNextStep} email={identifier} handlesendOtp={handlesendOtp}/>
             )}
 
             {currentStep === 3 && (<InputPasswordComponent onClick={handleNextStep} identifier={identifier}/>)}

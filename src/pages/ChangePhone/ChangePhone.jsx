@@ -113,6 +113,7 @@ import { useNavigate } from 'react-router-dom';
 import styles from './ChangePhone.module.scss'
 import './ChangePhone.scss'
 import UserProfileComponent from '../../components/UserProfileComponent/UserProfileComponent'
+import PopupComponent from "../../components/PopupComponent/PopupComponent";
 
 import { Button, Form, Input } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
@@ -123,6 +124,9 @@ import clsx from 'clsx';
 function ChangePhone() {
   const navigate = useNavigate();
   const [form] = Form.useForm();
+  const [isSuccess, setIsSuccess] = useState(true);
+  const [message, setMessage] = useState("");
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [isFormFilled, setIsFormFilled] = useState(false);
   const [error, setError] = useState('');
   const dispatch = useDispatch();
@@ -146,7 +150,12 @@ function ChangePhone() {
       const res = await handleUpdateUser(userData);
       if (res && res.status === 'OK') {
         // dispatch(updateUser({ ...res.data }));
-        navigate('/account/profile');
+        setMessage("Cập nhật số điện thoại thành công");
+        setIsPopupVisible(true);
+        setIsSuccess(true);
+        setTimeout(() => {
+          navigate('/account/profile');
+        }, 2000);
       }
     } catch (err) {
       setError(err?.message?.message || 'Cập nhật số điện thoại thất bại. Vui lòng thử lại.');
@@ -174,87 +183,95 @@ function ChangePhone() {
     <div className={styles.main}>
       <div className='grid wide'>
         <div className={styles.wrapMain}>
-            <UserProfileComponent
-              full_name={full_name}
-              src_img={user_avt_img}
-              user_name={user_name}
-              className={styles.user}
-            />
+          <UserProfileComponent
+            full_name={full_name}
+            src_img={user_avt_img}
+            user_name={user_name}
+            className={styles.user}
+          />
 
-            <div className={styles.wrapInfo}>
-              <h2 className={styles.change}>{user_phone ? 'Đổi số điện thoại' : 'Thêm số điện thoại mới'}</h2>
+          <div className={styles.wrapInfo}>
+            <h2 className={styles.change}>{user_phone ? 'Đổi số điện thoại' : 'Thêm số điện thoại mới'}</h2>
 
-              <Form
-                layout="horizontal"
-                labelCol={{ span: 6 }}
-                wrapperCol={{ span: 18 }}
-                className={clsx('ChangePhone_form__3+NEI', styles.form)}
-                form={form}
-                initialValues={{ currentPhone: user_phone || '' }}
-                onFinish={handleSave}
-                onValuesChange={handleValuesChange}
+            <Form
+              layout="horizontal"
+              labelCol={{ span: 6 }}
+              wrapperCol={{ span: 18 }}
+              className={clsx('ChangePhone_form__3+NEI', styles.form)}
+              form={form}
+              initialValues={{ currentPhone: user_phone || '' }}
+              onFinish={handleSave}
+              onValuesChange={handleValuesChange}
+            >
+              <Form.Item
+                label="Số điện thoại hiện tại"
+                name="currentPhone"
               >
-                <Form.Item
-                  label="Số điện thoại hiện tại"
-                  name="currentPhone"
-                >
-                  {user_phone ? (
-                    <Input disabled value={user_phone} />
-                  ) : (
-                    <span style={{ color: 'red' }}>Chưa có số điện thoại</span>
-                  )}
-                </Form.Item>
+                {user_phone ? (
+                  <Input disabled value={user_phone} />
+                ) : (
+                  <span style={{ color: 'red' }}>Chưa có số điện thoại</span>
+                )}
+              </Form.Item>
 
-                <Form.Item
-                  label="Số điện thoại mới"
-                  name="newPhone"
-                  validateStatus={error ? 'error' : ''}
-                  help={error || 'Số điện thoại phải từ 10-11 chữ số.'} // Hiển thị thông báo lỗi hoặc hướng dẫn
-                  rules={[
-                    { required: true, message: 'Nhập số điện thoại mới!' },
-                    { pattern: /^[0-9]{10,11}$/, message: 'Số điện thoại không hợp lệ!' },
-                  ]}
-                  className={clsx('ChangePhone_inputSDT__rWEVm', styles.inputSDT)}
-                >
-                  <Input
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      if (!/^[0-9]{10,11}$/.test(value)) {
-                        setError('Số điện thoại không hợp lệ!');
-                      } else {
-                        setError('');
-                      }
+              <Form.Item
+                label="Số điện thoại mới"
+                name="newPhone"
+                validateStatus={error ? 'error' : ''}
+                help={error || 'Số điện thoại phải từ 10-11 chữ số.'} // Hiển thị thông báo lỗi hoặc hướng dẫn
+                rules={[
+                  { required: true, message: 'Nhập số điện thoại mới!' },
+                  { pattern: /^[0-9]{10,11}$/, message: 'Số điện thoại không hợp lệ!' },
+                ]}
+                className={clsx('ChangePhone_inputSDT__rWEVm', styles.inputSDT)}
+              >
+                <Input
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (!/^[0-9]{10,11}$/.test(value)) {
+                      setError('Số điện thoại không hợp lệ!');
+                    } else {
+                      setError('');
+                    }
+                  }}
+                />
+              </Form.Item>
+
+              <Form.Item wrapperCol={{ offset: 6, span: 18 }}>
+                <div className={styles.btn}>
+                  <Button
+                    htmlType="reset"
+                    className={styles.cancelBtn}
+                    onClick={handleCancel}
+                  >
+                    Hủy
+                  </Button>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    className={styles.submitBtn}
+                    disabled={!isFormFilled}
+                    style={{
+                      backgroundColor: isFormFilled ? '#E87428' : '#d9d9d9',
+                      borderColor: isFormFilled ? '#E87428' : '#d9d9d9',
                     }}
-                  />
-                </Form.Item>
-
-                <Form.Item wrapperCol={{ offset: 6, span: 18 }}>
-                  <div className={styles.btn}>
-                    <Button
-                      htmlType="reset"
-                      className={styles.cancelBtn}
-                      onClick={handleCancel}
-                    >
-                      Hủy
-                    </Button>
-                    <Button
-                      type="primary"
-                      htmlType="submit"
-                      className={styles.submitBtn}
-                      disabled={!isFormFilled}
-                      style={{
-                        backgroundColor: isFormFilled ? '#E87428' : '#d9d9d9',
-                        borderColor: isFormFilled ? '#E87428' : '#d9d9d9',
-                      }}
-                    >
-                      {user_phone ? 'Xác nhận' : 'Thêm số điện thoại'}
-                    </Button>
-                  </div>
-                </Form.Item>
-              </Form>
-            </div>
+                  >
+                    {user_phone ? 'Xác nhận' : 'Thêm số điện thoại'}
+                  </Button>
+                </div>
+              </Form.Item>
+            </Form>
+          </div>
         </div>
       </div>
+      {isPopupVisible && (
+        <PopupComponent
+          message={message}
+          onClose={() => setIsPopupVisible(false)}
+          timeout={2000}
+          isSuccess={isSuccess}
+        />
+      )}
     </div>
   );
 }

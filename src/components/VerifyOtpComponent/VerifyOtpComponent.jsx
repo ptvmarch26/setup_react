@@ -6,7 +6,7 @@ import NextArrowComponent from '../NextArrowComponent/NextArrowComponent'
 import TitleComponent from '../TitleComponent/TitleComponent'
 import ButtonComponent from '../ButtonComponent/ButtonComponent';
 
-const VerifyOtpComponent = ({ onClick, email }) => {
+const VerifyOtpComponent = ({ onClick, email, handlesendOtp }) => {
   const [otp, setOtp] = useState(new Array(6).fill(''));  // Mảng OTP với 6 ô
   const [error, setError] = useState('');  // Lỗi nếu có trong quá trình nhập OTP
   const [isLoading, setIsLoading] = useState(false); // Quản lý trạng thái tải khi gửi OTP
@@ -79,7 +79,7 @@ const VerifyOtpComponent = ({ onClick, email }) => {
       const interval = setInterval(() => setTimer((prev) => prev - 1), 1000);
       return () => clearInterval(interval);
     } else {
-      setIsResendDisabled(false); 
+      setIsResendDisabled(false);
     }
   }, [timer]);
 
@@ -130,14 +130,14 @@ const VerifyOtpComponent = ({ onClick, email }) => {
                   maxLength="1"
                   className={styles.otpInput}
                   value={digit}
-                  onChange={(e) => handleChange(e.target, index)}  
-                  onKeyDown={(e) => handleKeyDown(e, index)}  
-                  onFocus={(e) => e.target.select()} 
+                  onChange={(e) => handleChange(e.target, index)}
+                  onKeyDown={(e) => handleKeyDown(e, index)}
+                  onFocus={(e) => e.target.select()}
                 />
               ))}
             </div>
 
-            <div style={{height: "20px", margin: "20px 0"}}>
+            <div style={{ height: "20px", margin: "20px 0" }}>
               {error && <p className={styles.error}>{error}</p>
               }
               {isResendDisabled ? (
@@ -145,7 +145,13 @@ const VerifyOtpComponent = ({ onClick, email }) => {
               ) : (
                 <div className={styles.reSend}>
                   <p>Bạn vẫn chưa nhận được mã?</p>
-                  <p>Gửi lại mã</p>
+                  <p onClick={() => {
+                    handlesendOtp(email);  // Gửi OTP mới
+                    setTimer(30);          // Reset timer về 30 giây
+                    setIsResendDisabled(true);  // Disable lại nút gửi
+                  }}>
+                    Gửi lại mã
+                  </p>
                 </div>
               )}
             </div>
@@ -159,10 +165,10 @@ const VerifyOtpComponent = ({ onClick, email }) => {
                 </div>
               )}
             </div> */}
-            <ButtonComponent 
+            <ButtonComponent
               title="XÁC NHẬN"
               showIcon={false}
-              onClick={() => handleVerify(otp.join(''))} 
+              onClick={() => handleVerify(otp.join(''))}
               disabled={error ? true : false}
               className={styles.verifyButton}
               margin="50px 0"

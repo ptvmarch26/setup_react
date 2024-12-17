@@ -606,10 +606,14 @@ import styles from './ChangeAddress.module.scss'
 import './ChangeAddress.scss'
 import UserProfileComponent from "../../components/UserProfileComponent/UserProfileComponent.jsx";
 import clsx from "clsx";
+import PopupComponent from "../../components/PopupComponent/PopupComponent";
 
 const { Text } = Typography;
 
 const ChangeAddress = () => {
+  const [isSuccess, setIsSuccess] = useState(true);
+  const [message, setMessage] = useState("");
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
@@ -666,7 +670,12 @@ const ChangeAddress = () => {
         if (res && res.status === 'Successfully') {
           dispatch(updateUser({ user_address: res.data }));
           setIsConfirmDeleteVisible(false);
-          navigate('/account/edit-address');
+          setMessage("Địa chỉ được xoá thành công");
+          setIsPopupVisible(true);
+          setIsSuccess(true);
+          setTimeout(() => {
+            navigate('/account/edit-address');
+          }, 2000);
         }
       } catch (err) {
         console.error(err?.message || 'Cập nhật thất bại.');
@@ -707,7 +716,7 @@ const ChangeAddress = () => {
       return null; // Trả về null để không tiếp tục logic sai
     }
   };
-  
+
 
 
   const handleUpdateAddress = async (newAddress, adr_id) => {
@@ -740,13 +749,23 @@ const ChangeAddress = () => {
         console.log("res", res)
         if (res && res.status === "Successfully") {
           dispatch(updateUser({ user_address: res.data.user_address }));
-          navigate("/account/edit-address");
+          setMessage("Thêm địa chỉ mới thành công");
+          setIsPopupVisible(true);
+          setIsSuccess(true);
+          setTimeout(() => {
+            navigate('/account/edit-address');
+          }, 2000);
         }
       } else {
         const res = await handleUpdateAddress(newAddress, adr_id);
         if (res && res.status === "Successfully") {
           dispatch(updateUser({ user_address: res.data }));
-          navigate("/account/edit-address");
+          setMessage("Cập nhật địa chỉ thành công");
+          setIsPopupVisible(true);
+          setIsSuccess(true);
+          setTimeout(() => {
+            navigate('/account/edit-address');
+          }, 2000);
         }
       }
     } catch (err) {
@@ -779,86 +798,86 @@ const ChangeAddress = () => {
     <div className={styles.main}>
       <div className="grid wide">
         <div className={styles.wrapMain}>
-        <UserProfileComponent
+          <UserProfileComponent
             full_name={full_name}
             src_img={user_avt_img}
             user_name={user_name}
             className={styles.user}
           />
-            <div className={clsx('ChangeAddress_wrapInfo__aVZER', styles.wrapInfo)}>
-              <div className={styles.head}>
-                <h2 className={styles.change}>Địa chỉ của tôi</h2>
-                <Button
-                  type="primary"
-                  icon={<PlusOutlined />}
-                  onClick={handleAddNew}
-                  className={styles.addBtn}
-                >
-                  Thêm địa chỉ mới
-                </Button>
-              </div>
-              <div className={clsx('ChangeAddress_list__+PHWQ', styles.list)}>
-                <List
-                  itemLayout="vertical"
-                  dataSource={user_address}
-                  renderItem={(item) => (
-                    <List.Item
-                      actions={[
-                        <Button type="link" icon={<EditOutlined />} onClick={() => handleEdit(item._id)} key="edit">
-                          Cập nhật
-                        </Button>,
+          <div className={clsx('ChangeAddress_wrapInfo__aVZER', styles.wrapInfo)}>
+            <div className={styles.head}>
+              <h2 className={styles.change}>Địa chỉ của tôi</h2>
+              <Button
+                type="primary"
+                icon={<PlusOutlined />}
+                onClick={handleAddNew}
+                className={styles.addBtn}
+              >
+                Thêm địa chỉ mới
+              </Button>
+            </div>
+            <div className={clsx('ChangeAddress_list__+PHWQ', styles.list)}>
+              <List
+                itemLayout="vertical"
+                dataSource={user_address}
+                renderItem={(item) => (
+                  <List.Item
+                    actions={[
+                      <Button type="link" icon={<EditOutlined />} onClick={() => handleEdit(item._id)} key="edit">
+                        Cập nhật
+                      </Button>,
+                      <Button
+                        type="link"
+                        icon={<DeleteOutlined />}
+                        danger
+                        onClick={() => {
+                          setDeleteAddressId(item._id);
+                          setIsConfirmDeleteVisible(true);
+                        }}
+                        key="delete"
+                      >
+                        Xóa
+                      </Button>,
+                      !item.isDefault && (
                         <Button
                           type="link"
-                          icon={<DeleteOutlined />}
-                          danger
-                          onClick={() => {
-                            setDeleteAddressId(item._id);
-                            setIsConfirmDeleteVisible(true);
-                          }}
-                          key="delete"
+                          icon={<SettingOutlined />}
+                          onClick={() => handleSetDefault(item._id)}
+                          key="setDefault"
                         >
-                          Xóa
-                        </Button>,
-                        !item.isDefault && (
-                          <Button
-                            type="link"
-                            icon={<SettingOutlined />}
-                            onClick={() => handleSetDefault(item._id)}
-                            key="setDefault"
-                          >
-                            Thiết lập mặc định
-                          </Button>
-                        ),
-                      ]}
-                      key={item._id}
-                    >
-                      <List.Item.Meta
-                        title={
-                          <>
-                            <Text strong>{item.name}</Text>{" "}
-                            <Text type="secondary">({item.phone})</Text>
-                          </>
-                        }
-                        description={
-                          <Text>
-                            {item.home_address}, {item.commune}, {item.district}, {item.province}
-                          </Text>
-                        }
-                      />
-                      {item.isDefault && (
-                        <Button
-                          type="primary"
-                          disabled
-                          style={{ backgroundColor: "white", color: "#E87428" }}
-                        >
-                          Mặc định
+                          Thiết lập mặc định
                         </Button>
-                      )}
-                    </List.Item>
-                  )}
-                />
-              </div>
+                      ),
+                    ]}
+                    key={item._id}
+                  >
+                    <List.Item.Meta
+                      title={
+                        <>
+                          <Text strong>{item.name}</Text>{" "}
+                          <Text type="secondary">({item.phone})</Text>
+                        </>
+                      }
+                      description={
+                        <Text>
+                          {item.home_address}, {item.commune}, {item.district}, {item.province}
+                        </Text>
+                      }
+                    />
+                    {item.isDefault && (
+                      <Button
+                        type="primary"
+                        disabled
+                        style={{ backgroundColor: "white", color: "#E87428" }}
+                      >
+                        Mặc định
+                      </Button>
+                    )}
+                  </List.Item>
+                )}
+              />
             </div>
+          </div>
           <Modal
             title={home_address ? "Cập nhật địa chỉ" : "Thêm địa chỉ mới"}
             open={isModalVisible}
@@ -894,6 +913,14 @@ const ChangeAddress = () => {
           </Modal>
         </div>
       </div>
+      {isPopupVisible && (
+        <PopupComponent
+          message={message}
+          onClose={() => setIsPopupVisible(false)}
+          timeout={2000}
+          isSuccess={isSuccess}
+        />
+      )}
     </div>
   );
 };
@@ -994,6 +1021,7 @@ const AddressForm = ({
         </Button>
       </Form.Item>
     </Form>
+
   );
 };
 export default ChangeAddress;
