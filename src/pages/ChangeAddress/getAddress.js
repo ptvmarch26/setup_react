@@ -4,7 +4,7 @@ import axios from "axios";
 export const apiGetProvinces = () =>
   new Promise(async (resolve, reject) => {
     try {
-      const response = await axios.get("https://vapi.vnappmob.com/api/province/");
+      const response = await axios.get("https://vapi.vnappmob.com/api/v2/province/");
       resolve(response.data);
     } catch (error) {
       reject(error);
@@ -16,7 +16,7 @@ export const apiGetDistricts = (provinceId) =>
   new Promise(async (resolve, reject) => {
     try {
       const response = await axios.get(
-        `https://vapi.vnappmob.com/api/province/district/${provinceId}`
+        `https://vapi.vnappmob.com/api/v2/province/district/${provinceId}`
       );
       resolve(response.data);
     } catch (error) {
@@ -29,7 +29,7 @@ export const apiGetWards = (districtId) =>
   new Promise(async (resolve, reject) => {
     try {
       const response = await axios.get(
-        `https://vapi.vnappmob.com/api/province/ward/${districtId}`
+        `https://vapi.vnappmob.com/api/v2/province/ward/${districtId}`
       );
       resolve(response.data);
     } catch (error) {
