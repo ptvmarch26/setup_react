@@ -434,6 +434,10 @@ const TypeProductPage = () => {
     }
   }, [showNavbar]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // Hiển thị thông báo khi đang tải hoặc lỗi xảy ra
   if (isLoading) {
     return (
