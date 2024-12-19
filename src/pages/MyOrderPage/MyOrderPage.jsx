@@ -76,7 +76,7 @@ const MyOrderPage = () => {
         const response = await getOrdersByStatus(orderStatus, _id); 
         console.log("du lieu tra ve",response )
         // Map dữ liệu trả về và gán lại các trường
-        const processedOrders = response.data.map((order) => ({
+        const processedOrders = response.data.reverse().map((order) => ({
           id: order?._id, // ID của đơn hàng
           order_status: order?.order_status,
           total_price: order?.order_total_after,// Tính tổng tiền

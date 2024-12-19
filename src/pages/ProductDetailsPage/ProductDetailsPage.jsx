@@ -181,6 +181,34 @@ const ProductDetailsPage = () => {
     }
   };
 
+  const handleBuyProduct = () => {
+    if (!user?.isAuthenticated) {
+      navigate("/sign-in", { state: location?.pathname });
+    } else if (!selectedVariant) {
+      setMessage("Vui lòng chọn một biến thể trước khi thêm vào giỏ hàng");
+      setIsPopupVisible(true);
+      setIsSuccess(false);
+    } else {
+      // Gửi API cập nhật giỏ hàng vào DB (lấy ID của người dùng và dữ liệu giỏ hàng)
+      const cartData = {
+        products: [
+          {
+            id: productDetails?._id,
+            name: productDetails?.product_title,
+            variant: selectedVariant?._id,
+            oldPrice: (productDetails?.product_price *
+            (1 - productDetails?.product_percent_discount / 100)),
+            price: selectedVariant?.product_price,
+            quantity: numProduct,
+            product_order_type: selectedVariant?.product_order_type,
+          },
+        ],
+      };
+      console.log(cartData);
+      navigate(`/check-out/${user._id}`, { state: cartData });
+    }
+  };
+
   const handleChangeCount = (type) => {
     // if (type === "increase") {
     //   setNumProduct((prev) =>
@@ -574,6 +602,7 @@ const ProductDetailsPage = () => {
                   widthDiv="none"
                   className={styles.btnBuy}
                   primary
+                  onClick={handleBuyProduct}
                 />
               </div>
             </div>
@@ -697,7 +726,7 @@ const ProductDetailsPage = () => {
                   name={data.user_id.user_name || "ẩn danh"}
                   star={data.rating || "ẩn danh"}
                   date={
-                    new Date(data.createdAt).toLocaleDateString("vi-VN") ||
+                    new Date(data.createdAt)?.toLocaleDateString("vi-VN") ||
                     "ẩn danh"
                   }
                   comment={data.content || "ẩn danh"}

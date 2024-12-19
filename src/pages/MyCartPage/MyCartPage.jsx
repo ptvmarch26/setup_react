@@ -197,7 +197,7 @@ const MyCartPage = () => {
 
   useEffect(() => {
     if (data?.data?.products) {
-      const items = data.data.products.map((item) => ({
+      const items = data.data.products.reverse().map((item) => ({
         product_id: item.product_id?._id,
         id: item.variant,
         name: item.product_id?.product_title || "Không có tên sản phẩm",

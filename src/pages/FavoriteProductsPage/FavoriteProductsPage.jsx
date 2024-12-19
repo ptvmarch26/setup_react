@@ -235,7 +235,7 @@ const FavoriteProductsPage = () => {
   // Cập nhật cartItems khi data từ API thay đổi
   useEffect(() => {
     if (data?.data?.products) {
-      const items = data.data.products.map((item) => ({
+      const items = data.data.products.reverse().map((item) => ({
         id: item.product_id?._id,
         name: item.product_id?.product_title || "Không có tên sản phẩm",
         oldPrice: item.product_id?.product_price || 0,
