@@ -1,4 +1,4 @@
-# [IE104.P11.Group1] - ĐỒ ÁN XÂY DỰNG WEBSITE KINH DOANH SẢN PHẨM DÀNH CHO THÚ CƯNG PAWFECT.
+# [IE104.P11.Group1] - ĐỒ ÁN XÂY DỰNG WEBSITE KINH DOANH SẢN PHẨM DÀNH CHO THÚ CƯNG PAWFECT PHẦN FRONT_END DÀNH CHO USER
 
 * Trường Đại học Công nghệ Thông tin, Đại học Quốc gia Thành phố Hồ Chí Minh (ĐHQG-HCM)
 * Khoa: Khoa học và Kỹ thuật Thông tin (KH&KTTT)
@@ -79,3 +79,9 @@
 * [MongoDB Compass] - Cung cấp giao diện xem cơ sở dữ liệu MongoDB
 * [MongoDB] - Hệ quản trị cơ sở dữ liệu phi quan hệ sử dụng để lưu trữ dữ liệu cho trang web
 * [HTML-CSS-JS] - Bộ ba công nghệ web, hiện thức hóa giao diện, dùng thêm bản mở rộng SCSS
+
+  
+## Tổng hợp link các github
+* [FE_USER](https://github.com/ptvmarch26/setup_react)
+* [FE_ADMIN](https://github.com/ThanhTuynn/IE104_FE_Admin)
+* [BE](https://github.com/FirstOne2308/Backend_ThuCung)
