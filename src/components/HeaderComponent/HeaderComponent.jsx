@@ -667,7 +667,7 @@ const HeaderComponent = () => {
           </Col>
         </Row>
         <div className={styles.userAndCart}>
-          <div onClick={() => navigate(isAuthenticated ? "/my-cart/${_id}" : 'sign-in')} className={styles.cCart}>
+          <div onClick={() => navigate(isAuthenticated ? `/my-cart/${_id}` : 'sign-in')} className={styles.cCart}>
             <FaShoppingCart />
           </div>
           {isAuthenticated ? (

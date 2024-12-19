@@ -23,7 +23,7 @@ const FAQPage = () => {
               Để đặt hàng, quý khách chỉ cần thực hiện theo các bước sau:
             </p>
             <ul className={styles.answerList}>
-              <li>Truy cập vào trang web <a href="/">pawfect.com.vn</a>.</li>
+              <li>Truy cập vào trang web <a href="https://student.uit.edu.vn/">pawfect.com.vn</a>.</li>
               <li>Chọn sản phẩm yêu thích và thêm vào giỏ hàng.</li>
               <li>Điền thông tin giao hàng và thanh toán để hoàn tất đơn hàng.</li>
             </ul>

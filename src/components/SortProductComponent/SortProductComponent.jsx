@@ -221,14 +221,14 @@ const SortProductComponent = ({ handleNavbar, isInViewport, isInMobile, handleFi
               <FaChevronDown className={styles.icon} />
               <ul>
                 <li>
-                  <Link to={"/"} onClick={() => handleFilterChange({ sort: 'price_asc' })}>
+                  <p onClick={() => handleFilterChange({ sort: 'price_asc' })}>
                     Giá: Thấp đến Cao
-                  </Link>
+                  </p>
                 </li>
                 <li>
-                  <Link to={"/"} onClick={() => handleFilterChange({ sort: 'price_desc' })}>
+                  <p onClick={() => handleFilterChange({ sort: 'price_desc' })}>
                     Giá: Cao đến Thấp
-                  </Link>
+                  </p>
                 </li>
               </ul>
             </div>

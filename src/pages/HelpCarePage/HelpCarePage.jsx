@@ -110,7 +110,7 @@ const HelpCarePage = () => {
                 Cách chăm sóc mèo khoa học và hiệu quả để bé mèo của bạn luôn
                 vui vẻ, khỏe mạnh.
               </p>
-              <Link to="/articles/cat-care" className={styles.link}>
+              <Link to="https://paddy.vn/blogs/cham-soc-thu-cung/huong-dan-cach-nuoi-meo-danh-cho-nguoi-moi?srsltid=AfmBOooihDjyyl8fXs7HdFGBwCJanPxGsHjXrOEG5Oic_uaCdm3ZyN-X" className={styles.link}>
                 Đọc bài viết
               </Link>
             </div>
@@ -127,7 +127,7 @@ const HelpCarePage = () => {
                 Cách chăm sóc chó khoa học và hiệu quả để bé chó của bạn luôn
                 vui vẻ, khỏe mạnh.
               </p>
-              <Link to="/articles/cat-care" className={styles.link}>
+              <Link to="https://www.petmart.vn/kinh-nghiem-nuoi-cho?srsltid=AfmBOormPUgX8ce2vQ16LMLCT6QBzQ--2y3j0QM-XYLCMOO3mI0isw5i" className={styles.link}>
                 Đọc bài viết
               </Link>
             </div>
@@ -143,7 +143,7 @@ const HelpCarePage = () => {
               <p>
                 Hướng dẫn các phương pháp huấn luyện cơ bản và hiệu quả để giúp chú mèo con của bạn ngoan ngoãn và phát triển tốt.
               </p>
-              <Link to="/articles/cat-care" className={styles.link}>
+              <Link to="https://www.petmart.vn/cach-huan-luyen-meo-co-ban-don-gian-tai-nha?srsltid=AfmBOorlMYUx8GY8Z0rtPJfdB1Q1fMqL-_yW4XDQ7W66C8CesrqG0Sj2" className={styles.link}>
                 Đọc bài viết
               </Link>
             </div>
@@ -159,7 +159,7 @@ const HelpCarePage = () => {
               <p>
                 Hướng dẫn các phương pháp huấn luyện cơ bản và hiệu quả để giúp chú chó con của bạn ngoan ngoãn và phát triển tốt.
               </p>
-              <Link to="/articles/cat-care" className={styles.link}>
+              <Link to="https://www.petmart.vn/huan-luyen-cho?srsltid=AfmBOoqX8sNk6d2aBA1zYeakXuvL9gWoh0Gmw-t4riZwkoLikYcVs957" className={styles.link}>
                 Đọc bài viết
               </Link>
             </div>
@@ -175,7 +175,7 @@ const HelpCarePage = () => {
               <p>
                 Cung cấp thông tin về chế độ dinh dưỡng phù hợp và các mẹo chăm sóc sức khỏe để mèo của bạn luôn khỏe mạnh và vui vẻ.
               </p>
-              <Link to="/articles/cat-care" className={styles.link}>
+              <Link to="https://thepet.vn/blog/tin-tuc-thu-cung/dinh-duong-va-khau-phan-an-hang-ngay-cho-meo/?srsltid=AfmBOoo0wdShKKf49uQZkp4C6nlS9_pxGo8XolVm9hkHQK8sThOjPmG3" className={styles.link}>
                 Đọc bài viết
               </Link>
             </div>
@@ -191,7 +191,7 @@ const HelpCarePage = () => {
               <p>
                 Cung cấp thông tin về chế độ dinh dưỡng phù hợp và các mẹo chăm sóc sức khỏe để chó của bạn luôn khỏe mạnh và vui vẻ.
               </p>
-              <Link to="/articles/cat-care" className={styles.link}>
+              <Link to="https://www.vietdvm.com/thu-canh/cham-soc/dinh-duong-cho-thu-cung-nhu-the-nao-la-hop-ly.html?tmpl=component&print=1" className={styles.link}>
                 Đọc bài viết
               </Link>
             </div>
