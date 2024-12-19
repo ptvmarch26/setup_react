@@ -4,7 +4,7 @@ import whiteLogo from "../../assets/images/whiteLogo.svg";
 import clsx from 'clsx';
 import { Link, useNavigate } from 'react-router-dom';
 
-const Header2Component = ({title}) => {
+const Header2Component = ({title, needHelp = true}) => {
   const navigate = useNavigate()
 
   const handleHome = () => {
@@ -20,8 +20,10 @@ const Header2Component = ({title}) => {
           <h1>{title}</h1>
         </div>
         <div className={styles.support}>
-          <Link to={"/faq"}>Bạn cần giúp đỡ?</Link>
-        </div>
+          {needHelp ? (
+            <Link to={"/faq"}>Bạn cần giúp đỡ?</Link>
+          ) : null}
+          </div>
       </div>
     </div>
   )
