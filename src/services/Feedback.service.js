@@ -1,24 +1,42 @@
 const API_URL = "http://localhost:3001/api";
 
-export const submitFeedback = async (id) => {
+export const submitFeedback = async (orderData) => {
   try {
-    const response = await fetch(`${API_URL}/product/get-details/${id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
+    // Lặp qua từng đơn hàng trong orderData
+    const feedbackPromises = orderData.order.products.map(async (orderId) => {
+      const feedbackPayload = {
+        product_id: orderId?.id,
+        variant_id: orderId?.product_description,
+        order_id: orderData.order_id,
+        user_id: orderData.user_id,
+        content: orderData.content,
+        rating: orderData.rating,
+      };
+      console.log("feedbackPayload", feedbackPayload)
+      // Gửi yêu cầu tạo feedback cho từng đơn hàng
+      const response = await fetch(`${API_URL}/feedback/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(feedbackPayload),
+      });
+
+      // Kiểm tra nếu phản hồi từ server không thành công
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw errorData;
+      }
+
+      return await response.json(); // Trả về kết quả nếu thành công
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw errorData;
-    }
-
-    const data = await response.json();
-    console.log("Product Details:", data);
-    return data;
+    // Chờ tất cả các yêu cầu hoàn thành
+    const results = await Promise.all(feedbackPromises);
+    console.log("Feedbacks created successfully:", results);
+    return results; // Trả về danh sách kết quả đã tạo
   } catch (error) {
-    console.error("Error in getDetailsProduct:", error);
+    console.error("Error in submitting feedbacks:", error);
     throw error;
   }
 };
