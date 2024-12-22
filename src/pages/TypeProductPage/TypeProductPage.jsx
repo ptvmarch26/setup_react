@@ -534,7 +534,7 @@ const TypeProductPage = () => {
                       style={{ textDecoration: "none" }}
                     >
                       <CardComponent
-                        src={`data:image/png;base64,${product.product_images[0] || ""
+                        src={`${product.product_images[0] || ""
                           }`}
                         alt="ảnh sản phẩm"
                         name={product.product_title}

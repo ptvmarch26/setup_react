@@ -201,7 +201,8 @@ const ProductDetailsPage = () => {
           price: selectedVariant?.product_price,
           quantity: numProduct,
           product_order_type: selectedVariant?.product_order_type,
-          img: `data:image/jpeg;base64,${productDetails?.product_images[0]}`
+          img: `${productDetails?.product_images[0]}`
+          
         },
       ];
       const checkedItems = selectedVariant?._id;
@@ -391,7 +392,7 @@ const ProductDetailsPage = () => {
                       {/* <img src={thumb} onClick={()=>setMainImage(thumb)} alt={`Product view ${index + 1}`} /> */}
                       <div className={styles.mainImage}>
                         <img
-                          src={`data:image/png;base64,${thumb}`}
+                          src={`${thumb}`}
                           alt="Product main"
                         />
                       </div>
@@ -403,7 +404,7 @@ const ProductDetailsPage = () => {
               <>
                 <div className={styles.mainImage}>
                   <img
-                    src={`data:image/png;base64,${selectedImage}`}
+                    src={`${selectedImage}`}
                     alt="Product main"
                   />
                 </div>
@@ -423,7 +424,7 @@ const ProductDetailsPage = () => {
                     {doubledThumbnails.map((thumb, index) => (
                       <img
                         key={index}
-                        src={`data:image/png;base64,${thumb}`}
+                        src={`${thumb}`}
                         alt={`Thumbnail ${index + 1}`}
                         onClick={() => console.log(`Selected: ${thumb}`)} // Thao tác khi click vào thumbnail
                         className={styles.thumbnail}
@@ -541,7 +542,7 @@ const ProductDetailsPage = () => {
                         <ButtonComponent
                           key={index}
                           title={variant.product_order_type}
-                          icon={`data:image/png;base64,${variant.variant_img}`}
+                          icon={`${variant.variant_img}`}
                           fontSize="1.2rem"
                           width="170px"
                           widthDiv="none"
@@ -731,7 +732,7 @@ const ProductDetailsPage = () => {
             {feedbackList.map((data, index) => (
               <div key={index}>
                 <ProductFeedBackComponent
-                  img={`data:image/png;base64,${
+                  img={`${
                     data.user_id.user_avt_img || ""
                   }`}
                   name={data.user_id.user_name || "ẩn danh"}
@@ -744,7 +745,7 @@ const ProductDetailsPage = () => {
                   imgFeedback={
                     Array.isArray(data.feedback_img)
                       ? data.feedback_img.map(
-                          (img) => `data:image/png;base64,${img}`
+                          (img) => `${img}`
                         )
                       : []
                   }
@@ -795,7 +796,7 @@ const ProductDetailsPage = () => {
                     style={{ textDecoration: "none" }}
                   >
                     <CardComponent
-                      src={`data:image/png;base64,${
+                      src={`${
                         product.product_images[0] || ""
                       }`}
                       alt="ảnh sản phẩm"

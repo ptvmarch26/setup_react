@@ -88,7 +88,7 @@ const MyOrderPage = () => {
             product_title: product?.product_id?.product_title,
             product_description: product?.product_order_type,
             number: product?.quantity,
-            src_img: `data:image/jpeg;base64,${product?.product_id?.product_images[0]}`|| "",
+            src_img: `${product?.product_id?.product_images[0]}`|| "",
             price_old: product?.product_price || 0,
             price_new: (product?.product_price*(1-product?.product_id?.product_percent_discount/100)).toLocaleString() || 0,
           })),
@@ -119,6 +119,19 @@ const MyOrderPage = () => {
   };
 
   const handleFeedBackClick = (orderId) => {
+    const selectedOrder = orders.find((order) => order.id === orderId);
+  
+    if (selectedOrder) {
+      navigate(`/product-feedback?tab=${currentTab}&product=${orderId}`, {
+        state: { order: selectedOrder }, // Chỉ truyền đơn hàng có id = orderId
+      });
+    } else {
+      console.error(`Order with ID ${orderId} not found.`);
+      alert("Không tìm thấy đơn hàng!");
+    }
+  };
+
+  const handleCancelOrder = (orderId) => {
     const selectedOrder = orders.find((order) => order.id === orderId);
   
     if (selectedOrder) {
@@ -240,6 +253,7 @@ const MyOrderPage = () => {
                           className={styles.btnPrimary}
                           widthDiv="none"
                           showIcon={false}
+                          onClick={() => handleCancelOrder(order.id)}
                         />
                       )}
                     </Col>

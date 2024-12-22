@@ -211,7 +211,7 @@ const MyCartPage = () => {
         quantity: item.quantity || 1,
         img:
           item.product_id?.product_images && item.product_id?.product_images[0]
-            ? `data:image/jpeg;base64,${item.product_id?.product_images[0]}`
+              ? `${item.product_id?.product_images[0]}`
             : product4,
         product_order_type: item.product_order_type
           ? item.product_order_type

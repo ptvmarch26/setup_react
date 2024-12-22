@@ -374,7 +374,7 @@ const HeaderComponent = () => {
       setUserName(user_name || "Người dùng");
       if (user_avt_img) {
         // Xử lý hiển thị avatar từ API (base64) hoặc mặc định
-        const avatarSrc = `data:image/jpeg;base64,${user_avt_img}`;
+        const avatarSrc = `${user_avt_img}`;
         setAvatar(avatarSrc);
       } else {
         setAvatar(myAvatarFalse);
