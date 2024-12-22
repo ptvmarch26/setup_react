@@ -229,7 +229,7 @@ const MyCartPage = () => {
       setIsPopupVisible(true);
       setIsSuccess(false);
     } else {
-
+      console.log("du lieu mua ngay",cartItems, checkedItems,discount, shippingFee, selectedVouchers);
       navigate(`/check-out/${id}`, {
         state: { cartItems, checkedItems, discount, shippingFee, selectedVouchers },
       });

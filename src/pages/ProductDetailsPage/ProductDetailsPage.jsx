@@ -190,22 +190,24 @@ const ProductDetailsPage = () => {
       setIsSuccess(false);
     } else {
       // Gửi API cập nhật giỏ hàng vào DB (lấy ID của người dùng và dữ liệu giỏ hàng)
-      const cartData = {
-        products: [
-          {
-            id: productDetails?._id,
-            name: productDetails?.product_title,
-            variant: selectedVariant?._id,
-            oldPrice: (productDetails?.product_price *
-            (1 - productDetails?.product_percent_discount / 100)),
-            price: selectedVariant?.product_price,
-            quantity: numProduct,
-            product_order_type: selectedVariant?.product_order_type,
-          },
-        ],
-      };
-      console.log(cartData);
-      navigate(`/check-out/${user._id}`, { state: cartData });
+      const cartItems = [
+        {
+          product_id: productDetails?._id,
+          name: productDetails?.product_title,
+          id: selectedVariant?._id,
+          oldPrice:
+            productDetails?.product_price *
+            (1 - productDetails?.product_percent_discount / 100),
+          price: selectedVariant?.product_price,
+          quantity: numProduct,
+          product_order_type: selectedVariant?.product_order_type,
+          img: `data:image/jpeg;base64,${productDetails?.product_images[0]}`
+        },
+      ];
+      const checkedItems = selectedVariant?._id;
+      const shippingFee = 30000
+      console.log("du lieu mua ngay", cartItems, checkedItems);
+      navigate(`/check-out/${user._id}`, { state: {cartItems, checkedItems, shippingFee}});
     }
   };
 
@@ -332,7 +334,11 @@ const ProductDetailsPage = () => {
       };
       try {
         const userId = user._id; // Lấy ID người dùng từ thông tin người dùng đã đăng nhập
-        const updatedCart = await deleteProductFavor(userId, cartData2, accessToken); // Gửi API để cập nhật giỏ hàng
+        const updatedCart = await deleteProductFavor(
+          userId,
+          cartData2,
+          accessToken
+        ); // Gửi API để cập nhật giỏ hàng
         if (updatedCart) {
           setMessage("Xóa sản phẩm vào yêu thích thành công");
           setIsPopupVisible(true);
@@ -403,12 +409,14 @@ const ProductDetailsPage = () => {
                 </div>
                 {loadingDetails ? (
                   <Slider {...settings}>
-                    {Array(6).fill(0).map((_, index) => (
-                      <img
-                        key={index}
-                        alt={`Loading placeholder ${index + 1}`}
-                      />
-                    ))}
+                    {Array(6)
+                      .fill(0)
+                      .map((_, index) => (
+                        <img
+                          key={index}
+                          alt={`Loading placeholder ${index + 1}`}
+                        />
+                      ))}
                   </Slider>
                 ) : (
                   <Slider {...settings} className={styles.thumbnails}>
@@ -481,13 +489,13 @@ const ProductDetailsPage = () => {
                     <span className={styles.currentPrice}>
                       {selectedVariant
                         ? (
-                          selectedVariant?.product_price *
-                          (1 - productDetails?.product_percent_discount / 100)
-                        ).toLocaleString()
+                            selectedVariant?.product_price *
+                            (1 - productDetails?.product_percent_discount / 100)
+                          ).toLocaleString()
                         : (
-                          productDetails?.product_price *
-                          (1 - productDetails?.product_percent_discount / 100)
-                        ).toLocaleString()}
+                            productDetails?.product_price *
+                            (1 - productDetails?.product_percent_discount / 100)
+                          ).toLocaleString()}
                       đ
                     </span>
                     <span className={styles.oldPrice}>
@@ -508,13 +516,13 @@ const ProductDetailsPage = () => {
                     <span className={styles.currentPrice}>
                       {selectedVariant
                         ? (
-                          selectedVariant?.product_price *
-                          (1 - productDetails?.product_percent_discount / 100)
-                        ).toLocaleString()
+                            selectedVariant?.product_price *
+                            (1 - productDetails?.product_percent_discount / 100)
+                          ).toLocaleString()
                         : (
-                          productDetails?.product_price *
-                          (1 - productDetails?.product_percent_discount / 100)
-                        ).toLocaleString()}
+                            productDetails?.product_price *
+                            (1 - productDetails?.product_percent_discount / 100)
+                          ).toLocaleString()}
                       đ
                     </span>
                   </div>
@@ -538,8 +546,9 @@ const ProductDetailsPage = () => {
                           width="170px"
                           widthDiv="none"
                           margin="0 0 10px 0"
-                          className={`${styles.btnChoice} ${selectedVariant === variant ? styles.selected : ""
-                            }`}
+                          className={`${styles.btnChoice} ${
+                            selectedVariant === variant ? styles.selected : ""
+                          }`}
                           onClick={() => handleVariantClick(variant)}
                         />
                       </div>
@@ -562,8 +571,9 @@ const ProductDetailsPage = () => {
                     onChange={(e) => handleInputChange(e.target.value)}
                     min={1}
                     max={selectedVariant?.product_countInStock || 1}
-                    className={`${styles.quantityInput} ${!selectedVariant ? styles.disabled : ""
-                      }`}
+                    className={`${styles.quantityInput} ${
+                      !selectedVariant ? styles.disabled : ""
+                    }`}
                     disabled={!selectedVariant}
                   />
                   <button
@@ -721,8 +731,9 @@ const ProductDetailsPage = () => {
             {feedbackList.map((data, index) => (
               <div key={index}>
                 <ProductFeedBackComponent
-                  img={`data:image/png;base64,${data.user_id.user_avt_img || ""
-                    }`}
+                  img={`data:image/png;base64,${
+                    data.user_id.user_avt_img || ""
+                  }`}
                   name={data.user_id.user_name || "ẩn danh"}
                   star={data.rating || "ẩn danh"}
                   date={
@@ -733,8 +744,8 @@ const ProductDetailsPage = () => {
                   imgFeedback={
                     Array.isArray(data.feedback_img)
                       ? data.feedback_img.map(
-                        (img) => `data:image/png;base64,${img}`
-                      )
+                          (img) => `data:image/png;base64,${img}`
+                        )
                       : []
                   }
                 />
@@ -761,7 +772,12 @@ const ProductDetailsPage = () => {
             <p>Hiện không có đánh giá nào</p>
           </div>
         ) : (
-          <div className={clsx('ProductDetailsPage_panigation__ZYBEy', styles.panigation)}>
+          <div
+            className={clsx(
+              "ProductDetailsPage_panigation__ZYBEy",
+              styles.panigation
+            )}
+          >
             <Pagination defaultCurrent={1} total={50} />
           </div>
         )}
@@ -779,8 +795,9 @@ const ProductDetailsPage = () => {
                     style={{ textDecoration: "none" }}
                   >
                     <CardComponent
-                      src={`data:image/png;base64,${product.product_images[0] || ""
-                        }`}
+                      src={`data:image/png;base64,${
+                        product.product_images[0] || ""
+                      }`}
                       alt="ảnh sản phẩm"
                       name={product.product_title}
                       oldPrice={product.product_price}
