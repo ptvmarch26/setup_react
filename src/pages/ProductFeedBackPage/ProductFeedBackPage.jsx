@@ -6,13 +6,14 @@ import { CiCamera } from "react-icons/ci";
 import { useLocation, useNavigate } from "react-router-dom";
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
 import { submitFeedback } from "../../services/Feedback.service";
+import { useSelector } from "react-redux";
 
 const ProductFeedBackPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const params = new URLSearchParams(location.search);
   const orderId = params.get("product");
-
+  const { _id } = useSelector((state) => state.user);
   // Lấy orders từ state của location
   const order = location.state?.order || [];
 
@@ -31,18 +32,21 @@ const ProductFeedBackPage = () => {
   const handleSubmit = async () => {
     if (review.trim()) {
       try {
+        const dataRequest = {
+          order,
+          order_id: orderId,
+          user_id: _id,
+          content: review,
+          rating: rating, // ID người dùng
+        }
         // Gửi đánh giá lên Backend
-        const response = await submitFeedback({
-          review,        // Nội dung đánh giá
-          orderId,       // ID của đơn hàng
-          rating,        // Đánh giá sao (nếu có)
-          // userId,        // ID người dùng
-        });
-  
-        if (response.status === 200) {
+        console.log("dataRequest", dataRequest)
+        const response = await submitFeedback(dataRequest);
+
+        if (response) {
           alert("Đánh giá đã được gửi thành công!");
           navigate("/my-order?tab=1"); // Điều hướng sau khi gửi thành công
-          setReview("");              // Xóa nội dung đánh giá
+          setReview(""); // Xóa nội dung đánh giá
         } else {
           alert("Gửi đánh giá thất bại. Vui lòng thử lại!");
         }
@@ -216,7 +220,7 @@ export default ProductFeedBackPage;
 //     try {
 //       const response = await submitFeedback({
 //         product_id: productId,
-//         order_id: orderId, 
+//         order_id: orderId,
 //         content: feedback.review,
 //         rating: feedback.rating,
 //       });
