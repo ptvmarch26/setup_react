@@ -326,3 +326,27 @@ export const submitFeedback = async (feedbackData) => {
     throw error;
   }
 };
+
+export const changeStatus = async (id) => {
+  try {
+    const response = await fetch(`${API_URL}/order/update/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    body: JSON.stringify({order_status: "Hủy hàng"})
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw errorData;
+    }
+
+    const data = await response.json();
+    console.log("Cập nhật trạng thái:", data);
+    return data;
+  } catch (error) {
+    console.error("Error in getDetailsOrder:", error);
+    throw error;
+  }
+};

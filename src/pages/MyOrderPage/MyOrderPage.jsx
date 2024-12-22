@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Tabs, Input, Card, Button, Typography, Row, Col } from "antd";
+import { Tabs, Input, Card, Button, Typography, Row, Col, message } from "antd";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import "./MyOrderPage.scss";
 import styles from './MyOrderPage.module.scss'
@@ -9,7 +9,7 @@ import myAvatar from "../../assets/images/avatar.jpg";
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent.jsx";
 import UserProfileComponent from "../../components/UserProfileComponent/UserProfileComponent.jsx";
 import clsx from "clsx";
-import { getOrdersByStatus } from "../../services/Order.service.js";
+import { changeStatus, getOrdersByStatus } from "../../services/Order.service.js";
 
 const { TabPane } = Tabs;
 const { Text } = Typography;
@@ -24,12 +24,11 @@ const MyOrderPage = () => {
   const menuTab = {
     1: "Tất cả",
     2: "Chờ xác nhận",
-    3: "Đang vận chuyển",
+    3: "Đang giao",
     4: "Hoàn thành",
     5: "Đã hủy",
-    6: "Trả hàng/Hoàn tiền",
+    6: "Hoàn hàng",
   };
-
   const { isAuthenticated, user_name, user_avt_img, _id, full_name} = useSelector(
     (state) => state.user
   );
@@ -131,13 +130,25 @@ const MyOrderPage = () => {
     }
   };
 
-  const handleCancelOrder = (orderId) => {
+  const handleCancelOrder = async (orderId) => {
     const selectedOrder = orders.find((order) => order.id === orderId);
   
     if (selectedOrder) {
-      navigate(`/product-feedback?tab=${currentTab}&product=${orderId}`, {
-        state: { order: selectedOrder }, // Chỉ truyền đơn hàng có id = orderId
-      });
+      // Hiển thị hộp thoại xác nhận trước khi hủy đơn hàng
+      const confirmCancel = window.confirm("Bạn có chắc chắn muốn hủy đơn hàng này không?");
+      if (confirmCancel) {
+        try {
+          // Gọi API để hủy đơn hàng
+          await changeStatus(orderId);
+          message.success("Hủy đơn hàng thành công!");
+        } catch (error) {
+          // Hiển thị thông báo lỗi nếu có vấn đề
+          message.error("Hủy đơn hàng thất bại. Vui lòng thử lại!");
+        }
+      } else {
+        // Người dùng chọn không hủy đơn hàng
+        message.info("Đơn hàng không bị hủy.");
+      }
     } else {
       console.error(`Order with ID ${orderId} not found.`);
       alert("Không tìm thấy đơn hàng!");
