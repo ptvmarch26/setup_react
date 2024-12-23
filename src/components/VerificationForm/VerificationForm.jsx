@@ -164,7 +164,7 @@ import { Input, Button, Typography, Row, Col } from "antd";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import "./VerificationForm.css";
-import { verifyOtp } from "../../services/Email.service";
+import { sendOtp, verifyOtp } from "../../services/Email.service";
 import { editUser } from "../../services/User.service";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../redux/slices/userSlice";
@@ -180,7 +180,7 @@ const VerificationForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
-  const {_id} = useSelector(
+  const {_id, user_email} = useSelector(
     (state) => state.user
   );
   const access_token = localStorage.getItem("accessToken")
@@ -207,9 +207,19 @@ const VerificationForm = () => {
       inputsRef.current[index - 1].focus();
     }
   };
-
-  const handleResendCode = () => {
+  const handlesendOtp = async (email) => {
+      try {
+        const response = await sendOtp(email);
+        console.log(response)
+      } catch (error) {
+        setError(error.message || "Có lỗi xảy ra.");
+        //setShowPopup(true);
+      }
+    };
+  
+  const handleResendCode = async() => {
     setTimer(30);
+    await handlesendOtp(newEmail);
     setCode(Array(6).fill(""));
     setCanSubmit(false);
     setError("");
