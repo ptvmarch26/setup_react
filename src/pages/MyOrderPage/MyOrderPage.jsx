@@ -26,7 +26,7 @@ const MyOrderPage = () => {
     2: "Chờ xác nhận",
     3: "Đang giao",
     4: "Hoàn thành",
-    5: "Đã hủy",
+    5: "Hủy hàng",
     6: "Hoàn hàng",
   };
   const { isAuthenticated, user_name, user_avt_img, _id, full_name} = useSelector(
@@ -194,7 +194,7 @@ const MyOrderPage = () => {
                 if (currentTab === "2") return order.order_status === "Chờ xác nhận";
                 if (currentTab === "3") return order.order_status === "Đang vận chuyển";
                 if (currentTab === "4") return order.order_status === "Hoàn thành";
-                if (currentTab === "5") return order.order_status === "Đã hủy";
+                if (currentTab === "5") return order.order_status === "Hủy hàng";
                 if (currentTab === "6") return order.order_status === "Trả hàng/Hoàn tiền";
                 return false;
               })
@@ -247,7 +247,7 @@ const MyOrderPage = () => {
                           />
                         </div>
                       )}
-                      {(order?.order_status === "Đã hủy" ||
+                      {(order?.order_status === "Hủy hàng" ||
                         order?.order_status === "Trả hàng/Hoàn tiền") && (
                           <ButtonComponent
                             title="Mua lại"
