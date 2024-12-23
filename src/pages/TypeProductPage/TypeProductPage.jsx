@@ -558,7 +558,7 @@ const TypeProductPage = () => {
               )}
             </div>
             {data?.total > 12 ? (
-              <div className={styles.pani}>
+              <div className={clsx('ProductDetailsPage_panigation__ZYBEy', styles.pani)}>
                 <Pagination
                   current={filters.page}
                   total={data?.total || 0} // Total là số lượng sản phẩm trả về từ API

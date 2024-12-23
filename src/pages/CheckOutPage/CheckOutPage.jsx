@@ -25,7 +25,7 @@ const CheckOutPage = () => {
   const [message, setMessage] = useState("");
 
   const handlePaymentMethod = (method) => {
-    setSelectedPaymentMethod((prevMethod) => (prevMethod === method ? null : method));
+    setSelectedPaymentMethod(method);
   };
   
   const navigate = useNavigate();
