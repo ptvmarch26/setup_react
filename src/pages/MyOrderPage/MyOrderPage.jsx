@@ -141,6 +141,7 @@ const MyOrderPage = () => {
           // Gọi API để hủy đơn hàng
           await changeStatus(orderId);
           message.success("Hủy đơn hàng thành công!");
+          navigate(`/my-order?tab=5`);
         } catch (error) {
           // Hiển thị thông báo lỗi nếu có vấn đề
           message.error("Hủy đơn hàng thất bại. Vui lòng thử lại!");
