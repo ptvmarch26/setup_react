@@ -198,7 +198,7 @@ const VoucherComponent = ({
           code: item.discount_code,
           description: item.discount_description,
           expiration: item.discount_end_day,
-          minOrder: item.discount_condition.price_total_order,
+          minOrder: item.discount_condition[0].price_total_order,
           number: item.discount_number,
           amount: item.discount_amount
         })),
@@ -207,7 +207,7 @@ const VoucherComponent = ({
           code: item.discount_code,
           description: item.discount_description,
           expiration: item.discount_end_day,
-          minOrder: item.discount_condition.price_total_order,
+          minOrder: item.discount_condition[0].price_total_order,
           number: item.discount_number,
           amount: item.discount_amount
         })),

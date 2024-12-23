@@ -27,7 +27,7 @@ const CheckOutPage = () => {
   const handlePaymentMethod = (method) => {
     setSelectedPaymentMethod((prevMethod) => (prevMethod === method ? null : method));
   };
-
+  
   const navigate = useNavigate();
   // Tạo địa chỉ mặc định cho state
   const initAddress = {
@@ -48,7 +48,6 @@ const CheckOutPage = () => {
     shippingFee = 0,
     selectedVouchers = {},
   } = location.state || {};
-
   const selectedItems = cartItems.filter((item) =>
     checkedItems.includes(item.id)
   );

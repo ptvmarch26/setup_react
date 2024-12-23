@@ -5,13 +5,15 @@ import { CiVideoOn } from "react-icons/ci";
 import { CiCamera } from "react-icons/ci";
 import { useLocation, useNavigate } from "react-router-dom";
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
+import { submitFeedback } from "../../services/Feedback.service";
+import { useSelector } from "react-redux";
 
 const ProductFeedBackPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const params = new URLSearchParams(location.search);
   const orderId = params.get("product");
-
+  const { _id } = useSelector((state) => state.user);
   // Lấy orders từ state của location
   const order = location.state?.order || [];
 
@@ -27,10 +29,31 @@ const ProductFeedBackPage = () => {
     setReview(event.target.value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (review.trim()) {
-      navigate("/my-order?tab=1");
-      setReview("");
+      try {
+        const dataRequest = {
+          order,
+          order_id: orderId,
+          user_id: _id,
+          content: review,
+          rating: rating, // ID người dùng
+        }
+        // Gửi đánh giá lên Backend
+        console.log("dataRequest", dataRequest)
+        const response = await submitFeedback(dataRequest);
+
+        if (response) {
+          alert("Đánh giá đã được gửi thành công!");
+          navigate("/my-order?tab=1"); // Điều hướng sau khi gửi thành công
+          setReview(""); // Xóa nội dung đánh giá
+        } else {
+          alert("Gửi đánh giá thất bại. Vui lòng thử lại!");
+        }
+      } catch (error) {
+        console.error("Lỗi khi gửi đánh giá:", error);
+        alert("Có lỗi xảy ra. Vui lòng thử lại sau!");
+      }
     } else {
       alert("Vui lòng nhập đánh giá trước khi gửi!");
     }
@@ -198,6 +221,7 @@ export default ProductFeedBackPage;
 //       const response = await submitFeedback({
 //         product_id: productId,
 //         order_id: orderId, 
+//         order_id: orderId,
 //         content: feedback.review,
 //         rating: feedback.rating,
 //       });

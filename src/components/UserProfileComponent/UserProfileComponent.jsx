@@ -85,7 +85,7 @@ const UserProfileComponent = ({ full_name, src_img, name, className, user_name }
           <div>
             <Avatar
               className={styles.img}
-              src={src_img? (`data:image/jpeg;base64,${src_img}`) : (myAvatarFalse)}
+              src={src_img? (`${src_img}`) : (myAvatarFalse)}
               size={60}
               icon={<UserOutlined />}
               onClick={handleAvatarClick}
