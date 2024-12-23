@@ -198,6 +198,10 @@ const NavbarComponent = ({ isInViewport, isInMobile, handleFilterChange }) => {
     handleFilterChange({ product_brand: selectedBrands });
   };
 
+  const handleOptionClick = (option) => {
+    handleFilterChange({ product_rate: option });
+  };
+
   const renderContent = (type, options) => {
     switch (type) {
       case "product-category":
@@ -266,7 +270,11 @@ const NavbarComponent = ({ isInViewport, isInMobile, handleFilterChange }) => {
         );
       case "star":
         return options.map((option, index) => (
-          <div key={index} className={styles.wrapStar}>
+          <div 
+            key={index} 
+            className={styles.wrapStar}
+            onClick={() => handleOptionClick(option)
+            }>
             <div className={styles.starRow}>
               {Array.from({ length: 5 }).map((_, i) => (
                 <span
