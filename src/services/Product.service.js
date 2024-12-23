@@ -99,7 +99,7 @@ export const getAllProduct = async (params = {}) => {
       priceMin,
       priceMax,
     } = params;
-
+    console.log(params);
     // Tạo đối tượng để lưu trữ các tham số query
     const queryParams = {};
     // Thêm các tham số vào queryParams nếu có
@@ -114,7 +114,7 @@ export const getAllProduct = async (params = {}) => {
     if (product_famous == "true")
       queryParams.product_famous = product_famous; // Lọc theo product_famous
     if (priceMin) queryParams.priceMin = priceMin;
-    if (priceMax) queryParams.priceMin = priceMax;
+    if (priceMax) queryParams.priceMax = priceMax;
     if (category_level_1) queryParams.category_level_1 = category_level_1;
     if (category_level_2) queryParams.category_level_2 = category_level_2;
     if (category_level_3) queryParams.category_level_3 = category_level_3;
