@@ -3,7 +3,7 @@ import { Tabs, Input, Card, Button, Typography, Row, Col, message } from "antd";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import "./MyOrderPage.scss";
 import styles from './MyOrderPage.module.scss'
-import OrderCart from  "./OrderCart.jsx";
+import OrderCart from "./OrderCart.jsx";
 import { useSelector } from "react-redux";
 import myAvatar from "../../assets/images/avatar.jpg";
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent.jsx";
@@ -21,6 +21,10 @@ const MyOrderPage = () => {
   const [orders, setOrders] = useState([]); // Định dạng kiểu { id: data }
   const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentTab]);
+
   const menuTab = {
     1: "Tất cả",
     2: "Chờ xác nhận",
@@ -29,7 +33,7 @@ const MyOrderPage = () => {
     5: "Hủy hàng",
     6: "Hoàn hàng",
   };
-  const { isAuthenticated, user_name, user_avt_img, _id, full_name} = useSelector(
+  const { isAuthenticated, user_name, user_avt_img, _id, full_name } = useSelector(
     (state) => state.user
   );
 
@@ -72,8 +76,8 @@ const MyOrderPage = () => {
       setLoading(true);
       try {
         const orderStatus = menuTab[currentTab];
-        const response = await getOrdersByStatus(orderStatus, _id); 
-        console.log("du lieu tra ve",response )
+        const response = await getOrdersByStatus(orderStatus, _id);
+        console.log("du lieu tra ve", response)
         // Map dữ liệu trả về và gán lại các trường
         const processedOrders = response.data.reverse().map((order) => ({
           id: order?._id, // ID của đơn hàng
@@ -87,9 +91,9 @@ const MyOrderPage = () => {
             product_title: product?.product_id?.product_title,
             product_description: product?.product_order_type,
             number: product?.quantity,
-            src_img: `${product?.product_id?.product_images[0]}`|| "",
+            src_img: `${product?.product_id?.product_images[0]}` || "",
             price_old: product?.product_price || 0,
-            price_new: (product?.product_price*(1-product?.product_id?.product_percent_discount/100)).toLocaleString() || 0,
+            price_new: (product?.product_price * (1 - product?.product_id?.product_percent_discount / 100)).toLocaleString() || 0,
           })),
         }));
 
@@ -106,7 +110,7 @@ const MyOrderPage = () => {
 
   const handleProductClick = (orderId) => {
     const selectedOrder = orders.find((order) => order.id === orderId);
-    
+
     if (selectedOrder) {
       navigate(`/order-details?tab=${currentTab}&product=${orderId}`, {
         state: { order: selectedOrder }, // Chỉ truyền đơn hàng có id = orderId
@@ -119,7 +123,7 @@ const MyOrderPage = () => {
 
   const handleFeedBackClick = (orderId) => {
     const selectedOrder = orders.find((order) => order.id === orderId);
-  
+
     if (selectedOrder) {
       navigate(`/product-feedback?tab=${currentTab}&product=${orderId}`, {
         state: { order: selectedOrder }, // Chỉ truyền đơn hàng có id = orderId
@@ -132,7 +136,7 @@ const MyOrderPage = () => {
 
   const handleCancelOrder = async (orderId) => {
     const selectedOrder = orders.find((order) => order.id === orderId);
-  
+
     if (selectedOrder) {
       // Hiển thị hộp thoại xác nhận trước khi hủy đơn hàng
       const confirmCancel = window.confirm("Bạn có chắc chắn muốn hủy đơn hàng này không?");
@@ -155,7 +159,7 @@ const MyOrderPage = () => {
       alert("Không tìm thấy đơn hàng!");
     }
   };
-  
+
   return (
     <div style={{ padding: "20px 0" }} className={clsx('MyOrderPage_main__Rrmsc', styles.main)}>
       <div className="grid wide">
@@ -163,7 +167,7 @@ const MyOrderPage = () => {
           <UserProfileComponent
             full_name={full_name}
             src_img={user_avt_img}
-            user_name = {user_name}
+            user_name={user_name}
             isInViewport={isInViewport}
             isInMobile={isInMobile}
             className={styles.profiles}
@@ -210,7 +214,7 @@ const MyOrderPage = () => {
                   </Row>
 
                   {order.products.map((product) => (
-                    <div onClick={() => handleProductClick(order.id)} style={{cursor: "pointer"}}>
+                    <div onClick={() => handleProductClick(order.id)} style={{ cursor: "pointer" }}>
                       <OrderCart
                         key={product.id}
                         {...product}

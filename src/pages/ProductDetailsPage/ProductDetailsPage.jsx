@@ -383,6 +383,7 @@ const ProductDetailsPage = () => {
     window.scrollTo(0, 0);
   }, []);
   
+  
   return (
     <div className={styles.main}>
       <div className="grid wide">
