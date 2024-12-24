@@ -24,6 +24,10 @@ const MyOrderPage = () => {
   const [orders, setOrders] = useState([]); // Định dạng kiểu { id: data }
   const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentTab]);
+
   const menuTab = {
     1: "Tất cả",
     2: "Chờ xác nhận",
