@@ -34,14 +34,14 @@
 |	UC1.05	|	Xem giỏ hàng	|	Authenticated User 	| 100%|
 |	UC1.06	|	Thêm sản phẩm vào yêu thích	|	Authenticated User 	| 100%|
 |	UC1.07	|	Xem sản phẩm yêu thích	|	Authenticated User	| 100%|
-|	UC1.08	|	Mua ngay sản phẩm	|	Authenticated User	| 0%|
+|	UC1.08	|	Mua ngay sản phẩm	|	Authenticated User	| 100%|
 |	UC1.09	|	Mua hàng	|	Authenticated User	| 100%|
 |	UC1.10	|	Thanh toán	|	Authenticated User	| 100%|
 |	UC1.11	|	Đánh giá sản phẩm	|	Authenticated User	| 100%|
 |	UC1.12	|	Quản lý đánh giá	|	Staff, Admin	| 0%|
 |	UC1.13	|	Xem sản phẩm	|	Unauthenticated User	| 100%|
 ||	UC2. QLKHO	 (Quản lý Kho)					||
-  |	UC2.01	|	Thêm mặt hàng	|	Admin, Staff	| 0%|
+  |	UC2.01	|	Thêm mặt hàng	|	Admin, Staff	| 100%|
 |	UC2.02	| Chỉnh sửa số lượng sản phẩm	|	Admin, Staff	| 0%|
 |	UC2.03	|	Kiểm tra tồn kho	|	Admin, Staff	| 0%|
 |	UC2.04	|	Xóa hàng tồn kho	|	Admin, Staff	| 0%|
@@ -54,12 +54,12 @@
 |	UC3.06	|	Xóa tài khoản vi phạm	|	Admin, Staff	| 0%|
 |	UC3.07	|	Quên mật khẩu	|	Unauthenticated User, Admin, Staff	| 100%|
 ||	UC4. QLDH (Quản lý đơn hàng)||
-|	UC4.01	| Xác nhận đơn hàng	|	Staff, Admin	| 0%|
-|	UC4.02	| Hủy đơn hàng	|	Authenticated User, Staff, Admin	| 0%|
+|	UC4.01	| Xác nhận đơn hàng	|	Staff, Admin	| 100%|
+|	UC4.02	| Hủy đơn hàng	|	Authenticated User, Staff, Admin	| 100%|
 |	UC4.03	|	Yêu cầu hoàn hàng	| Authenticated User | 0%|
 |	UC4.04	| Xử lý hoàn hàng	|	Staff, Admin	| 0%|
 |	UC4.05	|	Xem trạng thái đơn hàng	|	Authenticated User, Staff, Admin	| 100%|
-|	UC4.06	|	Cập nhật tráng thái đơn hàng	|	Staff, Admin	| 0%|
+|	UC4.06	|	Cập nhật tráng thái đơn hàng	|	Staff, Admin	| 100%|
 ||	UC5. QLDT (Quản lý doanh thu)||
 |	UC5.01	|	Xem doanh thu	|	Admin	| 0%|
 |	UC5.02	|	Xem lịch sử giao dịch |	Admin	| 0%|
@@ -67,9 +67,9 @@
 |	UC5.01	|	Thêm nhân viên	|	Admin	| 0%|
 |	UC6.02	|	Xóa nhân viên |	Admin	| 0%|
 |	UC6.03	|	Sửa nhân viên	|	Admin	| 0%|
-|	UC6.04	|	Xem thông tin nhân viên |	Staff, Admin	| 0%|
+|	UC6.04	|	Xem thông tin nhân viên |	Staff, Admin	| 100%|
 ||	UC7. QLCH (Quản lý cửa hàng)||
-|	UC5.01	|	Cập nhật thông tin cửa hàng	|	Admin	| 0%|
+|	UC5.01	|	Cập nhật thông tin cửa hàng	|	Admin	| 100%|
 |	UC5.02	|	Cập nhật thông tin admin |	Admin	| 0%|
 
 ## Công nghệ sử dụng
