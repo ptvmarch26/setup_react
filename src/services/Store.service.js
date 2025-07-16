@@ -1,4 +1,4 @@
-const API_URL = "https://backend-pawfect.onrender.com/";
+const API_URL = "https://backend-pawfect.onrender.com";
 
 export const getDetailStore = async () => {
     try {
