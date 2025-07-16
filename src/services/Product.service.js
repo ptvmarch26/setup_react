@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3001/api";
+const API_URL = "https://backend-pawfect.onrender.com/";
 
 export const getDetailsProduct = async (id) => {
   try {
