@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3001/api/user";
+const API_URL = "https://backend-pawfect.onrender.com//api/user";
 
 export const sendOtp = async (email) => {
   try {
