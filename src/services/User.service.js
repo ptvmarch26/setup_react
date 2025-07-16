@@ -3,7 +3,7 @@
 // import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 
-const API_URL = "http://localhost:3001/api/user";
+const API_URL = "https://backend-pawfect.onrender.com/api/user";
 
 // Đăng nhập 
 export const loginUser = async (identifier, password) => {
